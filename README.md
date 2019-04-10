@@ -1,6 +1,6 @@
 # DB_PRO  
 
-group member: (blank for group leader),　11710924 Void,　ShiqingLiu,　11712641
+group member: (blank for group leader),　11710924 Void,　11712008 ShiqingLiu,　11712641
 <br/>
 
 ## Project Introduction  
@@ -30,7 +30,16 @@ The system provides service mainly for three types of users including manager, c
 #### For deliverers, they are free to
 >* sign in
 >* view the deliver orders that he needs to complete
->* view the delivery destination of his current order  
+>* view the delivery destination of his current order 
+
+## Design
+
+### part 1
+* user
+* manager
+* customer
+* deliver
+  We first implement users to our database. They are manager customer deliver  
 
 ## Some examples in the function realization  
 
