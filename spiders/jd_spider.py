@@ -5,18 +5,7 @@ description: 使用selenium搜索京东书籍
 """
 #import for normal use
 import random
-import copy
-from dataclasses import field
-from dataclasses import dataclass
-@dataclass
-class Good:
-    name: str = field(default_factory="null")
-    o_place: str = field(default_factory="null")
-    p_time: int = field(default_factory=0)
-    volume: int = field(default_factory=0)
-    r_condition: int = field(default_factory=0)
-    price: float = field(default_factory=0)
-    discount: float = field(default_factory=0)
+import csv
 
 #import for selenium
 from selenium.webdriver import Chrome
@@ -29,7 +18,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 from time import sleep
 from selenium.common.exceptions import NoSuchElementException
 
-goods = []
+urls = []
+prices = []
 
 def next_page(client, wait, page_num):
 
@@ -88,56 +78,50 @@ def next_page(client, wait, page_num):
 
 
 def parse_page(page_num, client):
+
     print("[+] 开始解析第{}页数据".format(page_num))
     items = client.find_elements_by_class_name('gl-item')
     index = 1
 
+    global urls
+    global prices
     for item in items:
         print("[{}] ".format(index), end="")
         # 在前面的基础上继续解析, 如果那个属性没有提取到，保证其他属性可以正常提取
-        try:
-            title = item.find_element_by_css_selector("div.p-name > a > em").text
-        except NoSuchElementException:
-            title = None
         try:
             price = item.find_element_by_css_selector("div.p-price > strong > i").text
         except NoSuchElementException:
             price = None
         try:
-            store = item.find_element_by_css_selector("div.p-shopnum > a").text
-        except NoSuchElementException:
-            store = None
-        try:
             url = item.find_element_by_css_selector("div.p-img > a").get_attribute("href")
         except NoSuchElementException:
             url = None
-        try:
-            comment = item.find_element_by_css_selector(".p-commit a").text
-        except NoSuchElementException:
-            comment = None
-
-        t_good = Good(title.replace("京东超市", ""), "内蒙古", random.randint(3, 20) * 10, random.randint(1, 5), random.randint(0, 1), price, 1)
-        goods.append(t_good)
-
-        #print("{} >>> {} >>> {} >>> {} >>> {} >>> {}".format(title, price, store, url, comment, duration))
-
+        print("{}".format(url))
+        urls.append(url)
+        prices.append(price)
         index += 1
+
     print("[+] 解析第{}页数据完成".format(page_num))
 
-def info_item(client, wait_sub):
-    wait_sub.until(
-        EC.visibility_of_element_located(
-            (By.XPATH, '//*[@id="parameter-brand"]/li')
-        )
-    )
-
-    # ActionChains(client).click(client.find_element_by_xpath("//*[@id='detail']/div[1]/ul/li[2]"))
-
-    # try:
-    #      duration = client.find_element_by_xpath("//*[@id='detail']/div[2]/div[1]/div[1]/ul[2]/li[1]").text
-    # except NoSuchElementException:
-    #      duration = None
-    # return duration
+def get_info(client, writer, cnt):
+    items = client.find_element_by_css_selector("[class='parameter2 p-parameter-list']").find_elements_by_tag_name("li")
+    # for item in items:
+    try:
+        name = items[0].get_attribute("title")
+    except NoSuchElementException:
+        name = None
+    try:
+        o_place = items[3].get_attribute("title")
+    except NoSuchElementException:
+        o_place = None
+    p_time = random.randint(3, 30) * 10
+    volume = random.randint(1, 3)
+    r_condition = random.randint(0, 1)
+    global prices
+    price = prices[cnt]
+    discount = 1
+    catagory = "milk"
+    writer.writerow({"产品名称": name, "原产地": o_place, "保质期": p_time, "体积": volume, "是否冷藏": r_condition, "价格": price, "折扣": discount, "类别": catagory})
 
 def search(client, url, keyword,wait):
     # 打开链接
@@ -168,9 +152,28 @@ def search(client, url, keyword,wait):
     botton.click()
     print("[+] 点击搜索完成")
 
+    # 准备csv
+    csvFile = open("goods.csv", "w", encoding='utf-8', newline='')
+    fileHeader = ["产品名称", "原产地", "保质期", "体积", "是否冷藏", "价格", "折扣", "类别"]
+    writer = csv.DictWriter(csvFile, fileHeader)
+
     # 翻页
     page_num = 1
     next_page(client, wait, page_num)
+
+    cnt = 0
+    for site in urls:
+        client.get(site)
+        wait = WebDriverWait(client, 10)
+        wait.until(
+            EC.presence_of_element_located(
+                (By.CSS_SELECTOR, "[class='parameter2 p-parameter-list']")
+            )
+        )
+        get_info(client, writer, cnt)
+        cnt = cnt + 1
+
+    csvFile.close()
 
 def main():
     #struct 定义
@@ -181,8 +184,6 @@ def main():
     # 等待对象
     wait = WebDriverWait(client, 10)
     search(client, url, KEYWORD, wait)
-    for good in goods:
-        print("{} {} {} {} {} {} {}\n".format(good.name, good.o_place, good.p_time, good.volume, good.r_condition, good.price, good.discount))
 
 if __name__ == '__main__':
     main()
