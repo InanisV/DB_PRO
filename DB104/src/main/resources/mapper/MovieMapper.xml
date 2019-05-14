@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sustcDB2019.DB104.dao.MovieMapper">
+  <resultMap id="BaseResultMap" type="com.sustcDB2019.DB104.entity.Movie">
+    <id column="movieid" jdbcType="BIGINT" property="movieid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="country" jdbcType="CHAR" property="country" />
+    <result column="year_released" jdbcType="INTEGER" property="yearReleased" />
+    <result column="runtime" jdbcType="INTEGER" property="runtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    movieid, title, country, year_released, runtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from movies
+    where movieid = #{movieid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from movies
+    where movieid = #{movieid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sustcDB2019.DB104.entity.Movie">
+    insert into movies (movieid, title, country, 
+      year_released, runtime)
+    values (#{movieid,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{country,jdbcType=CHAR}, 
+      #{yearReleased,jdbcType=INTEGER}, #{runtime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sustcDB2019.DB104.entity.Movie">
+    insert into movies
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="movieid != null">
+        movieid,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="yearReleased != null">
+        year_released,
+      </if>
+      <if test="runtime != null">
+        runtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="movieid != null">
+        #{movieid,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=CHAR},
+      </if>
+      <if test="yearReleased != null">
+        #{yearReleased,jdbcType=INTEGER},
+      </if>
+      <if test="runtime != null">
+        #{runtime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sustcDB2019.DB104.entity.Movie">
+    update movies
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=CHAR},
+      </if>
+      <if test="yearReleased != null">
+        year_released = #{yearReleased,jdbcType=INTEGER},
+      </if>
+      <if test="runtime != null">
+        runtime = #{runtime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where movieid = #{movieid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sustcDB2019.DB104.entity.Movie">
+    update movies
+    set title = #{title,jdbcType=VARCHAR},
+      country = #{country,jdbcType=CHAR},
+      year_released = #{yearReleased,jdbcType=INTEGER},
+      runtime = #{runtime,jdbcType=INTEGER}
+    where movieid = #{movieid,jdbcType=BIGINT}
+  </update>
+</mapper>
