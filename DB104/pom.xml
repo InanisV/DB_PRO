@@ -8,10 +8,11 @@
 		<version>2.1.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.sustcDB2019</groupId>
-	<artifactId>DB104</artifactId>
+
+	<groupId>org.sustcDB2019</groupId>
+	<artifactId>sustcDB2019</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>DB104</name>
+	<name>sustcDB2019</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -57,6 +58,11 @@
 			<version>1.1.8</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.5.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.mybatis.generator</groupId>
 			<artifactId>mybatis-generator-core</artifactId>

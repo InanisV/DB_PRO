@@ -5,48 +5,121 @@
 <generatorConfiguration>
     <!--DB driver-->
     <classPathEntry
-            location="C:\Program Files (x86)\mysql-connector-java-8.0.16\mysql-connector-java-8.0.16.jar" />
-    <context id="DB2Tables" targetRuntime="MyBatis3">
+            location="/Users/qing/.m2/repository/mysql/mysql-connector-java/8.0.15/mysql-connector-java-8.0.15.jar" />
+    <context id="DB2Tables">
         <commentGenerator>
             <property name="suppressDate" value="true" />
             <property name="suppressAllComments" value="true" />
         </commentGenerator>
-        <!--DB url id pass-->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/cs307?serverTimezone=UTC"  userId="root"
-                        password="QaZwSxEdC159mysql!">
+                        connectionURL="jdbc:mysql://120.79.177.46:3306/mydb?useUnicode=true&amp;characterEncoding=UTF8&amp;serverTimezone=UTC"
+                        userId="root"
+                        password="123456">
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
-        <javaTypeResolver>
-            <property name="forceBigDecimals" value="false" />
-        </javaTypeResolver>
-        <!--Model Class -->
-        <javaModelGenerator targetPackage="com.sustcDB2019.DB104.entity"
+
+        <javaModelGenerator targetPackage="org.sustcDB2019.entity"
                             targetProject="src/main/java">
-            <property name="enableSubPackages" value="true" />
-            <property name="trimStrings" value="true" />
+            <property name="trimString" value="true"/>
         </javaModelGenerator>
-        <!--Dao/Mapper .XML file -->
         <sqlMapGenerator targetPackage="resources.mapper"
                          targetProject="src/main">
-            <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
-        <!--Dao/Mapper interface -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.sustcDB2019.DB104.dao" targetProject="src/main/java">
-            <property name="enableSubPackages" value="true" />
+                             targetPackage="org.sustcDB2019.dao"
+                             targetProject="src/main/java">
         </javaClientGenerator>
-        <!--tableName: table_name in DB, domainObjectName: name prefix of ganerated files(model, mapper.xml and mapper interface) -->
-<!--        <table tableName="students" domainObjectName="Students"-->
+
+        <table tableName="user" domainObjectName="User"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table tableName="goods" domainObjectName="Goods"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table tableName="warehouse"  domainObjectName="Warehouse"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table tableName="customer" domainObjectName="Customer"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <property name="rootClass" value="User"/>
+            <columnOverride column="userId" property="id"/>
+        </table>
+        <table tableName="deliverer" domainObjectName="Deliverer"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <property name="rootClass" value="User"/>
+            <columnOverride column="userId" property="id"/>
+        </table>
+        <table tableName="store" domainObjectName="Store"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table tableName="manager" domainObjectName="Manager"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <property name="rootClass" value="User"/>
+            <columnOverride column="userId" property="id"/>
+        </table>
+        <table tableName="goods_in_warehouse"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        </context>
+
+    <!--    <context id="test" targetRuntime="MyBatis3">-->
+<!--        <commentGenerator>-->
+<!--            <property name="suppressDate" value="true" />-->
+<!--            <property name="suppressAllComments" value="true" />-->
+<!--        </commentGenerator>-->
+<!--        &lt;!&ndash;DB url id pass&ndash;&gt;-->
+<!--        <jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+<!--                        connectionURL="jdbc:mysql://120.79.177.46:3306/mydb?useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC"  userId="root"-->
+<!--                        password="123456">-->
+<!--        </jdbcConnection>-->
+<!--        <javaTypeResolver>-->
+<!--            <property name="forceBigDecimals" value="false" />-->
+<!--        </javaTypeResolver>-->
+<!--        &lt;!&ndash;Model Class &ndash;&gt;-->
+<!--        <javaModelGenerator targetPackage="org.sustcDB2019.entity"-->
+<!--                            targetProject="src/main/java">-->
+<!--            <property name="enableSubPackages" value="true" />-->
+<!--            <property name="trimStrings" value="true" />-->
+<!--        </javaModelGenerator>-->
+<!--        &lt;!&ndash;Dao/Mapper .XML file &ndash;&gt;-->
+<!--        <sqlMapGenerator targetPackage="resources.mapper"-->
+<!--                         targetProject="src/main">-->
+<!--            <property name="enableSubPackages" value="true" />-->
+<!--        </sqlMapGenerator>-->
+<!--        &lt;!&ndash;Dao/Mapper interface &ndash;&gt;-->
+<!--        <javaClientGenerator type="XMLMAPPER"-->
+<!--                             targetPackage="org.sustcDB2019.dao" targetProject="src/main/java">-->
+<!--            <property name="enableSubPackages" value="true" />-->
+<!--        </javaClientGenerator>-->
+<!--        &lt;!&ndash;tableName: table_name in DB, domainObjectName: name prefix of ganerated files(model, mapper.xml and mapper interface) &ndash;&gt;-->
+<!--&lt;!&ndash;        <table tableName="students" domainObjectName="Students"&ndash;&gt;-->
+<!--&lt;!&ndash;               enableCountByExample="false" enableUpdateByExample="false"&ndash;&gt;-->
+<!--&lt;!&ndash;               enableDeleteByExample="false" enableSelectByExample="false"&ndash;&gt;-->
+<!--&lt;!&ndash;               selectByExampleQueryId="false"></table>&ndash;&gt;-->
+<!--        <table tableName="movies" domainObjectName="Movie"-->
 <!--               enableCountByExample="false" enableUpdateByExample="false"-->
 <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"></table>-->
-        <table tableName="movies" domainObjectName="Movie"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="countries" domainObjectName="Country"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-    </context>
+<!--        <table tableName="countries" domainObjectName="Country"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"></table>-->
+<!--        <table tableName=""-->
+<!--    </context>-->
 </generatorConfiguration>

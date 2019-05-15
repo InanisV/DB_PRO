@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sustcDB2019.dao.GoodsMapper">
+  <resultMap id="BaseResultMap" type="org.sustcDB2019.entity.Goods">
+    <id column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="origin_place" jdbcType="VARCHAR" property="originPlace" />
+    <result column="preserve_time" jdbcType="INTEGER" property="preserveTime" />
+    <result column="volume" jdbcType="INTEGER" property="volume" />
+    <result column="refrigirated_condition" jdbcType="CHAR" property="refrigiratedCondition" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="catagory" jdbcType="VARCHAR" property="catagory" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    goods_id, name, brand, origin_place, preserve_time, volume, refrigirated_condition, 
+    price, discount, catagory, type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.sustcDB2019.entity.Goods">
+    insert into goods (goods_id, name, brand, 
+      origin_place, preserve_time, volume, 
+      refrigirated_condition, price, discount, 
+      catagory, type)
+    values (#{goodsId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, 
+      #{originPlace,jdbcType=VARCHAR}, #{preserveTime,jdbcType=INTEGER}, #{volume,jdbcType=INTEGER}, 
+      #{refrigiratedCondition,jdbcType=CHAR}, #{price,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, 
+      #{catagory,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.sustcDB2019.entity.Goods">
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="brand != null">
+        brand,
+      </if>
+      <if test="originPlace != null">
+        origin_place,
+      </if>
+      <if test="preserveTime != null">
+        preserve_time,
+      </if>
+      <if test="volume != null">
+        volume,
+      </if>
+      <if test="refrigiratedCondition != null">
+        refrigirated_condition,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="catagory != null">
+        catagory,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null">
+        #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="preserveTime != null">
+        #{preserveTime,jdbcType=INTEGER},
+      </if>
+      <if test="volume != null">
+        #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="refrigiratedCondition != null">
+        #{refrigiratedCondition,jdbcType=CHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="catagory != null">
+        #{catagory,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sustcDB2019.entity.Goods">
+    update goods
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null">
+        origin_place = #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="preserveTime != null">
+        preserve_time = #{preserveTime,jdbcType=INTEGER},
+      </if>
+      <if test="volume != null">
+        volume = #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="refrigiratedCondition != null">
+        refrigirated_condition = #{refrigiratedCondition,jdbcType=CHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="catagory != null">
+        catagory = #{catagory,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sustcDB2019.entity.Goods">
+    update goods
+    set name = #{name,jdbcType=VARCHAR},
+      brand = #{brand,jdbcType=VARCHAR},
+      origin_place = #{originPlace,jdbcType=VARCHAR},
+      preserve_time = #{preserveTime,jdbcType=INTEGER},
+      volume = #{volume,jdbcType=INTEGER},
+      refrigirated_condition = #{refrigiratedCondition,jdbcType=CHAR},
+      price = #{price,jdbcType=DECIMAL},
+      discount = #{discount,jdbcType=DECIMAL},
+      catagory = #{catagory,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR}
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="org.sustcDB2019.entity.Goods">
+    <id column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="origin_place" jdbcType="VARCHAR" property="originPlace" />
+    <result column="preserve_time" jdbcType="INTEGER" property="preserveTime" />
+    <result column="volume" jdbcType="INTEGER" property="volume" />
+    <result column="refrigirated_condition" jdbcType="CHAR" property="refrigiratedCondition" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="catagory" jdbcType="VARCHAR" property="catagory" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    goods_id, name, brand, origin_place, preserve_time, volume, refrigirated_condition, 
+    price, discount, catagory, type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.sustcDB2019.entity.Goods">
+    insert into goods (goods_id, name, brand, 
+      origin_place, preserve_time, volume, 
+      refrigirated_condition, price, discount, 
+      catagory, type)
+    values (#{goodsId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, 
+      #{originPlace,jdbcType=VARCHAR}, #{preserveTime,jdbcType=INTEGER}, #{volume,jdbcType=INTEGER}, 
+      #{refrigiratedCondition,jdbcType=CHAR}, #{price,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, 
+      #{catagory,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.sustcDB2019.entity.Goods">
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="brand != null">
+        brand,
+      </if>
+      <if test="originPlace != null">
+        origin_place,
+      </if>
+      <if test="preserveTime != null">
+        preserve_time,
+      </if>
+      <if test="volume != null">
+        volume,
+      </if>
+      <if test="refrigiratedCondition != null">
+        refrigirated_condition,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="catagory != null">
+        catagory,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null">
+        #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="preserveTime != null">
+        #{preserveTime,jdbcType=INTEGER},
+      </if>
+      <if test="volume != null">
+        #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="refrigiratedCondition != null">
+        #{refrigiratedCondition,jdbcType=CHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="catagory != null">
+        #{catagory,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sustcDB2019.entity.Goods">
+    update goods
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null">
+        origin_place = #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="preserveTime != null">
+        preserve_time = #{preserveTime,jdbcType=INTEGER},
+      </if>
+      <if test="volume != null">
+        volume = #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="refrigiratedCondition != null">
+        refrigirated_condition = #{refrigiratedCondition,jdbcType=CHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="catagory != null">
+        catagory = #{catagory,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sustcDB2019.entity.Goods">
+    update goods
+    set name = #{name,jdbcType=VARCHAR},
+      brand = #{brand,jdbcType=VARCHAR},
+      origin_place = #{originPlace,jdbcType=VARCHAR},
+      preserve_time = #{preserveTime,jdbcType=INTEGER},
+      volume = #{volume,jdbcType=INTEGER},
+      refrigirated_condition = #{refrigiratedCondition,jdbcType=CHAR},
+      price = #{price,jdbcType=DECIMAL},
+      discount = #{discount,jdbcType=DECIMAL},
+      catagory = #{catagory,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR}
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="org.sustcDB2019.entity.Goods">
+    <id column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="origin_place" jdbcType="VARCHAR" property="originPlace" />
+    <result column="preserve_time" jdbcType="INTEGER" property="preserveTime" />
+    <result column="volume" jdbcType="INTEGER" property="volume" />
+    <result column="refrigirated_condition" jdbcType="CHAR" property="refrigiratedCondition" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="catagory" jdbcType="VARCHAR" property="catagory" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    goods_id, name, brand, origin_place, preserve_time, volume, refrigirated_condition, 
+    price, discount, catagory, type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.sustcDB2019.entity.Goods">
+    insert into goods (goods_id, name, brand, 
+      origin_place, preserve_time, volume, 
+      refrigirated_condition, price, discount, 
+      catagory, type)
+    values (#{goodsId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, 
+      #{originPlace,jdbcType=VARCHAR}, #{preserveTime,jdbcType=INTEGER}, #{volume,jdbcType=INTEGER}, 
+      #{refrigiratedCondition,jdbcType=CHAR}, #{price,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, 
+      #{catagory,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.sustcDB2019.entity.Goods">
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="brand != null">
+        brand,
+      </if>
+      <if test="originPlace != null">
+        origin_place,
+      </if>
+      <if test="preserveTime != null">
+        preserve_time,
+      </if>
+      <if test="volume != null">
+        volume,
+      </if>
+      <if test="refrigiratedCondition != null">
+        refrigirated_condition,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="catagory != null">
+        catagory,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null">
+        #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="preserveTime != null">
+        #{preserveTime,jdbcType=INTEGER},
+      </if>
+      <if test="volume != null">
+        #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="refrigiratedCondition != null">
+        #{refrigiratedCondition,jdbcType=CHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="catagory != null">
+        #{catagory,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sustcDB2019.entity.Goods">
+    update goods
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null">
+        origin_place = #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="preserveTime != null">
+        preserve_time = #{preserveTime,jdbcType=INTEGER},
+      </if>
+      <if test="volume != null">
+        volume = #{volume,jdbcType=INTEGER},
+      </if>
+      <if test="refrigiratedCondition != null">
+        refrigirated_condition = #{refrigiratedCondition,jdbcType=CHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="catagory != null">
+        catagory = #{catagory,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sustcDB2019.entity.Goods">
+    update goods
+    set name = #{name,jdbcType=VARCHAR},
+      brand = #{brand,jdbcType=VARCHAR},
+      origin_place = #{originPlace,jdbcType=VARCHAR},
+      preserve_time = #{preserveTime,jdbcType=INTEGER},
+      volume = #{volume,jdbcType=INTEGER},
+      refrigirated_condition = #{refrigiratedCondition,jdbcType=CHAR},
+      price = #{price,jdbcType=DECIMAL},
+      discount = #{discount,jdbcType=DECIMAL},
+      catagory = #{catagory,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR}
+    where goods_id = #{goodsId,jdbcType=INTEGER}
+  </update>
+</mapper>
