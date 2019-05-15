@@ -1,20 +1,17 @@
 package org.sustcDB2019.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class GoodsInWarehouse {
     private Integer idgoodsInWarehouse;
 
-    private Integer totalVolume;
-
-    private Date expiredDay;
-
     private Integer warehouseWarehouseId;
 
     private Integer goodsGoodsId;
 
-    private BigDecimal amount;
+    private Integer amount;
+
+    private Date expiredDay;
 
     public Integer getIdgoodsInWarehouse() {
         return idgoodsInWarehouse;
@@ -22,22 +19,6 @@ public class GoodsInWarehouse {
 
     public void setIdgoodsInWarehouse(Integer idgoodsInWarehouse) {
         this.idgoodsInWarehouse = idgoodsInWarehouse;
-    }
-
-    public Integer getTotalVolume() {
-        return totalVolume;
-    }
-
-    public void setTotalVolume(Integer totalVolume) {
-        this.totalVolume = totalVolume;
-    }
-
-    public Date getExpiredDay() {
-        return expiredDay;
-    }
-
-    public void setExpiredDay(Date expiredDay) {
-        this.expiredDay = expiredDay;
     }
 
     public Integer getWarehouseWarehouseId() {
@@ -56,11 +37,19 @@ public class GoodsInWarehouse {
         this.goodsGoodsId = goodsGoodsId;
     }
 
-    public BigDecimal getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public Date getExpiredDay() {
+        return expiredDay;
+    }
+
+    public void setExpiredDay(Date expiredDay) {
+        this.expiredDay = expiredDay;
     }
 }

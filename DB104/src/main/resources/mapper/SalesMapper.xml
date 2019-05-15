@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sustcDB2019.dao.SalesMapper">
+  <resultMap id="BaseResultMap" type="org.sustcDB2019.entity.Sales">
+    <id column="sales_id" jdbcType="INTEGER" property="salesId" />
+    <result column="warehouse_warehouse_id" jdbcType="INTEGER" property="warehouseWarehouseId" />
+    <result column="customer_user_id" jdbcType="INTEGER" property="customerUserId" />
+    <result column="goods_goods_id" jdbcType="INTEGER" property="goodsGoodsId" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="payment" jdbcType="DECIMAL" property="payment" />
+    <result column="order_order_id" jdbcType="INTEGER" property="orderOrderId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sales_id, warehouse_warehouse_id, customer_user_id, goods_goods_id, amount, payment, 
+    order_order_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sales
+    where sales_id = #{salesId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sales
+    where sales_id = #{salesId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.sustcDB2019.entity.Sales">
+    insert into sales (sales_id, warehouse_warehouse_id, customer_user_id, 
+      goods_goods_id, amount, payment, 
+      order_order_id)
+    values (#{salesId,jdbcType=INTEGER}, #{warehouseWarehouseId,jdbcType=INTEGER}, #{customerUserId,jdbcType=INTEGER}, 
+      #{goodsGoodsId,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, #{payment,jdbcType=DECIMAL}, 
+      #{orderOrderId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="org.sustcDB2019.entity.Sales">
+    insert into sales
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="salesId != null">
+        sales_id,
+      </if>
+      <if test="warehouseWarehouseId != null">
+        warehouse_warehouse_id,
+      </if>
+      <if test="customerUserId != null">
+        customer_user_id,
+      </if>
+      <if test="goodsGoodsId != null">
+        goods_goods_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="payment != null">
+        payment,
+      </if>
+      <if test="orderOrderId != null">
+        order_order_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="salesId != null">
+        #{salesId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseWarehouseId != null">
+        #{warehouseWarehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="customerUserId != null">
+        #{customerUserId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsGoodsId != null">
+        #{goodsGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="payment != null">
+        #{payment,jdbcType=DECIMAL},
+      </if>
+      <if test="orderOrderId != null">
+        #{orderOrderId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sustcDB2019.entity.Sales">
+    update sales
+    <set>
+      <if test="warehouseWarehouseId != null">
+        warehouse_warehouse_id = #{warehouseWarehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="customerUserId != null">
+        customer_user_id = #{customerUserId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsGoodsId != null">
+        goods_goods_id = #{goodsGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="payment != null">
+        payment = #{payment,jdbcType=DECIMAL},
+      </if>
+      <if test="orderOrderId != null">
+        order_order_id = #{orderOrderId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where sales_id = #{salesId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sustcDB2019.entity.Sales">
+    update sales
+    set warehouse_warehouse_id = #{warehouseWarehouseId,jdbcType=INTEGER},
+      customer_user_id = #{customerUserId,jdbcType=INTEGER},
+      goods_goods_id = #{goodsGoodsId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=INTEGER},
+      payment = #{payment,jdbcType=DECIMAL},
+      order_order_id = #{orderOrderId,jdbcType=INTEGER}
+    where sales_id = #{salesId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -4,7 +4,32 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 public class DaoManager {
-    public static String resource = "org/mybatis/example/mybatis-config.xml";
-    public static SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsStream(resource));
+    private static String resource = "/main/resources/mybatis-config.xml";
+    //private static InputStream inputStream;// = Resources.getResourceAsStream(resource);
+    //public static SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+    private static DaoManager d = new DaoManager();
+    public static SqlSessionFactory sqlSessionFactory;
+    public DaoManager(){
+        try {
+            InputStream inputStream = Resources.getResourceAsStream(resource);
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        }catch (IOException e){
+            e.getMessage();
+        }
+    }
+
+//    public static void main(String[] args){
+//        try {
+//            inputStream = Resources.getResourceAsStream(resource);
+//            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+//        }catch (IOException e){
+//            e.getMessage();
+//        }
+//
+//    }
 }

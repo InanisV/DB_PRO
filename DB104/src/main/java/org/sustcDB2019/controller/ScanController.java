@@ -21,7 +21,7 @@ public class ScanController {
     public static void findGoodsByWarehouseId(Integer warehouseId){
         SqlSession session = DaoManager.sqlSessionFactory.openSession();
         GoodsInWarehouseMapper mapper = session.getMapper(GoodsInWarehouseMapper.class);
-        mapper.updateByPrimaryKey()
+
     }
 
 }
