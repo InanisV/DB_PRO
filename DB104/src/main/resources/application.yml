@@ -1,0 +1,24 @@
+
+spring:
+  profiles:
+    active: dev
+
+
+mybatis:
+  typeAliasesPackage: com.xdd.entity
+  mapperLocations: classpath:mapper/*.xml
+  
+
+
+---
+
+
+spring:
+  profiles: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/cs307?useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC
+    username: root
+    password: ii7i2oo8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
