@@ -31,62 +31,62 @@
                              targetProject="src/main/java">
         </javaClientGenerator>
 
-        <table tableName="user" domainObjectName="User"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="goods" domainObjectName="Goods"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="warehouse"  domainObjectName="Warehouse"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="customer" domainObjectName="Customer"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-            <property name="rootClass" value="User"/>
-<!--            <columnOverride column="user_id" property="id"/>-->
-        </table>
-        <table tableName="deliverer" domainObjectName="Deliverer"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-            <property name="rootClass" value="User"/>
-<!--            <columnOverride column="user_id" property="id"/>-->
-        </table>
-        <table tableName="manager" domainObjectName="Manager"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-            <property name="rootClass" value="User"/>
-<!--            <columnOverride column="user_id" property="id"/>-->
-        </table>
-        <table tableName="goods_in_warehouse"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="purchase"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+<!--        <table tableName="user" domainObjectName="User"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="goods" domainObjectName="Goods"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="warehouse"  domainObjectName="Warehouse"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="customer" domainObjectName="Customer"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="rootClass" value="User"/>-->
+<!--&lt;!&ndash;            <columnOverride column="user_id" property="id"/>&ndash;&gt;-->
+<!--        </table>-->
+<!--        <table tableName="deliverer" domainObjectName="Deliverer"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="rootClass" value="User"/>-->
+<!--&lt;!&ndash;            <columnOverride column="user_id" property="id"/>&ndash;&gt;-->
+<!--        </table>-->
+<!--        <table tableName="manager" domainObjectName="Manager"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            <property name="rootClass" value="User"/>-->
+<!--&lt;!&ndash;            <columnOverride column="user_id" property="id"/>&ndash;&gt;-->
+<!--        </table>-->
+<!--        <table tableName="goods_in_warehouse"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="purchase"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--        </table>-->
         <table tableName="sales"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
-        <table tableName="order"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+<!--        <table tableName="order"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--        </table>-->
         </context>
 
     <!--    <context id="test" targetRuntime="MyBatis3">-->

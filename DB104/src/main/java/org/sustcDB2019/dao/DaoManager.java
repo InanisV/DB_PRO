@@ -23,6 +23,15 @@ public class DaoManager {
         }
     }
 
+    public static String modifyStringToFuzzyQuery(String str){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("'%");
+        stringBuilder.append(str);
+        stringBuilder.append("%'");
+        String str1 = stringBuilder.toString();
+        return str1;
+    }
+
 //    public static void main(String[] args){
 //        try {
 //            inputStream = Resources.getResourceAsStream(resource);

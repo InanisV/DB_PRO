@@ -8,11 +8,12 @@
     <result column="goods_goods_id" jdbcType="INTEGER" property="goodsGoodsId" />
     <result column="amount" jdbcType="INTEGER" property="amount" />
     <result column="payment" jdbcType="DECIMAL" property="payment" />
+    <result column="is_paid" jdbcType="CHAR" property="isPaid" />
     <result column="order_order_id" jdbcType="INTEGER" property="orderOrderId" />
   </resultMap>
   <sql id="Base_Column_List">
     sales_id, warehouse_warehouse_id, customer_user_id, goods_goods_id, amount, payment, 
-    order_order_id
+    is_paid, order_order_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -27,10 +28,10 @@
   <insert id="insert" parameterType="org.sustcDB2019.entity.Sales">
     insert into sales (sales_id, warehouse_warehouse_id, customer_user_id, 
       goods_goods_id, amount, payment, 
-      order_order_id)
+      is_paid, order_order_id)
     values (#{salesId,jdbcType=INTEGER}, #{warehouseWarehouseId,jdbcType=INTEGER}, #{customerUserId,jdbcType=INTEGER}, 
       #{goodsGoodsId,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, #{payment,jdbcType=DECIMAL}, 
-      #{orderOrderId,jdbcType=INTEGER})
+      #{isPaid,jdbcType=CHAR}, #{orderOrderId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.sustcDB2019.entity.Sales">
     insert into sales
@@ -52,6 +53,9 @@
       </if>
       <if test="payment != null">
         payment,
+      </if>
+      <if test="isPaid != null">
+        is_paid,
       </if>
       <if test="orderOrderId != null">
         order_order_id,
@@ -76,6 +80,9 @@
       <if test="payment != null">
         #{payment,jdbcType=DECIMAL},
       </if>
+      <if test="isPaid != null">
+        #{isPaid,jdbcType=CHAR},
+      </if>
       <if test="orderOrderId != null">
         #{orderOrderId,jdbcType=INTEGER},
       </if>
@@ -99,6 +106,9 @@
       <if test="payment != null">
         payment = #{payment,jdbcType=DECIMAL},
       </if>
+      <if test="isPaid != null">
+        is_paid = #{isPaid,jdbcType=CHAR},
+      </if>
       <if test="orderOrderId != null">
         order_order_id = #{orderOrderId,jdbcType=INTEGER},
       </if>
@@ -112,6 +122,7 @@
       goods_goods_id = #{goodsGoodsId,jdbcType=INTEGER},
       amount = #{amount,jdbcType=INTEGER},
       payment = #{payment,jdbcType=DECIMAL},
+      is_paid = #{isPaid,jdbcType=CHAR},
       order_order_id = #{orderOrderId,jdbcType=INTEGER}
     where sales_id = #{salesId,jdbcType=INTEGER}
   </update>

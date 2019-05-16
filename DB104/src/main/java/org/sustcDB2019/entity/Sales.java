@@ -15,6 +15,8 @@ public class Sales {
 
     private BigDecimal payment;
 
+    private String isPaid;
+
     private Integer orderOrderId;
 
     public Integer getSalesId() {
@@ -63,6 +65,14 @@ public class Sales {
 
     public void setPayment(BigDecimal payment) {
         this.payment = payment;
+    }
+
+    public String getIsPaid() {
+        return isPaid;
+    }
+
+    public void setIsPaid(String isPaid) {
+        this.isPaid = isPaid;
     }
 
     public Integer getOrderOrderId() {
