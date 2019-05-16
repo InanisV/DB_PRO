@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sustcDB2019.dao.CustomerMapper">
+  <resultMap id="BaseResultMap" type="org.sustcDB2019.entity.Customer">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="customer_long" jdbcType="DECIMAL" property="customerLong" />
+    <result column="customer_lati" jdbcType="DECIMAL" property="customerLati" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, address, customer_long, customer_lati
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from customer
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from customer
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.sustcDB2019.entity.Customer">
+    insert into customer (user_id, address, customer_long, 
+      customer_lati)
+    values (#{userId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{customerLong,jdbcType=DECIMAL}, 
+      #{customerLati,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="org.sustcDB2019.entity.Customer">
+    insert into customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="customerLong != null">
+        customer_long,
+      </if>
+      <if test="customerLati != null">
+        customer_lati,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="customerLong != null">
+        #{customerLong,jdbcType=DECIMAL},
+      </if>
+      <if test="customerLati != null">
+        #{customerLati,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sustcDB2019.entity.Customer">
+    update customer
+    <set>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="customerLong != null">
+        customer_long = #{customerLong,jdbcType=DECIMAL},
+      </if>
+      <if test="customerLati != null">
+        customer_lati = #{customerLati,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sustcDB2019.entity.Customer">
+    update customer
+    set address = #{address,jdbcType=VARCHAR},
+      customer_long = #{customerLong,jdbcType=DECIMAL},
+      customer_lati = #{customerLati,jdbcType=DECIMAL}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

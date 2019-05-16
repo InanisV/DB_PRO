@@ -1,4 +1,4 @@
-package com.sustcDB2019.DB104.entity;
+package org.sustcDB2019.entity;
 
 public class Country {
     private String countryCode;

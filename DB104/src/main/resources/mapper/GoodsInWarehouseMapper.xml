@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sustcDB2019.dao.GoodsInWarehouseMapper">
+  <resultMap id="BaseResultMap" type="org.sustcDB2019.entity.GoodsInWarehouse">
+    <id column="idgoods_in_warehouse" jdbcType="INTEGER" property="idgoodsInWarehouse" />
+    <result column="warehouse_warehouse_id" jdbcType="INTEGER" property="warehouseWarehouseId" />
+    <result column="goods_goods_id" jdbcType="INTEGER" property="goodsGoodsId" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="expired_day" jdbcType="DATE" property="expiredDay" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    idgoods_in_warehouse, warehouse_warehouse_id, goods_goods_id, amount, expired_day
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from goods_in_warehouse
+    where idgoods_in_warehouse = #{idgoodsInWarehouse,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods_in_warehouse
+    where idgoods_in_warehouse = #{idgoodsInWarehouse,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.sustcDB2019.entity.GoodsInWarehouse">
+    insert into goods_in_warehouse (idgoods_in_warehouse, warehouse_warehouse_id, 
+      goods_goods_id, amount, expired_day
+      )
+    values (#{idgoodsInWarehouse,jdbcType=INTEGER}, #{warehouseWarehouseId,jdbcType=INTEGER}, 
+      #{goodsGoodsId,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, #{expiredDay,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.sustcDB2019.entity.GoodsInWarehouse">
+    insert into goods_in_warehouse
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="idgoodsInWarehouse != null">
+        idgoods_in_warehouse,
+      </if>
+      <if test="warehouseWarehouseId != null">
+        warehouse_warehouse_id,
+      </if>
+      <if test="goodsGoodsId != null">
+        goods_goods_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="expiredDay != null">
+        expired_day,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="idgoodsInWarehouse != null">
+        #{idgoodsInWarehouse,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseWarehouseId != null">
+        #{warehouseWarehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsGoodsId != null">
+        #{goodsGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="expiredDay != null">
+        #{expiredDay,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.sustcDB2019.entity.GoodsInWarehouse">
+    update goods_in_warehouse
+    <set>
+      <if test="warehouseWarehouseId != null">
+        warehouse_warehouse_id = #{warehouseWarehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsGoodsId != null">
+        goods_goods_id = #{goodsGoodsId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="expiredDay != null">
+        expired_day = #{expiredDay,jdbcType=DATE},
+      </if>
+    </set>
+    where idgoods_in_warehouse = #{idgoodsInWarehouse,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.sustcDB2019.entity.GoodsInWarehouse">
+    update goods_in_warehouse
+    set warehouse_warehouse_id = #{warehouseWarehouseId,jdbcType=INTEGER},
+      goods_goods_id = #{goodsGoodsId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=INTEGER},
+      expired_day = #{expiredDay,jdbcType=DATE}
+    where idgoods_in_warehouse = #{idgoodsInWarehouse,jdbcType=INTEGER}
+  </update>
+</mapper>
