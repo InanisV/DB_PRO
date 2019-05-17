@@ -18,10 +18,11 @@
     </environments>
 
     <mappers>
-        <mapper resource="${mapperAddress}/CountryMapper.xml"/>
         <mapper resource="${mapperAddress}/CustomerMapper.xml"/>
         <mapper resource="${mapperAddress}/DelivererMapper.xml"/>
         <mapper resource="${mapperAddress}/GoodsInWarehouseMapper.xml"/>
         <mapper resource="${mapperAddress}/ManagerMapper.xml"/>
+        <mapper resource="${mapperAddress}/UserMapper.xml"/>
+        <mapper resource="${mapperAddress}/GoodsMapper.xml"/>
     </mappers>
 </configuration>
