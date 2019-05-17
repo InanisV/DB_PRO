@@ -8,12 +8,25 @@
     <result column="amount" jdbcType="INTEGER" property="amount" />
     <result column="expired_day" jdbcType="DATE" property="expiredDay" />
   </resultMap>
+  <resultMap id="Goods" type="org.sustcDB2019.entity.Goods">
+    <id column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="origin_place" jdbcType="VARCHAR" property="originPlace" />
+    <result column="preserve_time" jdbcType="INTEGER" property="preserveTime" />
+    <result column="volume" jdbcType="INTEGER" property="volume" />
+    <result column="refrigirated_condition" jdbcType="CHAR" property="refrigiratedCondition" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="catagory" jdbcType="VARCHAR" property="catagory" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
   <sql id="Base_Column_List">
     idgoods_in_warehouse, warehouse_warehouse_id, goods_goods_id, amount, expired_day
   </sql>
 
 <!--  my sql statement  -->
-  <select id="selectWithPages" resultMap="org.sustcDB2019.entity.Goods">
+  <select id="selectWithPages" resultMap="Goods">
     with touchable as ( select g2.*
     from goods_in_warehouse giw join goods g2 on giw.goods_goods_id = g2.goods_id
     where giw.warehouse_warehouse_id= #{warehouseId} )
@@ -22,7 +35,7 @@
     from touchable
     limit #{itemsPerPage} offset #{pageIndex}
   </select>
-  <select id="selectConditionallyWithPages" resultMap="org.sustcDB2019.entity.Goods">
+  <select id="selectConditionallyWithPages" resultMap="Goods">
     with touchable as ( select g2.*
     from goods_in_warehouse giw join goods g2 on giw.goods_goods_id = g2.goods_id
     where giw.warehouse_warehouse_id= #{warehouseId} )

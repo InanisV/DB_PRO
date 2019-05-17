@@ -15,6 +15,37 @@
     sales_id, warehouse_warehouse_id, customer_user_id, goods_goods_id, amount, payment, 
     is_paid, order_order_id
   </sql>
+
+<!-- my sql statement -->
+  <select id="selectByCase" parameterType="org.sustcDB2019.entity.Sales" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sales
+    where sales_id is not null
+    <if test="warehouseWarehouseId != null">
+      and warehouse_warehouse_id = #{warehouseWarehouseId,jdbcType=INTEGER},
+    </if>
+    <if test="customerUserId != null">
+      and customer_user_id = #{customerUserId,jdbcType=INTEGER},
+    </if>
+    <if test="goodsGoodsId != null">
+      and goods_goods_id = #{goodsGoodsId,jdbcType=INTEGER},
+    </if>
+    <if test="amount != null">
+      and amount = #{amount,jdbcType=INTEGER},
+    </if>
+    <if test="payment != null">
+      and payment = #{payment,jdbcType=DECIMAL},
+    </if>
+    <if test="isPaid != null">
+      and is_paid = #{isPaid,jdbcType=CHAR},
+    </if>
+    <if test="orderOrderId != null">
+      and order_order_id = #{orderOrderId,jdbcType=INTEGER},
+    </if>
+  </select>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

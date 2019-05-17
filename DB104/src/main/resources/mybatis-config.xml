@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
     <properties resource="database.properties"> </properties>
     <environments default="mydb">
         <environment id="mydb">
@@ -17,12 +18,28 @@
         </environment>
     </environments>
 
+<!--  如果利用package的方式，接口要和xml文件放在同一个文件夹里  -->
     <mappers>
+        <mapper class="org.sustcDB2019.dao.CustomerMapper"/>
+        <mapper class="org.sustcDB2019.dao.DelivererMapper"/>
+        <mapper class="org.sustcDB2019.dao.GoodsInWarehouseMapper"/>
+        <mapper class="org.sustcDB2019.dao.GoodsMapper"/>
+        <mapper class="org.sustcDB2019.dao.ManagerMapper"/>
+        <mapper class="org.sustcDB2019.dao.OrderMapper"/>
+        <mapper class="org.sustcDB2019.dao.PurchaseMapper"/>
+        <mapper class="org.sustcDB2019.dao.SalesMapper"/>
+        <mapper class="org.sustcDB2019.dao.UserMapper"/>
+        <mapper class="org.sustcDB2019.dao.WarehouseMapper"/>
+        
         <mapper resource="${mapperAddress}/CustomerMapper.xml"/>
         <mapper resource="${mapperAddress}/DelivererMapper.xml"/>
         <mapper resource="${mapperAddress}/GoodsInWarehouseMapper.xml"/>
-        <mapper resource="${mapperAddress}/ManagerMapper.xml"/>
-        <mapper resource="${mapperAddress}/UserMapper.xml"/>
         <mapper resource="${mapperAddress}/GoodsMapper.xml"/>
+        <mapper resource="${mapperAddress}/ManagerMapper.xml"/>
+        <mapper resource="${mapperAddress}/OrderMapper.xml"/>
+        <mapper resource="${mapperAddress}/PurchaseMapper.xml"/>
+        <mapper resource="${mapperAddress}/SalesMapper.xml"/>
+        <mapper resource="${mapperAddress}/UserMapper.xml"/>
+        <mapper resource="${mapperAddress}/WarehouseMapper.xml"/>
     </mappers>
 </configuration>

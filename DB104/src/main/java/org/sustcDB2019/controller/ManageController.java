@@ -36,6 +36,7 @@ public class ManageController {
         GoodsMapper mapper = session.getMapper(GoodsMapper.class);
         ArrayList<Goods> goods1 = mapper.selectConditionally(goods);
         session.close();
+        return goods1;
     }
 
     //attribute should not be null

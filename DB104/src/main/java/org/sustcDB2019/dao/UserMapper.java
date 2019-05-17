@@ -3,8 +3,6 @@ package org.sustcDB2019.dao;
 import org.apache.ibatis.annotations.Select;
 import org.sustcDB2019.entity.User;
 
-import javax.jws.soap.SOAPBinding;
-
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
 
