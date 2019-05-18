@@ -33,6 +33,6 @@ public class CustomerService extends UserService{
     }
 
     public ArrayList<Goods> goodsArrayList() {
-        
+
     }
 }
