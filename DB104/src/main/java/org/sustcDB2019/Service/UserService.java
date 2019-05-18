@@ -21,12 +21,10 @@ public class UserService {
     public int signUp(String userName,String password,String phoneNumber,String address) {//password need to be hashed
         if (userName.equals("")||password.equals("")||phoneNumber.equals("")||address.equals(""))// one or more of the inputs are empty (or null)
             return -1;
-<<<<<<< HEAD
         currentUser=new User(/*userName,password,phoneNumber*/);
 //        SqlSession sqlSession=DaoManager
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
 
-=======
         user=new User(/*userName,password,phoneNumber*/);
         user.setPassword(String.format("%d",password.hashCode()));
         user.setUserName(userName);
@@ -42,7 +40,6 @@ public class UserService {
         customer.setCustomerLong(new BigDecimal(Math.random()*0.42234+113.849056));
         CustomerMapper customerMapper=sqlSession.getMapper(CustomerMapper.class);
         customerMapper.insert(customer);
->>>>>>> 386748967d701cf0b7526724c9f3447ea44793a5
         return 0;
     }
 

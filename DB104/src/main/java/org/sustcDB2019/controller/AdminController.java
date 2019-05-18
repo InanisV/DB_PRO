@@ -28,44 +28,133 @@ public class AdminController {
                     System.out.println("Username: " + customerService.customer.getUserName());
                     System.out.println("Phone number: " + customerService.customer.getPhoneNumber());
                     System.out.println("Address: " + customerService.customer.getAddress());
-                    modify(customerService.customer);
+                    modify(customerService);
                     break;
                 case 2:
                     int page  = 1;
                     ArrayList<Goods> goods = new ArrayList<Goods>();
+                    Goods g = new Goods();
                     boolean flag2 = true;
                     do {
                         System.out.println("Please choose the option:\n" +
                                 "1. Next page\n" +
                                 "2. Jump to page\n" +
-                                "3. Search goods\n" +
-                                "4. Add goods to cart\n" +
-                                "5. Check the cart and purchase\n" +
-                                "6. Return");
+                                "3. Add condition to search goods\n" +
+                                "4. Delete condition to search\n" +
+                                "5. Add goods to cart\n" +
+                                "6. Check the cart and purchase\n" +
+                                "7. Return");
                         int option2 = in.nextInt();
                         switch (option2){
                             case 1:
                                 page += 1;
-                                // 查看下一页
+                                goods = customerService.goodsArrayList(page);
                                 showGoods(goods);
                                 break;
                             case 2:
                                 System.out.print("Please input the page number: ");
                                 page = in.nextInt();
+                                goods = customerService.goodsArrayList(page);
                                 showGoods(goods);
-                                // 查看
                             case 3:
-                                System.out.print("Please input the name of the goods: ");
-                                String name = in.next();
+                                System.out.println("Please choose the option:\n" +
+                                        "1. By name\n" +
+                                        "2. By category\n" +
+                                        "3. By type\n" +
+                                        "4. By price" +
+                                        "5. By brand\n " +
+                                        "6. By origin place\n" +
+                                        "7. By discounted\n" +
+                                        "8. By refrigeration condition");
+                                int option4 = in.nextInt();
+                                switch (option4){
+                                    case 1:
+                                        System.out.print("Please input the name: ");
+                                        g.setName(in.next());
+                                        break;
+                                    case 2:
+                                        System.out.print("Please input the category: ");
+                                        g.setCatagory(in.next());
+                                        break;
+                                    case 3:
+                                        System.out.print("Please input the type: ");
+                                        g.setType(in.next());
+                                        break;
+                                    case 4:
+                                        System.out.print("Please input the price: ");
+                                        g.setName(in.next());
+                                        break;
+                                    case 5:
+                                        System.out.print("Please input the brand: ");
+                                        g.setBrand(in.next());
+                                        break;
+                                    case 6:
+                                        System.out.print("Please input the origin place: ");
+                                        g.setOriginPlace(in.next());
+                                        break;
+                                    case 7:
+//                                        g.setDiscount();
+                                        break;
+                                    case 8:
+                                        System.out.print("Please choose the option:\n1. Refrigeration\n2. Not refrigeration");
+                                        int re = in.nextInt();
+                                        if(re==1){
+                                            g.setRefrigiratedCondition("Y");
+                                        } else if(re==2){
+                                            g.setRefrigiratedCondition("N");
+                                        } else{
+                                            System.out.println("Wrong input.");
+                                        }
+                                        break;
+                                }
                                 break;
                             case 4:
+                                System.out.println("Please choose the option:\n" +
+                                        "1. Delete name\n" +
+                                        "2. Delete category\n" +
+                                        "3. Delete type\n" +
+                                        "4. Delete price" +
+                                        "5. Delete brand\n " +
+                                        "6. Delete origin place\n" +
+                                        "7. Delete discounted\n" +
+                                        "8. Delete refrigeration condition");
+                                int option5 = in.nextInt();
+                                switch (option5){
+                                    case 1:
+                                        g.setName(null);
+                                        break;
+                                    case 2:
+                                        g.setCatagory(null);
+                                        break;
+                                    case 3:
+                                        g.setType(null);
+                                        break;
+                                    case 4:
+//                                        g.setName(in.next());
+                                        break;
+                                    case 5:
+                                        g.setBrand(null);
+                                        break;
+                                    case 6:
+                                        g.setOriginPlace(null);
+                                        break;
+                                    case 7:
+//                                        g.setDiscount();
+                                        break;
+                                    case 8:
+                                        g.setRefrigiratedCondition(null);
+                                        break;
+                                }
+                                break;
+                            case 5:
                                 System.out.print("Please input the goods id: ");
                                 int id = in.nextInt();
                                 System.out.print("Please input the amount: ");
                                 int amount = in.nextInt();
-                                // pass in id and quantity to add to the cart
+                                customerService.addToCart(id, amount);
+                                System.out.println("Add successfully.");
                                 break;
-                            case 5:
+                            case 6:
                                 // displays shopping cart items and amounts
                                 showGoods(goods);
                                 double total = 0;
@@ -96,7 +185,7 @@ public class AdminController {
                                             System.out.println("Wrong input. Please input again.");
                                     }
                                 } while (flag3);
-                            case 6:
+                            case 7:
                                 flag2 = false;
                             default:
                                 System.out.println("Wrong input. Please input again.");
@@ -149,7 +238,7 @@ public class AdminController {
         }
     }
 
-    public static void modify(Customer customer){
+    public static void modify(CustomerService customerService){
         boolean flag = true;
         do{
             System.out.println("Please choose the option:\n" +
@@ -167,30 +256,41 @@ public class AdminController {
                     int option2 = in.nextInt();
                     switch (option2){
                         case 1:
-                            System.out.print("Please input your new username: ");
-                            customer.setUserName(in.next());
+                            int repite = 0;
+                            do {
+                                System.out.print("Please set your username: ");
+                                String name = in.next();
+                                repite = customerService.userNameExist(name);
+                                if (repite==1){
+                                    System.out.println("The username repeated, please input again.");
+                                } else {
+                                    customerService.customer.setUserName(name);
+                                }
+                            } while (repite==1);
                             break;
                         case 2:
                             System.out.print("Please input your old password: ");
-                            if(in.next().equals(customer.getPassword())){
+                            if(in.next().equals(customerService.customer.getPassword())){
                                 System.out.print("Please input your new password: ");
-                                customer.setPassword(in.next());
+                                customerService.customer.setPassword(in.next());
                             } else {
                                 System.out.println("Your input password is wrong.");
                             }
                             break;
                         case 3:
                             System.out.print("Please input your new phone number: ");
-                            customer.setPhoneNumber(in.next());
+                            customerService.customer.setPhoneNumber(in.next());
                             break;
                         case 4:
                             System.out.print("Please input your new address: ");
-                            customer.setAddress(in.next());
+                            customerService.customer.setAddress(in.next());
                             break;
                         case 5:
-                            // Update personal information to database
-                            // UpdateManager
-                            // 返回 0 正常  其他则update失败
+                            if(customerService.updateCustomer(customerService.customer)==0){
+                                System.out.println("Modify successfully.");
+                            } else {
+                                System.out.println("Modification fails.");
+                            }
                             System.out.println("Modify successfully.");
                             flag3 = false;
                         default:

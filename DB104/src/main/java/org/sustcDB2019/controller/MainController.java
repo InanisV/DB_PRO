@@ -34,7 +34,6 @@ public class MainController {
                     switch (back){
                         case 2:
                             ManagerService managerService = (ManagerService) userService;
-                            //manager
                             System.out.println("Log in successfully!");
                             ManageController.ManagerView(managerService);
                             break;
@@ -42,14 +41,14 @@ public class MainController {
                             // cashier
                             break;
                         case 6:
-                            //deliverer
                             System.out.println("Log in successfully!");
+                            DelivererService delivererService = (DelivererService) userService;
+                            DelivererController.DelivererView(delivererService);
                             break;
                         case 30:
                             System.out.println("Log in successfully!");
                             CustomerService customerService = (CustomerService) userService;
                             AdminController.CustomerView(customerService);
-                            // customer
                             break;
                         case -1:
                             System.out.println("Your username or password is wrong, please input again.");
@@ -59,10 +58,10 @@ public class MainController {
             } else if(option==2){
                 Customer customer = new Customer();
                 int repite = 0;
-                String name;
                 do {
                     System.out.print("Please set your username: ");
                     customer.setUserName(in.next());
+                    repite = userService.userNameExist(customer.getUserName());
                     if (repite==1){
                         System.out.println("The username repeated, please input again.");
                     }
@@ -73,7 +72,7 @@ public class MainController {
                 customer.setPhoneNumber(in.next());
                 System.out.print("Please set your address: ");
                 customer.setAddress(in.next());
-                // 传入字符串
+                userService.signUp(customer.getUserName(), customer.getPassword(), customer.getPhoneNumber(), customer.getAddress());
                 System.out.println("Sign up successfully.");
             } else if(option==3){
                 flag1 = false;

@@ -19,31 +19,35 @@ public class ManageController {
             System.out.println("Please choose the option:\n" +
                     "1. View personal information\n" +
                     "2. Add new accounts\n" +
-                    "3. Check good sales \n" +
-                    "4. Check good profits\n" +
-                    "5. Check capacity\n" +
-                    "6. Manipulate and check goods\n" +
-                    "7. Log out");
+                    "3. Modify accounts information\n" +
+                    "4. Check good sales \n" +
+                    "5. Check good profits\n" +
+                    "6. Check capacity\n" +
+                    "7. Manipulate and check goods\n" +
+                    "8. Log out");
             // 7 返回goodsin list
             int option = in.nextInt();
             switch (option){
                 case 1:
                     System.out.println("Your Personal Information：");
-                    System.out.println("Username: " + ManagerService.manager.getUserName());
-                    System.out.println("Phone number: " + ManagerService.manager.getPhoneNumber());
-                    System.out.println("Warehouse id: " + ManagerService.manager.getWarehouseWarehouseId());
-                    modify(ManagerService.manager);
+                    System.out.println("Username: " + managerService.manager.getUserName());
+                    System.out.println("Phone number: " + managerService.manager.getPhoneNumber());
+                    System.out.println("Warehouse id: " + managerService.manager.getWarehouseWarehouseId());
+                    modify(managerService.manager);
                 case 2:
                     addAccount();
                     break;
                 case 3:
+                    // 修改用户信息
+                    break;
+                case 4:
                     int normal=0;
                     int cool=0;
                     // 调用查看容量方法
                     System.out.println("Remaining capacity of the regular warehouse is: " + normal);
                     System.out.println("Remaining capacity of the frozen warehouse is: " + cool);
                     break;
-                case 4:
+                case 5:
                     System.out.println();
                     int page = 1;
                     boolean flag3 = true;
@@ -72,9 +76,9 @@ public class ManageController {
                         }
                     } while (flag3);
                     break;
-                case 5:
-                    break;
                 case 6:
+                    break;
+                case 7:
                     boolean flag2 = true;
                     int page2 = 1;
                     do {
@@ -149,7 +153,7 @@ public class ManageController {
                         }
                     } while (flag2);
                     break;
-                case 7:
+                case 8:
                     flag = false;
                     break;
                 default:
@@ -229,6 +233,11 @@ public class ManageController {
 
     public static void showGoods(ArrayList<Goods> goods){
 
+    }
+
+    public static void modifyAccount(){
+        System.out.print("Please input the username of the account to modify: ");
+//        String name
     }
 
 }
