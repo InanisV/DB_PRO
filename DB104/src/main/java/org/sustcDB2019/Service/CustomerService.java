@@ -1,6 +1,7 @@
 package org.sustcDB2019.service;
 
 import org.apache.ibatis.session.SqlSession;
+import org.sustcDB2019.dao.CustomerMapper;
 import org.sustcDB2019.dao.GoodsInWarehouseMapper;
 import org.sustcDB2019.dao.GoodsMapper;
 import org.sustcDB2019.entity.*;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import static java.lang.Math.*;
 
 public class CustomerService extends UserService{
-    public Customer customer;
+    public Customer customer=(Customer) super.user;
     public int updateCustomer(){
         return 0;
     }
@@ -33,6 +34,7 @@ public class CustomerService extends UserService{
         }
         customer.setWarehouseId(minWarehouseId);
     }
+
 //
 //    public ArrayList<Goods> goodsArrayList() {
 //
@@ -71,12 +73,19 @@ public class CustomerService extends UserService{
                 boolean discount, String orderByPriceIncrease, boolean orderByDiscount,boolean orderByExpiredDay);*/
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getAmount()>=amount){
-                
+
             }
         }
         return 0;
     }
 
-    public int payAll()
+    public int updateCustomer(Customer customer){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        CustomerMapper mapper=sqlSession.getMapper(CustomerMapper.class);
+        mapper.updateByPrimaryKeySelective(customer);
+        return 0;
+    }
+
+
 
 }

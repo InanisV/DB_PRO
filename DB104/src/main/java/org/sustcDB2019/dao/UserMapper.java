@@ -10,6 +10,7 @@ public interface UserMapper {
 
     int insertSelective(User record);
 
+    //tested
     @Select("select * from user where user_name=#{name}")
     User selectByName(String name);
 
@@ -19,3 +20,6 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 }
+
+
+//discount check and update

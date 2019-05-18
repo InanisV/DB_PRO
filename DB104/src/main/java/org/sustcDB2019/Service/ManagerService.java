@@ -1,13 +1,14 @@
 package org.sustcDB2019.service;
 
+import org.apache.ibatis.session.SqlSession;
+import org.sustcDB2019.dao.ManagerMapper;
 import org.sustcDB2019.entity.Deliverer;
 import org.sustcDB2019.entity.Manager;
 
 import java.math.BigDecimal;
 
 public class ManagerService extends UserService{
-    public static Manager manager;
-    Manager currentManager;
+    Manager currentManager=(Manager) super.user;
 
 
     public int addNewManager(String userName,String password,String phoneNumber,int warehouseId){
@@ -19,7 +20,15 @@ public class ManagerService extends UserService{
         //add newManager to database
         String str;
 //        str.hashCode();
+
         //check if the new manager is in the db here(optional)
+        return 0;
+    }
+
+    public int updateManager(Manager manager){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        ManagerMapper mapper=sqlSession.getMapper(ManagerMapper.class);
+        mapper.updateByPrimaryKeySelective(manager);
         return 0;
     }
 

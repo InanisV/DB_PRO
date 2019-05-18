@@ -2,6 +2,7 @@ package org.sustcDB2019.controller;
 
 import org.sustcDB2019.entity.Deliverer;
 import org.sustcDB2019.entity.User;
+import org.sustcDB2019.service.*;
 import java.util.Scanner;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -11,7 +12,7 @@ public class DelivererController {
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static void DelivererView(User user){
-
+        DelivererService delivererService = new DelivererService();
         boolean flag = true;
         do {
             System.out.println("Please choose the option:\n" +
@@ -21,11 +22,11 @@ public class DelivererController {
             int option = in.nextInt();
             switch (option){
                 case 1:
-//                    System.out.println("Your Personal Information：");
-//                    System.out.println("Username: " + DelivererService.deliverer.getUserName());
-//                    System.out.println("Phone number: " + DelivererService.deliverer.getPhoneNumber());
-//                    System.out.println("Warehouse id: " + DelivererService.deliverer.getWarehouseWarehouseId());
-//                    modify(DelivererService.deliverer);
+                    System.out.println("Your Personal Information：");
+                    System.out.println("Username: " + delivererService.deliverer.getUserName());
+                    System.out.println("Phone number: " + delivererService.deliverer.getPhoneNumber());
+                    System.out.println("Warehouse id: " + delivererService.deliverer.getWarehouseWarehouseId());
+                    modify(delivererService.deliverer);
                 case 2:
                     // show orders information
 //                    boolean flag2 = true;

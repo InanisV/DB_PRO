@@ -8,9 +8,60 @@
     <result column="delivery_user_id" jdbcType="INTEGER" property="deliveryUserId" />
     <result column="customer_user_id" jdbcType="INTEGER" property="customerUserId" />
   </resultMap>
+
+  <resultMap id="historySalesResultMap" type="org.sustcDB2019.entity.Order">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="arrival_time" jdbcType="TIMESTAMP" property="arrivalTime" />
+    <result column="departure_time" jdbcType="TIMESTAMP" property="departureTime" />
+    <result column="delivery_user_id" jdbcType="INTEGER" property="deliveryUserId" />
+    <result column="customer_user_id" jdbcType="INTEGER" property="customerUserId" />
+    
+    <collection property="saleses" ofType="Sales" resultMap="SalesMap"/>
+  </resultMap>
+
+  <resultMap id="SalesMap" type="org.sustcDB2019.entity.Sales">
+    <id column="sales_id" jdbcType="INTEGER" property="salesId" />
+    <result column="warehouse_warehouse_id" jdbcType="INTEGER" property="warehouseWarehouseId" />
+    <result column="customer_user_id" jdbcType="INTEGER" property="customerUserId" />
+    <result column="goods_goods_id" jdbcType="INTEGER" property="goodsGoodsId" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="payment" jdbcType="DECIMAL" property="payment" />
+    <result column="is_paid" jdbcType="CHAR" property="isPaid" />
+    <result column="order_order_id" jdbcType="INTEGER" property="orderOrderId" />
+
+    <association property="Goods" column="goods_goods_id"/>
+  </resultMap>
+
+
+
   <sql id="Base_Column_List">
     order_id, arrival_time, departure_time, delivery_user_id, customer_user_id
   </sql>
+
+<!-- my sql statement -->
+  <select id="selectByCase" parameterType="org.sustcDB2019.entity.Order" resultMap="historySalesResultMap">
+    select o.*, s.*, g.*
+    from `order` o
+      join sales s on o.order_id = s.order_order_id
+      join goods g on s.goods_goods_id = g.goods_id
+    where o.order_id is not null
+    <if test="orderId != null">
+      and o.order_id = #{orderId,jdbcType=INTEGER}
+    </if>
+    <if test="arrivalTime != null">
+      arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="departureTime != null">
+      departure_time = #{departureTime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="deliveryUserId != null">
+      delivery_user_id = #{deliveryUserId,jdbcType=INTEGER},
+    </if>
+    <if test="customerUserId != null">
+      customer_user_id = #{customerUserId,jdbcType=INTEGER},
+    </if>
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
