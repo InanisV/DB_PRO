@@ -6,7 +6,7 @@ import org.sustcDB2019.dao.UserMapper;
 import org.sustcDB2019.entity.User;
 
 public class UserService {
-    User currentUser;
+    User user;
 
 
     /*
@@ -17,7 +17,8 @@ public class UserService {
     public int signUp(String userName,String password,String phoneNumber,String address) {//password need to be hashed
         if (userName.equals("")||password.equals("")||phoneNumber.equals("")||address.equals(""))// one or more of the inputs are empty (or null)
             return -1;
-        currentUser=new User(/*userName,password,phoneNumber*/);
+        user=new User(/*userName,password,phoneNumber*/);
+//        SqlSession sqlSession=DaoManager
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
 
 
@@ -27,6 +28,9 @@ public class UserService {
     public int userNameExist(String userName) {
         SqlSession sqlSession= DAOService.sqlSessionFactory.openSession();
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
+//        if (mapper.findUser(userName)==null){//[add mapper] in: userName out: if(userName exist)User obj if(not exist) null
+//            return 0;
+//        }
         if (mapper.selectByName(userName)==null){//[add mapper] in: userName out: if(userName exist)User obj if(not exist) null
             return 0;
         }
@@ -45,7 +49,7 @@ public class UserService {
         User user=null;
         //select from the table and receive the User obj
         if (flag){
-            currentUser=user;
+            user=user;
             return user.getId()/1000000;
         }else {
             return -1;
