@@ -13,6 +13,7 @@ public class DAOService {
     public static SqlSessionFactory customerSqlFactory;
     public static SqlSessionFactory managerSqlFactory;
 
+
     public DAOService(){
         try {
             String resource = "mybatis-config.xml";

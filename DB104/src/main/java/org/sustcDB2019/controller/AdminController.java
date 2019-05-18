@@ -1,6 +1,8 @@
 package org.sustcDB2019.controller;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.sustcDB2019.entity.*;
+import org.sustcDB2019.service.*;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,9 +13,7 @@ public class AdminController {
     public static Scanner in = new Scanner(System.in);
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public static void CustomerView(User user){
-        Customer customer = new Customer(); // 传入userid
-        // 加载个人信息
+    public static void CustomerView(CustomerService customerService){
         boolean flag = true;
         do {
             System.out.println("Please choose the option:\n" +
@@ -24,9 +24,11 @@ public class AdminController {
             int option = in.nextInt();
             switch (option){
                 case 1:
-                    System.out.println("Your Personal Information");
-
-                    MainController.modify(user);
+                    System.out.println("Your Personal Information：");
+                    System.out.println("Username: " + customerService.customer.getUserName());
+                    System.out.println("Phone number: " + customerService.customer.getPhoneNumber());
+                    System.out.println("Address: " + customerService.customer.getAddress());
+                    modify(customerService.customer);
                     break;
                 case 2:
                     // Display goods information
@@ -101,7 +103,31 @@ public class AdminController {
                     break;
                 case 3:
                     // show historical orders
-
+                    boolean flag3 = true;
+                    do {
+                        System.out.println("Please choose the option:\n" +
+                                "1. Confirm arrival\n" +
+                                "2. Check total spending last month\n" +
+                                "3. Return");
+                        int option3 = in.nextInt();
+                        switch (option3){
+                            case 1:
+                                System.out.print("Please input the order id to confirm arrival: ");
+                                int id = in.nextInt();
+                                // 确认收货
+                                System.out.println("Confirm successfully.");
+                                break;
+                            case 2:
+                                // 上个月的消费总额
+                                System.out.println("Your total spending last month is: ");
+                                break;
+                            case 3:
+                                flag3 = false;
+                                break;
+                            default:
+                                System.out.println("Wrong input. Please input again.");
+                        }
+                    } while (flag3);
                     break;
                 case 4:
                     flag = false;
@@ -114,6 +140,63 @@ public class AdminController {
 
     public static void showGoods(ArrayList<Goods> goods){
 
+        for (Goods x : goods) {
+            System.out.printf("");
+        }
+    }
+
+    public static void modify(Customer customer){
+        boolean flag = true;
+        do{
+            System.out.println("Please choose the option:\n" +
+                    "1. Modify personal information\n" +
+                    "2. Return");
+            if(in.nextInt()==1){
+                boolean flag3 = true;
+                do {
+                    System.out.println("Please choose the information you want to change:\n" +
+                            "1. Username\n" +
+                            "2. Password\n" +
+                            "3. Phone number\n" +
+                            "4. Address\n" +
+                            "5. Return");
+                    int option2 = in.nextInt();
+                    switch (option2){
+                        case 1:
+                            System.out.print("Please input your new username: ");
+                            customer.setUserName(in.next());
+                            break;
+                        case 2:
+                            System.out.print("Please input your old password: ");
+                            if(in.next().equals(customer.getPassword())){
+                                System.out.print("Please input your new password: ");
+                                customer.setPassword(in.next());
+                            } else {
+                                System.out.println("Your input password is wrong.");
+                            }
+                            break;
+                        case 3:
+                            System.out.print("Please input your new phone number: ");
+                            customer.setPhoneNumber(in.next());
+                            break;
+                        case 4:
+                            System.out.print("Please input your new address: ");
+                            customer.setAddress(in.next());
+                            break;
+                        case 5:
+                            // Update personal information to database
+                            // UpdateManager
+                            // 返回 0 正常  其他则update失败
+                            System.out.println("Modify successfully.");
+                            flag3 = false;
+                        default:
+                            System.out.println("Your input is wrong, please input again.");
+                    }
+                } while (flag3);
+            } else {
+                flag = false;
+            }
+        } while (flag);
     }
 
 }

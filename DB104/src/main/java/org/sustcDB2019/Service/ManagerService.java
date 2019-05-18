@@ -1,4 +1,4 @@
-package org.sustcDB2019.Service;
+package org.sustcDB2019.service;
 
 import org.sustcDB2019.entity.Deliverer;
 import org.sustcDB2019.entity.Manager;
@@ -6,20 +6,25 @@ import org.sustcDB2019.entity.Manager;
 import java.math.BigDecimal;
 
 public class ManagerService extends UserService{
-    Manager currentManager;
+    Manager currentManager=(Manager) super.user;
 
-    //for main manager
-    public int addNewManager(String userName,String password,String phoneNumber,int id,int warehouseId){
-        Manager newManager=new Manager(/*String userName,String password,String phoneNumber,int id,int warehouseId*/);
+
+    public int addNewManager(String userName,String password,String phoneNumber,int warehouseId){
+        Manager newManager=new Manager();
+        newManager.setUserName(userName);
+        newManager.setPassword(String.format("%d",password.hashCode()));
+        newManager.setPhoneNumber(phoneNumber);
+        newManager.setWarehouseWarehouseId(warehouseId);
         //add newManager to database
         String str;
-        str.hashCode();
+//        str.hashCode();
+
         //check if the new manager is in the db here(optional)
         return 0;
     }
 
 
-    public int addNewWarehouse(String address, int refrigeratedShelfVolume, int ordinaryShelfVolume, BigDecimal warehouseLong,BigDecimal warehouseLati){//BigDecimal or Long or Integer?
-        
-    }
+//    public int addNewWarehouse(String address, int refrigeratedShelfVolume, int ordinaryShelfVolume, BigDecimal warehouseLong,BigDecimal warehouseLati){//BigDecimal or Long or Integer?
+//
+//    }
 }
