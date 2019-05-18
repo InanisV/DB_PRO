@@ -6,7 +6,7 @@ import org.sustcDB2019.entity.Manager;
 import java.math.BigDecimal;
 
 public class ManagerService extends UserService{
-    Manager currentManager;
+    Manager currentManager=(Manager) super.currentUser;
 
 
     public int addNewManager(String userName,String password,String phoneNumber,int warehouseId){

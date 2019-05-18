@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static java.lang.Math.*;
 
 public class CustomerService extends UserService{
-    public Customer customer;
+    public Customer customer=(Customer) super.currentUser;
     public int updateCustomer(){
         return 0;
     }
@@ -67,7 +67,7 @@ public class CustomerService extends UserService{
                 boolean discount, String orderByPriceIncrease, boolean orderByDiscount,boolean orderByExpiredDay);*/
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getAmount()>=amount){
-                
+
             }
         }
         return 0;
