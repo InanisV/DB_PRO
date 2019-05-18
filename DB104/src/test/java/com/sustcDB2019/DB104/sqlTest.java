@@ -29,8 +29,8 @@ public class sqlTest {
         new sqlTest();
 
 
-//        deliverer();
-        test1();
+        deliverer();
+//        test1();
     }
 
     public static void deliverer(){

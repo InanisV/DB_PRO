@@ -16,7 +16,7 @@
     <result column="delivery_user_id" jdbcType="INTEGER" property="deliveryUserId" />
     <result column="customer_user_id" jdbcType="INTEGER" property="customerUserId" />
     
-    <collection property="saleses" ofType="Sales" resultMap="SalesMap"/>
+    <collection property="saleses" ofType="org.sustcDB2019.entity.Sales" resultMap="SalesMap"/>
   </resultMap>
 
   <resultMap id="SalesMap" type="org.sustcDB2019.entity.Sales">
@@ -29,7 +29,7 @@
     <result column="is_paid" jdbcType="CHAR" property="isPaid" />
     <result column="order_order_id" jdbcType="INTEGER" property="orderOrderId" />
 
-    <association property="Goods" column="warehouse_warehouse_id"/>
+    <association property="goods" column="warehouse_warehouse_id"/>
   </resultMap>
 
 

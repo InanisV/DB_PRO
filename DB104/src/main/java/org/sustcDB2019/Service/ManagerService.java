@@ -17,7 +17,7 @@ public class ManagerService extends UserService{
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
         User user = userMapper.selectByName(userName);
         if(user.getId()!=null){
-            // already have name
+            return -1;
         }
         ManagerMapper managerMapper = sqlSession.getMapper(ManagerMapper.class);
         user.setId(managerMapper.selectMaxId()+1);
@@ -28,8 +28,8 @@ public class ManagerService extends UserService{
         newManager.setWarehouseWarehouseId(warehouseId);
 
         user = userMapper.selectByName(userName);
-        if(user.getId()!=null){
-            // already added
+        if(user.getId()==null){
+            return -1;
         }
         return 0;
     }
