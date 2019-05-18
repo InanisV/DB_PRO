@@ -1,5 +1,6 @@
 package org.sustcDB2019.dao;
 
+import org.apache.ibatis.annotations.Select;
 import org.sustcDB2019.entity.Deliverer;
 
 import java.util.ArrayList;
@@ -7,6 +8,9 @@ import java.util.ArrayList;
 public interface DelivererMapper {
     //tested
     ArrayList<Deliverer> selectByCase(Deliverer deliverer);
+
+    @Select("select max(user_id) from deliverer")
+    Integer selectMaxId();
 
 
     int deleteByPrimaryKey(Integer userId);
