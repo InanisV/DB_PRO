@@ -1,57 +1,108 @@
 package org.sustcDB2019.controller;
 
-import org.apache.ibatis.session.SqlSession;
-import org.sustcDB2019.dao.DaoManager;
-import org.sustcDB2019.dao.GoodsInWarehouseMapper;
-import org.sustcDB2019.dao.GoodsMapper;
-import org.sustcDB2019.dao.WarehouseMapper;
-import org.sustcDB2019.entity.Goods;
-import org.sustcDB2019.entity.GoodsInWarehouse;
-import org.sustcDB2019.entity.Warehouse;
+import org.sustcDB2019.entity.Deliverer;
+import org.sustcDB2019.entity.Manager;
+import org.sustcDB2019.entity.User;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
-import java.util.ArrayList;
-
+import java.util.Scanner;
 
 public class ManageController {
-    //添加purchase的基本流程为：选择仓库-》选择货物信息（刷新的选择框）或新建货物信息-》检查仓库容量是否符合货物要求-》添加或失败
+    public static Scanner in = new Scanner(System.in);
+    public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public static void purchaseGoods(){}
-
-    //查询某一个仓库的货架剩余容量，选择仓库，查询
-    public static void queryVolume(Warehouse warehouse){
-
+    public static void ManagerView(User user){
+        Manager manager = new Manager();  // Load the manager's personal information
+        boolean flag = true;
+        do {
+            System.out.println("Please choose the option:\n" +
+                    "1. View personal information\n" +
+                    "2. Add new account\n" +
+                    "3. View goods information\n" +
+                    "4. Log out");
+            int option = in.nextInt();
+            switch (option){
+                case 1:
+                    System.out.println("Information"); // Show the manager's personal information
+                    MainController.modify(manager);
+                case 2:
+                    addAccount();
+                    break;
+                case 3:
+                    // Display goods information
+                    boolean flag2 = true;
+                    do {
+                        System.out.println("Please choose the option:\n" +
+                                "1. Replenish goods\n" +
+                                "2. Add discount\n" +
+                                "3. Return");
+                        int option2 = in.nextInt();
+                        switch (option2){
+                            case 1:
+                                System.out.print("Please input the goods id to replenish: ");
+                                int id = in.nextInt();
+                                // pass id to replenish goods
+                                System.out.println("Replenish successfully.");
+                                break;
+                            case 2:
+                                System.out.print("Please input the goods id to make discount: ");
+                                int id2 = in.nextInt();
+                                System.out.print("Please input the discount: ");
+                                double discount = in.nextDouble();
+                                // pass id and discount to make discount
+                                System.out.println("Discount successfully.");
+                                break;
+                            case 3:
+                                flag2 = false;
+                            default:
+                                System.out.println("Wrong input. Please input again.");
+                        }
+                    } while (flag2);
+                    break;
+                case 4:
+                    flag = false;
+                    break;
+                default:
+                    System.out.println("Wrong input. Please input again.");
+            }
+        } while(flag);
     }
 
-    public static ArrayList<Warehouse> showWarehouse(){
-        SqlSession session = DaoManager.sqlSessionFactory.openSession();
-        WarehouseMapper mapper = session.getMapper(WarehouseMapper.class);
-        ArrayList<Warehouse> warehouses = mapper.selectAll();
-        session.close();
-        return warehouses;
+    public static void addAccount(){
+        System.out.println("Please choose the identity you want to sign in:\n1. User\n2. Manager\n3. Deliverer");
+        int identity = in.nextInt();
+        System.out.print("Please input your username: ");
+        String name = in.next();
+        System.out.print("Please input your password: ");
+        String password = in.next();
+        System.out.print("Please input your phone number: ");
+        String phone = in.next();
+        if(identity==1){
+            User user = new User();
+            user.setUserName(name);
+            user.setPassword(password);
+            user.setPhoneNumber(phone);
+            // Add user information to the database
+        } else if(identity==2){
+            Manager manager = new Manager();
+            manager.setUserName(name);
+            manager.setPassword(password);
+            manager.setPhoneNumber(phone);
+            System.out.print("Please input your warehouse Id: ");
+            manager.setWarehouseWarehouseId(in.nextInt());
+            // Add user information to the database
+        } else if(identity==3){
+            Deliverer deliverer = new Deliverer();
+            deliverer.setUserName(name);
+            deliverer.setPassword(password);
+            deliverer.setPhoneNumber(phone);
+            System.out.print("Please input your warehouse Id: ");
+            deliverer.setWarehouseWarehouseId(in.nextInt());
+            deliverer.setStatusOn("Free");
+            // Add user information to the database
+        }
     }
 
-    //goods 可以不完整，返回符合的完整goods。
-    public static ArrayList<Goods> findGoodsByCondition(Goods goods){
-        SqlSession session = DaoManager.sqlSessionFactory.openSession();
-        GoodsMapper mapper = session.getMapper(GoodsMapper.class);
-        ArrayList<Goods> goods1 = mapper.selectConditionally(goods);
-        session.close();
-        return goods1;
-    }
 
-    //attribute should not be null
-    public static void insertGoods(Goods goods){
-        SqlSession session = DaoManager.sqlSessionFactory.openSession();
-        GoodsMapper mapper = session.getMapper(GoodsMapper.class);
-        mapper.insert(goods);
-        session.close();
-    }
-
-    public static void insertGoodsInWarehouse(GoodsInWarehouse goodsInWarehouse) {
-
-        SqlSession session = DaoManager.sqlSessionFactory.openSession();
-        GoodsInWarehouseMapper mapper = session.getMapper(GoodsInWarehouseMapper.class);
-        mapper.insert(goodsInWarehouse);
-        session.close();
-    }
 }

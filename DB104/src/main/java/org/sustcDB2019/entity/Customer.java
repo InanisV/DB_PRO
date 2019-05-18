@@ -11,6 +11,16 @@ public class Customer extends User {
 
     private BigDecimal customerLati;
 
+    public int getWarehouseId() {
+        return warehouseId;
+    }
+
+    public void setWarehouseId(int warehouseId) {
+        this.warehouseId = warehouseId;
+    }
+
+    private int warehouseId;
+
     public Integer getUserId() {
         return userId;
     }
