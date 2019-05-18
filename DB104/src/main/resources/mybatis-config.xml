@@ -30,6 +30,7 @@
         <mapper class="org.sustcDB2019.dao.SalesMapper"/>
         <mapper class="org.sustcDB2019.dao.UserMapper"/>
         <mapper class="org.sustcDB2019.dao.WarehouseMapper"/>
+        <mapper class="org.sustcDB2019.dao.CashierMapper"/>
         
         <mapper resource="${mapperAddress}/CustomerMapper.xml"/>
         <mapper resource="${mapperAddress}/DelivererMapper.xml"/>
@@ -41,5 +42,6 @@
         <mapper resource="${mapperAddress}/SalesMapper.xml"/>
         <mapper resource="${mapperAddress}/UserMapper.xml"/>
         <mapper resource="${mapperAddress}/WarehouseMapper.xml"/>
+        <mapper resource="${mapperAddress}/CashierMapper.xml"/>
     </mappers>
 </configuration>

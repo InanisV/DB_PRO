@@ -38,7 +38,7 @@ public class ManageController {
                     addAccount();
                     break;
                 case 3:
-                    // 修改用户信息
+                    modifyAccount(managerService);
                     break;
                 case 4:
                     int normal=0;
@@ -179,6 +179,8 @@ public class ManageController {
 
     public static void modify(Manager manager){
         boolean flag = true;
+        ManagerService managerService = new ManagerService();
+        managerService.manager = manager;
         do{
             System.out.println("Please choose the option:\n" +
                     "1. Modify personal information\n" +
@@ -216,9 +218,11 @@ public class ManageController {
                             manager.setWarehouseWarehouseId(in.nextInt());
                             break;
                         case 5:
-                            // Update personal information to database
-                            // UpdateManager
-                            // 返回 0 正常  其他则update失败
+                            if(managerService.updateManager(manager)==0){
+                                System.out.println("Modify successfully.");
+                            } else {
+                                System.out.println("Modification fails.");
+                            }
                             System.out.println("Modify successfully.");
                             flag3 = false;
                         default:
@@ -235,9 +239,20 @@ public class ManageController {
 
     }
 
-    public static void modifyAccount(){
+    public static void modifyAccount(ManagerService managerService){
         System.out.print("Please input the username of the account to modify: ");
-//        String name
+        User user = managerService.getUserByName(in.next());
+        int identity = user.getId()/1000000;
+        if(identity==2){
+            Manager manager = (Manager) user;
+            modify(manager);
+        } else if(identity==6){
+            Deliverer deliverer = (Deliverer) user;
+            DelivererController.modify(deliverer);
+        } else if(identity==30){
+            Customer customer = (Customer) user;
+            AdminController.modify(customer);
+        }
     }
 
 }

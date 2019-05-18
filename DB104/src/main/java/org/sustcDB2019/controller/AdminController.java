@@ -48,13 +48,13 @@ public class AdminController {
                         switch (option2){
                             case 1:
                                 page += 1;
-                                goods = customerService.goodsArrayList(page);
+//                                goods = customerService.goodsArrayList(page);
                                 showGoods(goods);
                                 break;
                             case 2:
                                 System.out.print("Please input the page number: ");
                                 page = in.nextInt();
-                                goods = customerService.goodsArrayList(page);
+//                                goods = customerService.goodsArrayList(page);
                                 showGoods(goods);
                             case 3:
                                 System.out.println("Please choose the option:\n" +
@@ -291,7 +291,6 @@ public class AdminController {
                             } else {
                                 System.out.println("Modification fails.");
                             }
-                            System.out.println("Modify successfully.");
                             flag3 = false;
                         default:
                             System.out.println("Your input is wrong, please input again.");

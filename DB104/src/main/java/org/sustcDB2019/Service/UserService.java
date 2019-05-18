@@ -8,9 +8,11 @@ import org.sustcDB2019.entity.Customer;
 import org.sustcDB2019.entity.User;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class UserService {
     User user;
+    Date currentDate;
 
 
     /*
@@ -29,7 +31,6 @@ public class UserService {
         user.setPassword(String.format("%d",password.hashCode()));
         user.setUserName(userName);
         user.setPhoneNumber(phoneNumber);
-//        SqlSession sqlSession=DaoManager
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
         user.setId(mapper.getMaxCustomerId()+1);//[add mapper] select the max id of customers , return integer only

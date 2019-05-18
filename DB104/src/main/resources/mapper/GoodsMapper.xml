@@ -26,34 +26,34 @@
     from goods
     where goods_id IS NOT null
     <if test="name != null">
-      and name = #{name,jdbcType=VARCHAR},
+      and name = #{name,jdbcType=VARCHAR}
     </if>
     <if test="brand != null">
-      and brand = #{brand,jdbcType=VARCHAR},
+      and brand = #{brand,jdbcType=VARCHAR}
     </if>
     <if test="originPlace != null">
-      and origin_place = #{originPlace,jdbcType=VARCHAR},
+      and origin_place = #{originPlace,jdbcType=VARCHAR}
     </if>
     <if test="preserveTime != null">
-      and preserve_time = #{preserveTime,jdbcType=INTEGER},
+      and preserve_time = #{preserveTime,jdbcType=INTEGER}
     </if>
     <if test="volume != null">
-      and volume = #{volume,jdbcType=INTEGER},
+      and volume = #{volume,jdbcType=INTEGER}
     </if>
     <if test="refrigiratedCondition != null">
-      and refrigirated_condition = #{refrigiratedCondition,jdbcType=CHAR},
+      and refrigirated_condition = #{refrigiratedCondition,jdbcType=CHAR}
     </if>
     <if test="price != null">
-      and price = #{price,jdbcType=DECIMAL},
+      and price = #{price,jdbcType=DECIMAL}
     </if>
     <if test="discount != null">
-      and discount = #{discount,jdbcType=DECIMAL},
+      and discount = #{discount,jdbcType=DECIMAL}
     </if>
     <if test="catagory != null">
-      and catagory = #{catagory,jdbcType=VARCHAR},
+      and catagory = #{catagory,jdbcType=VARCHAR}
     </if>
     <if test="type != null">
-      and type = #{type,jdbcType=VARCHAR},
+      and type = #{type,jdbcType=VARCHAR}
     </if>
   </select>
 

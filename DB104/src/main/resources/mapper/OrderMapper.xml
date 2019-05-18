@@ -29,7 +29,7 @@
     <result column="is_paid" jdbcType="CHAR" property="isPaid" />
     <result column="order_order_id" jdbcType="INTEGER" property="orderOrderId" />
 
-    <association property="Goods" column="goods_goods_id"/>
+    <association property="Goods" column="warehouse_warehouse_id"/>
   </resultMap>
 
 
@@ -43,7 +43,7 @@
     select o.*, s.*, g.*
     from `order` o
       join sales s on o.order_id = s.order_order_id
-      join goods g on s.goods_goods_id = g.goods_id
+      join goods_in_warehouse giw on s.goods_in_warehouse_idgoods_in_warehouse = giw.idgoods_in_warehouse
     where o.order_id is not null
     <if test="orderId != null">
       and o.order_id = #{orderId,jdbcType=INTEGER}
