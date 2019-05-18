@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.sustcDB2019.dao.CustomerMapper;
 import org.sustcDB2019.dao.GoodsInWarehouseMapper;
 import org.sustcDB2019.dao.GoodsMapper;
+import org.sustcDB2019.dao.OrderMapper;
 import org.sustcDB2019.entity.*;
 
 import java.math.BigDecimal;
@@ -84,6 +85,13 @@ public class CustomerService extends UserService{
         CustomerMapper mapper=sqlSession.getMapper(CustomerMapper.class);
         mapper.updateByPrimaryKeySelective(customer);
         return 0;
+    }
+
+    public ArrayList<Order> getOrder(){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        OrderMapper mapper=sqlSession.getMapper(OrderMapper.class);
+        ArrayList<Order> list=mapper.selectByCase();//[add mapper]
+        return list;
     }
 
 

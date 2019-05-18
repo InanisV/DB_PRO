@@ -30,4 +30,6 @@ public class DelivererService extends UserService {
         mapper.updateByPrimaryKeySelective(deliverer);
         return 0;
     }
+
+
 }
