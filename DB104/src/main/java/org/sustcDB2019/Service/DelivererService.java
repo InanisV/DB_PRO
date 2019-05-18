@@ -23,4 +23,11 @@ public class DelivererService extends UserService {
         session.close();
         return list;
     }
+
+    public int updateDeliverer(Deliverer deliverer){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        DelivererMapper mapper=sqlSession.getMapper(DelivererMapper.class);
+        mapper.updateByPrimaryKeySelective(deliverer);
+        return 0;
+    }
 }
