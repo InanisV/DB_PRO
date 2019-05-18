@@ -69,10 +69,15 @@ public class CustomerService extends UserService{
         sales.setPayment(goods.getPrice().multiply(goods.getDiscount()).multiply(amountDecimal));
         GoodsInWarehouseMapper goodsInWarehouseMapper = sqlSession.getMapper(GoodsInWarehouseMapper.class);
         ArrayList<GoodsInWarehouse> list=goodsInWarehouseMapper.selectByCase(goodsId,customer.getWarehouseId());
+        int rest=0;
+        for (GoodsInWarehouse goodsInWarehouse:list) {
+            rest+=goodsInWarehouse.getAmount();
+        }
+        if (rest<amount)return 1;
         for (int i = 0; i < list.size(); i++) {
             Sales tmpSales=new Sales();
             if (list.get(i).getAmount()>=amount){
-                tmpSales 
+                tmpSales
             }
         }
         return 0;
