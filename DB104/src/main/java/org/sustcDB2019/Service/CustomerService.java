@@ -41,10 +41,17 @@ public class CustomerService extends UserService{
 //
 //    }
 
-    public ArrayList<Goods> goodsArrayListWithFilter(int index) {
+    public ArrayList<Goods> goodsArrayListWithFilter(Goods filterGoods,int warehouseId,String lowerPerice,String upperPirce ,boolean discount,String orderByPriceIncrease ,boolean orderByDiscount ,int index) {//
         SqlSession sqlSession= DAOService.sqlSessionFactory.openSession();
         GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
-        ArrayList<Goods> list=goodsInWarehouseMapper.selectWithPages(customer.getWarehouseId(),10,index);
+        ArrayList<Goods> list=goodsInWarehouseMapper.selectConditionallyWithPages(
+                customer.getWarehouseId()>0?String.format("%d",customer.getWarehouseId()):null,filterGoods.getType(),
+                filterGoods.getCatagory(),
+                filterGoods.getName(),
+                filterGoods.getBrand(),
+                filterGoods.getOriginPlace(),
+                filterGoods.getRefrigiratedCondition(),
+                lowerPerice,upperPirce, discount,orderByPriceIncrease,orderByDiscount,10,index);
         sqlSession.close();
         return list;
     }
