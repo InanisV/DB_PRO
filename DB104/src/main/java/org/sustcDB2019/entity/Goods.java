@@ -25,6 +25,7 @@ public class Goods {
 
     private String type;
 
+
     public Integer getGoodsId() {
         return goodsId;
     }
