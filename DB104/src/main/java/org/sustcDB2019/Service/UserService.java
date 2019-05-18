@@ -8,9 +8,11 @@ import org.sustcDB2019.entity.Customer;
 import org.sustcDB2019.entity.User;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class UserService {
     User user;
+    Date currentDate;
 
 
     /*
