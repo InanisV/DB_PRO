@@ -77,60 +77,21 @@
 <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false">-->
 <!--        </table>-->
-        <table tableName="sales"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+<!--        <table tableName="sales"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--        </table>-->
 <!--        <table tableName="order"-->
 <!--               enableCountByExample="false" enableUpdateByExample="false"-->
 <!--               enableDeleteByExample="false" enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false">-->
 <!--        </table>-->
-        </context>
-
-    <!--    <context id="test" targetRuntime="MyBatis3">-->
-<!--        <commentGenerator>-->
-<!--            <property name="suppressDate" value="true" />-->
-<!--            <property name="suppressAllComments" value="true" />-->
-<!--        </commentGenerator>-->
-<!--        &lt;!&ndash;DB url id pass&ndash;&gt;-->
-<!--        <jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
-<!--                        connectionURL="jdbc:mysql://120.79.177.46:3306/mydb?useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC"  userId="root"-->
-<!--                        password="123456">-->
-<!--        </jdbcConnection>-->
-<!--        <javaTypeResolver>-->
-<!--            <property name="forceBigDecimals" value="false" />-->
-<!--        </javaTypeResolver>-->
-<!--        &lt;!&ndash;Model Class &ndash;&gt;-->
-<!--        <javaModelGenerator targetPackage="org.sustcDB2019.entity"-->
-<!--                            targetProject="src/main/java">-->
-<!--            <property name="enableSubPackages" value="true" />-->
-<!--            <property name="trimStrings" value="true" />-->
-<!--        </javaModelGenerator>-->
-<!--        &lt;!&ndash;Dao/Mapper .XML file &ndash;&gt;-->
-<!--        <sqlMapGenerator targetPackage="resources.mapper"-->
-<!--                         targetProject="src/main">-->
-<!--            <property name="enableSubPackages" value="true" />-->
-<!--        </sqlMapGenerator>-->
-<!--        &lt;!&ndash;Dao/Mapper interface &ndash;&gt;-->
-<!--        <javaClientGenerator type="XMLMAPPER"-->
-<!--                             targetPackage="org.sustcDB2019.dao" targetProject="src/main/java">-->
-<!--            <property name="enableSubPackages" value="true" />-->
-<!--        </javaClientGenerator>-->
-<!--        &lt;!&ndash;tableName: table_name in DB, domainObjectName: name prefix of ganerated files(model, mapper.xml and mapper interface) &ndash;&gt;-->
-<!--&lt;!&ndash;        <table tableName="students" domainObjectName="Students"&ndash;&gt;-->
-<!--&lt;!&ndash;               enableCountByExample="false" enableUpdateByExample="false"&ndash;&gt;-->
-<!--&lt;!&ndash;               enableDeleteByExample="false" enableSelectByExample="false"&ndash;&gt;-->
-<!--&lt;!&ndash;               selectByExampleQueryId="false"></table>&ndash;&gt;-->
-<!--        <table tableName="movies" domainObjectName="Movie"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName="countries" domainObjectName="Country"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"></table>-->
-<!--        <table tableName=""-->
-<!--    </context>-->
+        <table tableName="cashier"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+    </context>
+    
 </generatorConfiguration>
