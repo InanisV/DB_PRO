@@ -10,6 +10,7 @@ import java.io.InputStream;
 public class DAOService {
     public static SqlSessionFactory sqlSessionFactory;
 
+
     public DAOService(){
         try {
             String resource = "mybatis-config.xml";

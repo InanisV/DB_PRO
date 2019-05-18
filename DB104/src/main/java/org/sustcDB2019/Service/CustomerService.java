@@ -1,9 +1,11 @@
 package org.sustcDB2019.service;
 
-import org.sustcDB2019.entity.Customer;
-import org.sustcDB2019.entity.Goods;
-import org.sustcDB2019.entity.Warehouse;
+import org.apache.ibatis.session.SqlSession;
+import org.sustcDB2019.dao.GoodsInWarehouseMapper;
+import org.sustcDB2019.dao.GoodsMapper;
+import org.sustcDB2019.entity.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import static java.lang.Math.*;
@@ -31,8 +33,53 @@ public class CustomerService extends UserService{
         }
         customer.setWarehouseId(minWarehouseId);
     }
+<<<<<<< HEAD
 //
 //    public ArrayList<Goods> goodsArrayList() {
 //
 //    }
+=======
+
+    public ArrayList<Goods> goodsArrayList(int index) {
+        SqlSession sqlSession= DAOService.sqlSessionFactory.openSession();
+        GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
+        ArrayList<Goods> list=goodsInWarehouseMapper.selectWithPages(customer.getWarehouseId(),10,index);
+        sqlSession.close();
+        return list;
+    }
+
+    public int addToCart(int goodsId,int amount){
+        Sales sales=new Sales();
+        sales.setAmount(amount);
+        sales.setGoodsGoodsId(goodsId);
+        sales.setWarehouseWarehouseId(customer.getWarehouseId());
+        sales.setIsPaid("N");
+        sales.setCustomerUserId(customer.getId());
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        GoodsMapper goodsMapper = sqlSession.getMapper(GoodsMapper.class);
+        Goods goods=goodsMapper.selectByPrimaryKey(goodsId);
+        BigDecimal amountDecimal=new BigDecimal(amount);
+        sales.setPayment(goods.getPrice().multiply(goods.getDiscount()).multiply(amountDecimal));
+        GoodsInWarehouseMapper goodsInWarehouseMapper = sqlSession.getMapper(GoodsInWarehouseMapper.class);
+        ArrayList<GoodsInWarehouse> list=goodsInWarehouseMapper.selectConditionally(
+                String.format("%d",customer.getWarehouseId()),String.format("%d",goods.getGoodsId()),
+                null,null,null,null,null,null,null,null,null,
+                false,null,null,true);
+                );/*[add mapper] with no pages
+                ArrayList<Goods> selectConditionallyWithPages(
+                String warehouseId,String goodsId, String type, String catagory,
+                String name, String brand, String orginPlace,
+                String refrigiratedCondition, String lowerPrice, String upperPrice,
+                boolean discount, String orderByPriceIncrease, boolean orderByDiscount,boolean orderByExpiredDay);*/
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getAmount()>=amount){
+                
+            }
+        }
+        return 0;
+    }
+
+    public int payAll()
+
+>>>>>>> 786d8cb920d873599da131e2d50b427321e2a4a4
 }
