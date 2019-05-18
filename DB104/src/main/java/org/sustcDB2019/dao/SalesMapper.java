@@ -5,7 +5,7 @@ import org.sustcDB2019.entity.Sales;
 import java.util.ArrayList;
 
 public interface SalesMapper {
-
+    //need to be tested
     ArrayList<Sales> selectByCase(Sales sales);
 
 
