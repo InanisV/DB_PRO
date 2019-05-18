@@ -28,7 +28,7 @@ public class AdminController {
                     System.out.println("Username: " + customerService.customer.getUserName());
                     System.out.println("Phone number: " + customerService.customer.getPhoneNumber());
                     System.out.println("Address: " + customerService.customer.getAddress());
-                    modify(customerService);
+                    modify(customerService.customer);
                     break;
                 case 2:
                     int page  = 1;
@@ -238,7 +238,9 @@ public class AdminController {
         }
     }
 
-    public static void modify(CustomerService customerService){
+    public static void modify(Customer customer){
+        CustomerService customerService = new CustomerService();
+        customerService.customer = customer;
         boolean flag = true;
         do{
             System.out.println("Please choose the option:\n" +

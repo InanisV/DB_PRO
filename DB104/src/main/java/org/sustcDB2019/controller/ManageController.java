@@ -35,7 +35,7 @@ public class ManageController {
                     System.out.println("Warehouse id: " + managerService.manager.getWarehouseWarehouseId());
                     modify(managerService.manager);
                 case 2:
-                    addAccount();
+                    addAccount(managerService);
                     break;
                 case 3:
                     modifyAccount(managerService);
@@ -162,7 +162,7 @@ public class ManageController {
         } while(flag);
     }
 
-    public static void addAccount(){
+    public static void addAccount(ManagerService managerService){
         System.out.println("Please choose the identity you want to add:\n1. Manager\n2. Deliverer");
         int identity = in.nextInt();
         System.out.print("Please input the username: ");
@@ -173,7 +173,9 @@ public class ManageController {
         String phone = in.next();
         System.out.print("Please input the warehouse Id: ");
         int id = in.nextInt();
-        // 传入参数
+        if(identity==1){
+
+        }
         System.out.println("Add new account successfully.");
     }
 
@@ -244,14 +246,16 @@ public class ManageController {
         User user = managerService.getUserByName(in.next());
         int identity = user.getId()/1000000;
         if(identity==2){
-            Manager manager = (Manager) user;
+            Manager manager = managerService.getManagerById(user.getId());
             modify(manager);
         } else if(identity==6){
-            Deliverer deliverer = (Deliverer) user;
+            Deliverer deliverer = managerService.getDelivererById(user.getId());
             DelivererController.modify(deliverer);
         } else if(identity==30){
-            Customer customer = (Customer) user;
+            Customer customer = managerService.getCustomerById(user.getId());
             AdminController.modify(customer);
+        } else {
+            System.out.println("Your input username is wrong.");
         }
     }
 
