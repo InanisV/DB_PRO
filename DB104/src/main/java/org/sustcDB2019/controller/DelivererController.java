@@ -22,7 +22,7 @@ public class DelivererController {
             switch (option){
                 case 1:
                     System.out.println("Information");// show deliverer's personal information
-                    MainController.modify(deliverer);
+//                    MainController.modify(deliverer);
                 case 2:
                     // show orders information
                     boolean flag2 = true;
@@ -60,6 +60,5 @@ public class DelivererController {
             }
         } while(flag);
     }
-
 
 }
