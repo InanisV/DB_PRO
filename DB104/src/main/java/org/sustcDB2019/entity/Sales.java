@@ -17,6 +17,16 @@ public class Sales {
 
     private Integer goodsInWarehouseId;
 
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
+
+    private Goods goods;
+
     public Integer getGoodsInWarehouseId() {
         return goodsInWarehouseId;
     }
