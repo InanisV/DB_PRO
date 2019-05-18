@@ -41,7 +41,7 @@ public class CustomerService extends UserService{
 //
 //    }
 
-    public ArrayList<Goods> goodsArrayListWithFilter(Goods filterGoods,int warehouseId,String lowerPerice,String upperPirce ,boolean discount,String orderByPriceIncrease ,boolean orderByDiscount ,int index) {//
+    public ArrayList<Goods> goodsArrayListWithFilter(Goods filterGoods,String lowerPerice,String upperPirce ,boolean discount,String orderByPriceIncrease ,boolean orderByDiscount ,int index) {//
         SqlSession sqlSession= DAOService.sqlSessionFactory.openSession();
         GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
         ArrayList<Goods> list=goodsInWarehouseMapper.selectConditionallyWithPages(

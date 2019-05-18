@@ -174,6 +174,8 @@ public class ManageController {
         System.out.print("Please input the warehouse Id: ");
         int id = in.nextInt();
         if(identity==1){
+            managerService.addNewManager(name, password, phone, id);
+        } else if(identity==2){
 
         }
         System.out.println("Add new account successfully.");

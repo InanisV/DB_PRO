@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.logging.SocketHandler;
 
 public class AdminController {
     public static Scanner in = new Scanner(System.in);
@@ -34,7 +35,13 @@ public class AdminController {
                     int page  = 1;
                     ArrayList<Goods> goods = new ArrayList<Goods>();
                     Goods g = new Goods();
+                    String lowerPrice = null;
+                    String upperPrice = null;
+                    boolean discount = false;
+                    String orderByPrice = null;
+                    boolean orderByDiscount = false;
                     boolean flag2 = true;
+                    goods = customerService.goodsArrayListWithFilter(g, lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
                     do {
                         System.out.println("Please choose the option:\n" +
                                 "1. Next page\n" +
@@ -48,24 +55,26 @@ public class AdminController {
                         switch (option2){
                             case 1:
                                 page += 1;
-//                                goods = customerService.goodsArrayList(page);
+                                goods = customerService.goodsArrayListWithFilter(g, lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
                                 showGoods(goods);
                                 break;
                             case 2:
                                 System.out.print("Please input the page number: ");
                                 page = in.nextInt();
-//                                goods = customerService.goodsArrayList(page);
+                                goods = customerService.goodsArrayListWithFilter(g, lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
                                 showGoods(goods);
                             case 3:
                                 System.out.println("Please choose the option:\n" +
                                         "1. By name\n" +
                                         "2. By category\n" +
                                         "3. By type\n" +
-                                        "4. By price" +
-                                        "5. By brand\n " +
-                                        "6. By origin place\n" +
-                                        "7. By discounted\n" +
-                                        "8. By refrigeration condition");
+                                        "4. By price\n" +
+                                        "5. Ordered by price\n" +
+                                        "6. By brand\n " +
+                                        "7. By origin place\n" +
+                                        "8. By discounted\n" +
+                                        "9. Ordered by discount\n" +
+                                        "10. By refrigeration condition");
                                 int option4 = in.nextInt();
                                 switch (option4){
                                     case 1:
@@ -81,21 +90,37 @@ public class AdminController {
                                         g.setType(in.next());
                                         break;
                                     case 4:
-                                        System.out.print("Please input the price: ");
-                                        g.setName(in.next());
+                                        System.out.print("Please input the lower price: ");
+                                        lowerPrice = in.next();
+                                        System.out.print("Please input the upper price: ");
+                                        upperPrice = in.next();
                                         break;
                                     case 5:
+                                        System.out.print("Please choose the option:\n1. Ordered increasingly\n2. Ordered decreasingly");
+                                        int order = in.nextInt();
+                                        if(order==1){
+                                            orderByPrice = "";
+                                        } else if(order==2){
+                                            orderByPrice = "";
+                                        } else {
+                                            System.out.println("Wrong input.");
+                                        }
+                                        break;
+                                    case 6:
                                         System.out.print("Please input the brand: ");
                                         g.setBrand(in.next());
                                         break;
-                                    case 6:
+                                    case 7:
                                         System.out.print("Please input the origin place: ");
                                         g.setOriginPlace(in.next());
                                         break;
-                                    case 7:
-//                                        g.setDiscount();
-                                        break;
                                     case 8:
+                                        discount = true;
+                                        break;
+                                    case 9:
+                                        orderByDiscount = true;
+                                        break;
+                                    case 10:
                                         System.out.print("Please choose the option:\n1. Refrigeration\n2. Not refrigeration");
                                         int re = in.nextInt();
                                         if(re==1){
@@ -107,13 +132,14 @@ public class AdminController {
                                         }
                                         break;
                                 }
+                                goods = customerService.goodsArrayListWithFilter(g, lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
                                 break;
                             case 4:
                                 System.out.println("Please choose the option:\n" +
                                         "1. Delete name\n" +
                                         "2. Delete category\n" +
                                         "3. Delete type\n" +
-                                        "4. Delete price" +
+                                        "4. Delete price\n" +
                                         "5. Delete brand\n " +
                                         "6. Delete origin place\n" +
                                         "7. Delete discounted\n" +
@@ -130,7 +156,8 @@ public class AdminController {
                                         g.setType(null);
                                         break;
                                     case 4:
-//                                        g.setName(in.next());
+                                        upperPrice = null;
+                                        lowerPrice = null;
                                         break;
                                     case 5:
                                         g.setBrand(null);
@@ -139,12 +166,13 @@ public class AdminController {
                                         g.setOriginPlace(null);
                                         break;
                                     case 7:
-//                                        g.setDiscount();
+                                        discount = false;
                                         break;
                                     case 8:
                                         g.setRefrigiratedCondition(null);
                                         break;
                                 }
+                                goods = customerService.goodsArrayListWithFilter(g, lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
                                 break;
                             case 5:
                                 System.out.print("Please input the goods id: ");
