@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static java.lang.Math.*;
 
 public class CustomerService extends UserService{
-    public Customer customer=(Customer) super.currentUser;
+    public Customer customer=(Customer) super.user;
     public int updateCustomer(){
         return 0;
     }
@@ -33,12 +33,6 @@ public class CustomerService extends UserService{
         }
         customer.setWarehouseId(minWarehouseId);
     }
-<<<<<<< HEAD
-//
-//    public ArrayList<Goods> goodsArrayList() {
-//
-//    }
-=======
 
     public ArrayList<Goods> goodsArrayList(int index) {
         SqlSession sqlSession= DAOService.sqlSessionFactory.openSession();
@@ -79,7 +73,6 @@ public class CustomerService extends UserService{
         return 0;
     }
 
-    public int payAll()
 
->>>>>>> 786d8cb920d873599da131e2d50b427321e2a4a4
+
 }
