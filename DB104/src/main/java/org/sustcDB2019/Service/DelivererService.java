@@ -19,7 +19,9 @@ public class DelivererService extends UserService {
     public ArrayList<Order> getCurrentOrder(){
         SqlSession session=DAOService.sqlSessionFactory.openSession();
         OrderMapper mapper=session.getMapper(OrderMapper.class);
-        ArrayList<Order> list=mapper.selectByCase();//[add mapper]
+        Order tmpOrder=new Order();
+        tmpOrder.setDeliveryUserId(deliverer.getUserId());
+        ArrayList<Order> list=mapper.selectByCase(tmpOrder);//[add mapper]
         session.close();
         return list;
     }

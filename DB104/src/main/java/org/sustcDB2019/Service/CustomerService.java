@@ -65,7 +65,7 @@ public class CustomerService extends UserService{
                 String.format("%d",customer.getWarehouseId()),String.format("%d",goods.getGoodsId()),
                 null,null,null,null,null,null,null,null,null,
                 false,null,null,true);
-                );/*[add mapper] with no pages
+                /*[add mapper] with no pages
                 ArrayList<Goods> selectConditionallyWithPages(
                 String warehouseId,String goodsId, String type, String catagory,
                 String name, String brand, String orginPlace,
@@ -89,7 +89,9 @@ public class CustomerService extends UserService{
     public ArrayList<Order> getOrder(){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         OrderMapper mapper=sqlSession.getMapper(OrderMapper.class);
-        ArrayList<Order> list=mapper.selectByCase();//[add mapper]
+        Order tmpOrder = new Order();
+        tmpOrder.setCustomerUserId(customer.getId());
+        ArrayList<Order> list=mapper.selectByCase(tmpOrder);//[add mapper]
         return list;
     }
 
