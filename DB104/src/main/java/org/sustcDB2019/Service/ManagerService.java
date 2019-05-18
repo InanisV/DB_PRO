@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class ManagerService extends UserService{
-    Manager Manager=(Manager) super.user;
+    Manager manager=(Manager) super.user;
 
 
     public int addNewManager(String userName,String password,String phoneNumber,int warehouseId){
@@ -47,7 +47,7 @@ public class ManagerService extends UserService{
         purchase.setGoodsGoodsId(goodsId);
         purchase.setAmount(amount);
         purchase.setProductionDate(productionDate);
-        purchase.setWarehouseWarehouseId(Manager.getWarehouseWarehouseId());
+        purchase.setWarehouseWarehouseId(manager.getWarehouseWarehouseId());
         purchase.setDate(currentDate);
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         GoodsMapper mapper = sqlSession.getMapper(GoodsMapper.class);
@@ -96,6 +96,17 @@ public class ManagerService extends UserService{
         Cashier tmpCashier =mapper.selectByPrimaryKey(id);
         sqlSession.close();
         return tmpCashier;
+    }
+
+    public int[] getRestVolumn(){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        WarehouseMapper mapper=sqlSession.getMapper(WarehouseMapper.class);
+
+        int [] volumns=null;
+        //volumns=mapper.getRestVolumn(manager.getWarehouseWarehouseId());
+        //[add mapper]
+        sqlSession.close();
+        return volumns;
     }
 
 
