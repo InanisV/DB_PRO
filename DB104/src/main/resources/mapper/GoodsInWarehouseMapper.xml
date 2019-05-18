@@ -77,6 +77,50 @@
     limit #{itemsPerPage} offset #{pageIndex}
   </select>
 
+  <select id="selectConditionally" resultMap="Goods">
+    with touchable as ( select g2.*
+    from goods_in_warehouse giw join goods g2 on giw.goods_goods_id = g2.goods_id
+    where giw.warehouse_warehouse_id= #{warehouseId} )
+    select *
+    from touchable t
+    where t.goods_id IS NOT null
+    <if test="type!=null">
+      AND t.type like #{type}
+    </if>
+    <if test="catagory!=null">
+      AND t.catagory like #{catagory}
+    </if>
+    <if test="name!=null">
+      AND t.name like #{name}
+    </if>
+    <if test="refrigiratedCondition!=null">
+      AND t.refrigirated_condition = #{refrigiratedCondition}
+    </if>
+    <if test="lowerPrice!=null">
+      AND t.price &gt; #{lowerPrice}
+    </if>
+    <if test="upperPrice!=null">
+      AND t.price &lt; #{upperPrice}
+    </if>
+    <if test="discount=false">
+      AND discount = 1
+    </if>
+    <if test="orderByPriceIncrease!=null">
+      <if test="orderByPriceIncrease=false">
+        order by price desc
+      </if>
+      <if test="orderByPriceIncrease=true">
+        order by price
+      </if>
+    </if>
+    <if test="orderByDiscount=true">
+      order by discount
+    </if>
+    <if test="orderByExpiredDay=true">
+      order by expired_day
+    </if>
+  </select>
+
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

@@ -15,6 +15,11 @@ public interface GoodsInWarehouseMapper {
             String refrigiratedCondition, String lowerPrice, String upperPrice,
             boolean discount, String orderByPriceIncrease, boolean orderByDiscount,
             int itemsPerPage, int pageIndex);
+    ArrayList<Goods> selectConditionally(
+            String warehouseId,String goodsId, String type, String catagory,
+            String name, String brand, String orginPlace,
+            String refrigiratedCondition, String lowerPrice, String upperPrice,
+            boolean discount, String orderByPriceIncrease, boolean orderByDiscount,boolean orderByExpiredDay);
 
 
     int deleteByPrimaryKey(Integer idgoodsInWarehouse);
