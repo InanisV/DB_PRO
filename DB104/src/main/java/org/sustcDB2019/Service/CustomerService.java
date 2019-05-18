@@ -1,7 +1,10 @@
-package org.sustcDB2019.Service;
+package org.sustcDB2019.service;
 
+import org.apache.ibatis.session.SqlSession;
+import org.sustcDB2019.dao.GoodsInWarehouseMapper;
 import org.sustcDB2019.entity.Customer;
 import org.sustcDB2019.entity.Goods;
+import org.sustcDB2019.entity.GoodsInWarehouse;
 import org.sustcDB2019.entity.Warehouse;
 
 import java.util.ArrayList;
@@ -32,7 +35,15 @@ public class CustomerService extends UserService{
         customer.setWarehouseId(minWarehouseId);
     }
 
-    public ArrayList<Goods> goodsArrayList() {
-
+    public ArrayList<Goods> goodsArrayList(int index) {
+        SqlSession sqlSession= DAOService.sqlSessionFactory.openSession();
+        GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
+        ArrayList<Goods> list=goodsInWarehouseMapper.selectWithPages(customer.getWarehouseId(),10,index);
+        sqlSession.close();
+        return list;
     }
+
+
+
+
 }

@@ -1,4 +1,4 @@
-package org.sustcDB2019.Service;
+package org.sustcDB2019.service;
 
 import org.apache.ibatis.session.SqlSession;
 import org.sustcDB2019.dao.DaoManager;
@@ -18,15 +18,16 @@ public class UserService {
         if (userName.equals("")||password.equals("")||phoneNumber.equals("")||address.equals(""))// one or more of the inputs are empty (or null)
             return -1;
         currentUser=new User(/*userName,password,phoneNumber*/);
-        SqlSession sqlSession=DaoManager
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+
 
         return 0;
     }
 
     public int userNameExist(String userName) {
-        SqlSession sqlSession= DaoManager.sqlSessionFactory.openSession();
+        SqlSession sqlSession= DAOService.sqlSessionFactory.openSession();
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
-        if (mapper.findUser(userName)==null){//[add mapper] in: userName out: if(userName exist)User obj if(not exist) null
+        if (mapper.selectByName(userName)==null){//[add mapper] in: userName out: if(userName exist)User obj if(not exist) null
             return 0;
         }
         sqlSession.close();
