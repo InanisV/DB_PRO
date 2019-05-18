@@ -52,8 +52,7 @@ public class CustomerService extends UserService{
     public int addToCart(int goodsId,int amount){
         Sales sales=new Sales();
         sales.setAmount(amount);
-        sales.setGoodsGoodsId(goodsId);
-        sales.setWarehouseWarehouseId(customer.getWarehouseId());
+        sales.setGoodsInWarehouseId(goodsId);
         sales.setIsPaid("N");
         sales.setCustomerUserId(customer.getId());
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
