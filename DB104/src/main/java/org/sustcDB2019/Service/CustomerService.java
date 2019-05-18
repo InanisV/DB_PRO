@@ -33,12 +33,10 @@ public class CustomerService extends UserService{
         }
         customer.setWarehouseId(minWarehouseId);
     }
-<<<<<<< HEAD
 //
 //    public ArrayList<Goods> goodsArrayList() {
 //
 //    }
-=======
 
     public ArrayList<Goods> goodsArrayList(int index) {
         SqlSession sqlSession= DAOService.sqlSessionFactory.openSession();
@@ -81,5 +79,4 @@ public class CustomerService extends UserService{
 
     public int payAll()
 
->>>>>>> 786d8cb920d873599da131e2d50b427321e2a4a4
 }

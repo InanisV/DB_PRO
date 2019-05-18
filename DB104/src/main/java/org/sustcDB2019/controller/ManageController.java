@@ -1,10 +1,7 @@
 package org.sustcDB2019.controller;
 
-import org.sustcDB2019.entity.Deliverer;
-import org.sustcDB2019.entity.Goods;
-import org.sustcDB2019.entity.Manager;
-import org.sustcDB2019.entity.User;
-import org.sustcDB2019.service.ManagerService;
+import org.sustcDB2019.entity.*;
+import org.sustcDB2019.service.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,7 +41,7 @@ public class ManageController {
                                 "2. Check goods sales\n" +
                                 "3. Check goods profit\n" +
                                 "4. Replenish goods\n" +
-                                "5. Add discount\n" +
+                                "5. Check discount\n" +
                                 "6. Check coming expired goods\n" +
                                 "7. Return");
                         int option2 = in.nextInt();
@@ -130,6 +127,7 @@ public class ManageController {
                                 break;
                             case 7:
                                 flag2 = false;
+                                break;
                             default:
                                 System.out.println("Wrong input. Please input again.");
                         }

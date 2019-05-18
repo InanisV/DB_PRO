@@ -17,11 +17,8 @@ public class ManagerService extends UserService{
         newManager.setPhoneNumber(phoneNumber);
         newManager.setWarehouseWarehouseId(warehouseId);
         //add newManager to database
-<<<<<<< HEAD
         String str;
 //        str.hashCode();
-=======
->>>>>>> 786d8cb920d873599da131e2d50b427321e2a4a4
         //check if the new manager is in the db here(optional)
         return 0;
     }

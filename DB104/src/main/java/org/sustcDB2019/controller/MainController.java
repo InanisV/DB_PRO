@@ -56,18 +56,6 @@ public class MainController {
                             break;
                     }
                 } while(back==-1);
-//                System.out.println("Log in successfully!");
-//                switch (back){
-//                    case 30:
-//                        AdminController.CustomerView(); // 传入service
-//                        break;
-//                    case 2:
-//                        ManageController.ManagerView(user);
-//                        break;
-//                    case 6:
-//                        DelivererController.DelivererView(user);
-//                        break;
-//                }
             } else if(option==2){
                 Customer customer = new Customer();
                 int repite = 0;
@@ -95,55 +83,5 @@ public class MainController {
         } while (flag1);
         System.out.println("Thank you for your visit. Welcome to come again.");
     }
-
-//    public static void modify(User user){
-//        boolean flag = true;
-//        do{
-//            System.out.println("Please choose the option:\n" +
-//                    "1. Modify personal information\n" +
-//                    "2. Return");
-//            if(in.nextInt()==1){
-//                boolean flag3 = true;
-//                do {
-//                    System.out.println("Please choose the information you want to change:\n" +
-//                            "1. Username\n" +
-//                            "2. Password\n" +
-//                            "3. Phone number\n" +
-//                            "4. Return");
-//                    int option2 = in.nextInt();
-//                    switch (option2){
-//                        case 1:
-//                            System.out.print("Please input your new username: ");
-//                            user.setUserName(in.next());
-//                            break;
-//                        case 2:
-//                            System.out.print("Please input your old password: ");
-//                            if(in.next().equals(user.getPassword())){
-//                                System.out.print("Please input your new password: ");
-//                                user.setPassword(in.next());
-//                            } else {
-//                                System.out.println("Your input password is wrong.");
-//                            }
-//                            break;
-//                        case 3:
-//                            System.out.print("Please input your new phone number: ");
-//                            user.setPhoneNumber(in.next());
-//                            break;
-//                        case 4:
-//                            // Update personal information to database
-//                            // UpdateManager
-//                            // 返回 0 正常  其他则update失败
-//                            System.out.println("Modify successfully.");
-//                            flag3 = false;
-//                        default:
-//                            System.out.println("Your input is wrong, please input again.");
-//                    }
-//                } while (flag3);
-//            } else {
-//                flag = false;
-//            }
-//        } while (flag);
-//    }
-
 
 }

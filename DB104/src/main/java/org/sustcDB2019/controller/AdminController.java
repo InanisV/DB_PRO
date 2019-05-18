@@ -31,8 +31,6 @@ public class AdminController {
                     modify(customerService.customer);
                     break;
                 case 2:
-                    // Display goods information
-                    // 输入页码 返回goods的arraylist
                     int page  = 1;
                     ArrayList<Goods> goods = new ArrayList<Goods>();
                     boolean flag2 = true;
@@ -139,9 +137,11 @@ public class AdminController {
     }
 
     public static void showGoods(ArrayList<Goods> goods){
-
+        System.out.println(String.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s", "Goods id", "Goods Name",
+                "Price", "Discount", "Brand", "Origin Place", "Preserve Time", "Volume", "Frozen", "Category", "Type"));
         for (Goods x : goods) {
-            System.out.printf("");
+            System.out.println(String.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s", x.getGoodsId(), x.getName(), x.getPrice(), x.getDiscount(),
+                    x.getBrand(), x.getOriginPlace(), x.getPreserveTime(), x.getVolume(), x.getRefrigiratedCondition(), x.getCatagory(), x.getType()));
         }
     }
 

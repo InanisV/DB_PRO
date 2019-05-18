@@ -18,12 +18,8 @@ public class UserService {
         if (userName.equals("")||password.equals("")||phoneNumber.equals("")||address.equals(""))// one or more of the inputs are empty (or null)
             return -1;
         currentUser=new User(/*userName,password,phoneNumber*/);
-<<<<<<< HEAD
 //        SqlSession sqlSession=DaoManager
-=======
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
-
->>>>>>> 786d8cb920d873599da131e2d50b427321e2a4a4
 
         return 0;
     }
@@ -31,15 +27,12 @@ public class UserService {
     public int userNameExist(String userName) {
         SqlSession sqlSession= DAOService.sqlSessionFactory.openSession();
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
-<<<<<<< HEAD
 //        if (mapper.findUser(userName)==null){//[add mapper] in: userName out: if(userName exist)User obj if(not exist) null
 //            return 0;
 //        }
-=======
         if (mapper.selectByName(userName)==null){//[add mapper] in: userName out: if(userName exist)User obj if(not exist) null
             return 0;
         }
->>>>>>> 786d8cb920d873599da131e2d50b427321e2a4a4
         sqlSession.close();
         return 1;
     }
