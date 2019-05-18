@@ -1,10 +1,7 @@
 package org.sustcDB2019.service;
 
 import org.apache.ibatis.session.SqlSession;
-import org.sustcDB2019.dao.CustomerMapper;
-import org.sustcDB2019.dao.GoodsInWarehouseMapper;
-import org.sustcDB2019.dao.GoodsMapper;
-import org.sustcDB2019.dao.OrderMapper;
+import org.sustcDB2019.dao.*;
 import org.sustcDB2019.entity.*;
 
 import java.math.BigDecimal;
@@ -57,27 +54,46 @@ public class CustomerService extends UserService{
     }
 
     public int addToCart(int goodsId,int amount){
-        Sales sales=new Sales();
-        sales.setAmount(amount);
-        sales.setGoodsInWarehouseId(goodsId);
-        sales.setIsPaid("N");
-        sales.setCustomerUserId(customer.getId());
+//        Sales sales=new Sales();
+//        sales.setAmount(amount);
+//        sales.setGoodsInWarehouseId(goodsId);
+//        sales.setIsPaid("N");
+//        sales.setCustomerUserId(customer.getId());
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         GoodsMapper goodsMapper = sqlSession.getMapper(GoodsMapper.class);
         Goods goods=goodsMapper.selectByPrimaryKey(goodsId);
-        BigDecimal amountDecimal=new BigDecimal(amount);
-        sales.setPayment(goods.getPrice().multiply(goods.getDiscount()).multiply(amountDecimal));
+//        BigDecimal amountDecimal=new BigDecimal(amount);
         GoodsInWarehouseMapper goodsInWarehouseMapper = sqlSession.getMapper(GoodsInWarehouseMapper.class);
         ArrayList<GoodsInWarehouse> list=goodsInWarehouseMapper.selectByCase(goodsId,customer.getWarehouseId());
         int rest=0;
         for (GoodsInWarehouse goodsInWarehouse:list) {
             rest+=goodsInWarehouse.getAmount();
         }
-        if (rest<amount)return 1;
+        if (rest<amount)return 1;// fail to add to cart since amount excceed
+        int tmpAmount=amount;
+        SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
         for (int i = 0; i < list.size(); i++) {
             Sales tmpSales=new Sales();
-            if (list.get(i).getAmount()>=amount){
-                tmpSales
+            GoodsInWarehouse tmpGIW=list.get(i);
+            if (tmpGIW.getAmount()>=tmpAmount){
+                tmpSales.setAmount(tmpAmount);
+                tmpSales.setGoodsInWarehouseId(tmpGIW.getIdgoodsInWarehouse());
+                tmpSales.setCustomerUserId(customer.getId());
+                tmpSales.setIsPaid("N");
+                tmpSales.setPayment(goods.getPrice().multiply(goods.getDiscount()).multiply(new BigDecimal(tmpAmount)));
+                salesMapper.insertSelective(tmpSales);
+                tmpGIW.setAmount(tmpGIW.getAmount()-tmpAmount);
+                goodsInWarehouseMapper.updateByPrimaryKeySelective(tmpGIW);
+                break;
+            }else {
+                tmpSales.setAmount(tmpGIW.getAmount());
+                tmpSales.setGoodsInWarehouseId(tmpGIW.getIdgoodsInWarehouse());
+                tmpSales.setCustomerUserId(customer.getId());
+                tmpSales.setIsPaid("N");
+                tmpSales.setPayment(goods.getPrice().multiply(goods.getDiscount()).multiply(new BigDecimal(tmpGIW.getAmount())));
+                salesMapper.insertSelective(tmpSales);
+                tmpGIW.setAmount(0);
+                goodsInWarehouseMapper.updateByPrimaryKeySelective(tmpGIW);
             }
         }
         return 0;
