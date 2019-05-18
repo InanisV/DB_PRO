@@ -26,7 +26,9 @@ public class ManagerService extends UserService{
         user.setPhoneNumber(phoneNumber);
         newManager.setUserId(user.getId()+1);
         newManager.setWarehouseWarehouseId(warehouseId);
-
+        userMapper.insertSelective(user);
+        managerMapper.insertSelective(newManager);
+        sqlSession.close();
         user = userMapper.selectByName(userName);
         if(user.getId()==null){
             return -1;
@@ -98,6 +100,10 @@ public class ManagerService extends UserService{
         return tmpCashier;
     }
 
+    public Warehouse getRemainVolume(int warehouseId){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+
+    }
 
 
 
