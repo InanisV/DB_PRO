@@ -25,17 +25,15 @@ public class ManagerService extends UserService{
         ManagerMapper managerMapper = sqlSession.getMapper(ManagerMapper.class);
         user.setId(managerMapper.selectMaxId()+1);
         user.setPassword(String.format("%d",password.hashCode()));
-        user.
-        newManager.setUserName(userName);
-        newManager.setUserId(managerMapper.selectMaxId()+1);
-        newManager.setPassword(String.format("%d",password.hashCode()));
-        newManager.setPhoneNumber(phoneNumber);
+        user.setUserName(userName);
+        user.setPhoneNumber(phoneNumber);
+        newManager.setUserId(user.getId()+1);
         newManager.setWarehouseWarehouseId(warehouseId);
 
-        String str;
-//        str.hashCode();
-
-        //check if the new manager is in the db here(optional)
+        user = userMapper.selectByName(userName);
+        if(user.getId()!=null){
+            // already added
+        }
         return 0;
     }
 

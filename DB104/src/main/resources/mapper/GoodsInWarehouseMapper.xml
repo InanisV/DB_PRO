@@ -125,25 +125,10 @@
     select
     <include refid="Base_Column_List" />
     from goods_in_warehouse
-    where idgoods_in_warehouse is not null
-    <if test="org.sustcDB2019.entity.GoodsInWarehouse.idgoodsInWarehouse!=null">
-      and idgoods_in_warehouse = idgoodsInWarehouse
-    </if>
-    <if test="org.sustcDB2019.entity.GoodsInWarehouse.warehouseWarehouseId != null">
-      and warehouse_warehouse_id = #{warehouseWarehouseId,jdbcType=INTEGER}
-    </if>
-    <if test="org.sustcDB2019.entity.GoodsInWarehouse.goodsGoodsId != null">
-      and goods_goods_id = #{goodsGoodsId,jdbcType=INTEGER}
-    </if>
-    <if test="org.sustcDB2019.entity.GoodsInWarehouse.amount != null">
-      and amount = #{amount,jdbcType=INTEGER}
-    </if>
-    <if test="org.sustcDB2019.entity.GoodsInWarehouse.expiredDay != null">
-      and expired_day = #{expiredDay,jdbcType=DATE}
-    </if>
-    <if test="orderByExpiredDay=true">
-      order by expired_day;
-    </if>
+    where
+    and warehouse_warehouse_id = #{warehouseWarehouseId,jdbcType=INTEGER}
+    and goods_goods_id = #{goodsGoodsId,jdbcType=INTEGER}
+    order by expired_day;
   </select>
 
 
