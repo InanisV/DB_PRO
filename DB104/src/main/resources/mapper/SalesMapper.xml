@@ -3,7 +3,7 @@
 <mapper namespace="org.sustcDB2019.dao.SalesMapper">
   <resultMap id="BaseResultMap" type="org.sustcDB2019.entity.Sales">
     <id column="sales_id" jdbcType="INTEGER" property="salesId" />
-    <result column="warehouse_warehouse_id" jdbcType="INTEGER" property="warehouseWarehouseId" />
+    <result column="goods_in_warehouse_idgoods_in_warehouse" jdbcType="INTEGER" property="goodsInWarehouseId" />
     <result column="customer_user_id" jdbcType="INTEGER" property="customerUserId" />
     <result column="goods_goods_id" jdbcType="INTEGER" property="goodsGoodsId" />
     <result column="amount" jdbcType="INTEGER" property="amount" />
