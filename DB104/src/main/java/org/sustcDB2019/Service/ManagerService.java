@@ -5,7 +5,9 @@ import org.sustcDB2019.dao.*;
 import org.sustcDB2019.entity.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 public class ManagerService extends UserService{
     Manager manager=(Manager) super.user;
@@ -98,7 +100,7 @@ public class ManagerService extends UserService{
         return tmpCashier;
     }
 
-    public int[] getRestVolumn(){
+    public int[] getRestVolume(){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         WarehouseMapper mapper=sqlSession.getMapper(WarehouseMapper.class);
 
@@ -108,9 +110,26 @@ public class ManagerService extends UserService{
         sqlSession.close();
         return volumns;
     }
+//-----------------------------------------------------------------------------just some empty method below
+    public ArrayList<GoodsInWarehouse> getNearOverdue(){//filter type? category? RefrigiratedCondition? or goods obj?
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
+        ArrayList<GoodsInWarehouse> list=null;
+        //[add mapper] select GoodsInWarehouse whose remaining time = 10% * preserveTime
+        return list;
+    }
 
+    public int getOrderedBySalesVolume(ArrayList<Goods> goodsArrayList,ArrayList<Integer> amount){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
+        //salesMapper.getSalesVolumeRank(manager.getWarehouseWarehouseId(),itemsPerPage,pageIndex);
+        //[add mapper] select count(amount)
+        return 0;
+    }
 
-
+    public int getOrderedByProfit(){
+        return 0;
+    }
 
 //    public int addNewWarehouse(String address, int refrigeratedShelfVolume, int ordinaryShelfVolume, BigDecimal warehouseLong,BigDecimal warehouseLati){//BigDecimal or Long or Integer?
 //
