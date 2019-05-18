@@ -18,7 +18,7 @@ public class CustomerService extends UserService{
         return 0;
     }
 
-    public void updateWarehouse(){
+    public void updateWarehouse(){//start when logitude and latitude are changed or user is just sign in
         ArrayList<Warehouse> warehouses=WarehouseService.getAllWarehouse();
         double R=6371.0;
         int minWarehouseId=0;
@@ -41,7 +41,7 @@ public class CustomerService extends UserService{
 //
 //    }
 
-    public ArrayList<Goods> goodsArrayList(int index) {
+    public ArrayList<Goods> goodsArrayListWithFilter(int index) {
         SqlSession sqlSession= DAOService.sqlSessionFactory.openSession();
         GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
         ArrayList<Goods> list=goodsInWarehouseMapper.selectWithPages(customer.getWarehouseId(),10,index);
@@ -63,8 +63,8 @@ public class CustomerService extends UserService{
         GoodsInWarehouseMapper goodsInWarehouseMapper = sqlSession.getMapper(GoodsInWarehouseMapper.class);
         ArrayList<GoodsInWarehouse> list=goodsInWarehouseMapper.selectConditionally(
                 String.format("%d",customer.getWarehouseId()),String.format("%d",goods.getGoodsId()),
-                null,null,null,null,null,null,null,null,null,
-                false,null,null,true);
+                null,null,null,null,null,null,null,null,
+                false,null,false,true);
                 /*[add mapper] with no pages
                 ArrayList<Goods> selectConditionallyWithPages(
                 String warehouseId,String goodsId, String type, String catagory,
