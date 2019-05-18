@@ -68,19 +68,16 @@ public class CustomerService extends UserService{
         BigDecimal amountDecimal=new BigDecimal(amount);
         sales.setPayment(goods.getPrice().multiply(goods.getDiscount()).multiply(amountDecimal));
         GoodsInWarehouseMapper goodsInWarehouseMapper = sqlSession.getMapper(GoodsInWarehouseMapper.class);
-        ArrayList<GoodsInWarehouse> list=goodsInWarehouseMapper.selectConditionally(
-                String.format("%d",customer.getWarehouseId()),String.format("%d",goods.getGoodsId()),
-                null,null,null,null,null,null,null,null,
-                false,null,false,true);
-                /*[add mapper] with no pages
-                ArrayList<Goods> selectConditionallyWithPages(
-                String warehouseId,String goodsId, String type, String catagory,
-                String name, String brand, String orginPlace,
-                String refrigiratedCondition, String lowerPrice, String upperPrice,
-                boolean discount, String orderByPriceIncrease, boolean orderByDiscount,boolean orderByExpiredDay);*/
+        ArrayList<GoodsInWarehouse> list=goodsInWarehouseMapper.selectByCase(goodsId,customer.getWarehouseId());
+        int rest=0;
+        for (GoodsInWarehouse goodsInWarehouse:list) {
+            rest+=goodsInWarehouse.getAmount();
+        }
+        if (rest<amount)return 1;
         for (int i = 0; i < list.size(); i++) {
+            Sales tmpSales=new Sales();
             if (list.get(i).getAmount()>=amount){
-
+                tmpSales
             }
         }
         return 0;

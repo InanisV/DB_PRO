@@ -1,10 +1,7 @@
 package org.sustcDB2019.service;
 
 import org.apache.ibatis.session.SqlSession;
-import org.sustcDB2019.dao.GoodsMapper;
-import org.sustcDB2019.dao.ManagerMapper;
-import org.sustcDB2019.dao.PurchaseMapper;
-import org.sustcDB2019.dao.UserMapper;
+import org.sustcDB2019.dao.*;
 import org.sustcDB2019.entity.*;
 
 import java.math.BigDecimal;
@@ -25,17 +22,15 @@ public class ManagerService extends UserService{
         ManagerMapper managerMapper = sqlSession.getMapper(ManagerMapper.class);
         user.setId(managerMapper.selectMaxId()+1);
         user.setPassword(String.format("%d",password.hashCode()));
-        user.
-        newManager.setUserName(userName);
-        newManager.setUserId(managerMapper.selectMaxId()+1);
-        newManager.setPassword(String.format("%d",password.hashCode()));
-        newManager.setPhoneNumber(phoneNumber);
+        user.setUserName(userName);
+        user.setPhoneNumber(phoneNumber);
+        newManager.setUserId(user.getId()+1);
         newManager.setWarehouseWarehouseId(warehouseId);
 
-        String str;
-//        str.hashCode();
-
-        //check if the new manager is in the db here(optional)
+        user = userMapper.selectByName(userName);
+        if(user.getId()!=null){
+            // already added
+        }
         return 0;
     }
 
@@ -69,6 +64,38 @@ public class ManagerService extends UserService{
         User user =mapper.selectByName(name);
         sqlSession.close();
         return user;
+    }
+
+    public Manager getManagerById(int id){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        ManagerMapper mapper=sqlSession.getMapper(ManagerMapper.class);
+        Manager tmpManager =mapper.selectByPrimaryKey(id);
+        sqlSession.close();
+        return tmpManager;
+    }
+
+    public Customer getCustomerById(int id){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        CustomerMapper mapper=sqlSession.getMapper(CustomerMapper.class);
+        Customer tmpCustomer =mapper.selectByPrimaryKey(id);
+        sqlSession.close();
+        return tmpCustomer;
+    }
+
+    public Deliverer getDelivererById(int id){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        DelivererMapper mapper=sqlSession.getMapper(DelivererMapper.class);
+        Deliverer tmpDeliverer =mapper.selectByPrimaryKey(id);
+        sqlSession.close();
+        return tmpDeliverer;
+    }
+
+    public Cashier getCashierById(int id){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        CashierMapper mapper=sqlSession.getMapper(CashierMapper.class);
+        Cashier tmpCashier =mapper.selectByPrimaryKey(id);
+        sqlSession.close();
+        return tmpCashier;
     }
 
 
