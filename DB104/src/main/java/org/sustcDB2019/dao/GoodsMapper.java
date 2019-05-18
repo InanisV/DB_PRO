@@ -9,6 +9,7 @@ public interface GoodsMapper {
     //need to be test
     ArrayList<Goods> selectConditionally(Goods goods);
 
+
     int deleteByPrimaryKey(Integer goodsId);
 
     int insert(Goods record);

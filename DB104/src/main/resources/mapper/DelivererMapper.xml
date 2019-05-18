@@ -9,6 +9,25 @@
   <sql id="Base_Column_List">
     user_id, status_on, warehouse_warehouse_id
   </sql>
+
+<!-- My sql statement -->
+  <select id="selectByCase" parameterType="org.sustcDB2019.entity.Deliverer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from deliverer
+    where user_id is not null
+    <if test="userId != null">
+    and user_id = #{userId, jdbcType=INTEGER}
+    </if>
+    <if test="statusOn != null">
+    and status_on = #{statusOn,jdbcType=CHAR}
+    </if>
+    <if test="warehouseWarehouseId != null">
+    and warehouse_warehouse_id = #{warehouseWarehouseId,jdbcType=INTEGER}
+    </if>
+  </select>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

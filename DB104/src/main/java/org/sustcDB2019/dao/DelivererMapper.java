@@ -2,7 +2,13 @@ package org.sustcDB2019.dao;
 
 import org.sustcDB2019.entity.Deliverer;
 
+import java.util.ArrayList;
+
 public interface DelivererMapper {
+    //tested
+    ArrayList<Deliverer> selectByCase(Deliverer deliverer);
+
+
     int deleteByPrimaryKey(Integer userId);
 
     int insert(Deliverer record);
