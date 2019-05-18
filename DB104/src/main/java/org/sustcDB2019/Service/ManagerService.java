@@ -16,7 +16,18 @@ public class ManagerService extends UserService{
 
     public int addNewManager(String userName,String password,String phoneNumber,int warehouseId){
         Manager newManager=new Manager();
+        SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        User user = userMapper.selectByName(userName);
+        if(user.getId()!=null){
+            // already have name
+        }
+        ManagerMapper managerMapper = sqlSession.getMapper(ManagerMapper.class);
+        user.setId(managerMapper.selectMaxId()+1);
+        user.setPassword(String.format("%d",password.hashCode()));
+        user.
         newManager.setUserName(userName);
+        newManager.setUserId(managerMapper.selectMaxId()+1);
         newManager.setPassword(String.format("%d",password.hashCode()));
         newManager.setPhoneNumber(phoneNumber);
         newManager.setWarehouseWarehouseId(warehouseId);
