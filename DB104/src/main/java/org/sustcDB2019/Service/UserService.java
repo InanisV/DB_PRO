@@ -29,7 +29,12 @@ public class UserService {
         user.setPhoneNumber(phoneNumber);
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
+<<<<<<< HEAD
         user.setId(mapper.getMaxId()+1);//[add mapper] select the max id of customers , return integer only
+=======
+        CustomerMapper mapper1=sqlSession.getMapper(CustomerMapper.class);
+        user.setId(mapper1.selectMaxId()+1);//[add mapper] select the max id of customers , return integer only
+>>>>>>> e0717b6c1892a8ed7cd173aa9d261dc8e0f6896f
         mapper.insert(user);
         Customer customer=(Customer) user;
         customer.setAddress(address);
