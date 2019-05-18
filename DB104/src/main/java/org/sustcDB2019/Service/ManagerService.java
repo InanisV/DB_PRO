@@ -1,5 +1,7 @@
 package org.sustcDB2019.service;
 
+import org.apache.ibatis.session.SqlSession;
+import org.sustcDB2019.dao.ManagerMapper;
 import org.sustcDB2019.entity.Deliverer;
 import org.sustcDB2019.entity.Manager;
 
@@ -20,6 +22,13 @@ public class ManagerService extends UserService{
 //        str.hashCode();
 
         //check if the new manager is in the db here(optional)
+        return 0;
+    }
+
+    public int updateManager(Manager manager){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        ManagerMapper mapper=sqlSession.getMapper(ManagerMapper.class);
+        mapper.updateByPrimaryKeySelective(manager);
         return 0;
     }
 

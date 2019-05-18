@@ -1,6 +1,7 @@
 package org.sustcDB2019.service;
 
 import org.apache.ibatis.session.SqlSession;
+import org.sustcDB2019.dao.CustomerMapper;
 import org.sustcDB2019.dao.GoodsInWarehouseMapper;
 import org.sustcDB2019.dao.GoodsMapper;
 import org.sustcDB2019.entity.*;
@@ -70,6 +71,13 @@ public class CustomerService extends UserService{
 
             }
         }
+        return 0;
+    }
+
+    public int updateCustomer(Customer customer){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        CustomerMapper mapper=sqlSession.getMapper(CustomerMapper.class);
+        mapper.updateByPrimaryKeySelective(customer);
         return 0;
     }
 
