@@ -1,4 +1,4 @@
-package org.sustcDB2019.Service;
+package org.sustcDB2019.service;
 
 import org.apache.ibatis.session.SqlSession;
 import org.sustcDB2019.dao.DaoManager;

@@ -1,4 +1,4 @@
-package org.sustcDB2019.Service;
+package org.sustcDB2019.service;
 
 import org.sustcDB2019.entity.Customer;
 import org.sustcDB2019.entity.Goods;
@@ -31,8 +31,8 @@ public class CustomerService extends UserService{
         }
         customer.setWarehouseId(minWarehouseId);
     }
-
-    public ArrayList<Goods> goodsArrayList() {
-
-    }
+//
+//    public ArrayList<Goods> goodsArrayList() {
+//
+//    }
 }

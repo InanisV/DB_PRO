@@ -1,4 +1,4 @@
-package org.sustcDB2019.Service;
+package org.sustcDB2019.service;
 
 public class CasherService {
 }
