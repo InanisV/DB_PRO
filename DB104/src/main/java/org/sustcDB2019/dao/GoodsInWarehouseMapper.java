@@ -16,7 +16,8 @@ public interface GoodsInWarehouseMapper {
             boolean discount, String orderByPriceIncrease, boolean orderByDiscount,
             int itemsPerPage, int pageIndex);
 
-    ArrayList<GoodsInWarehouse> selectConditionally(GoodsInWarehouse goodsInWarehouse);
+    ArrayList<GoodsInWarehouse> selectByCase(int goodsId, int warehouseId);
+//    ArrayList<GoodsInWarehouse> selectConditionally(GoodsInWarehouse goodsInWarehouse);
 //    ArrayList<GoodsInWarehouse> selectConditionally(
 //            String warehouseId,String goodsId, String type, String catagory,
 //            String name, String brand, String orginPlace,
