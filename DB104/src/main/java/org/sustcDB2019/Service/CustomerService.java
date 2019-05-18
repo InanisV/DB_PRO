@@ -100,25 +100,52 @@ public class CustomerService extends UserService {
         return 0;
     }
 
-<<<<<<< HEAD
-    public int buy(ArrayList<Sales> list){
-        Order tmpOrder=new Order();
-        tmpOrder.setSaleses(list);
+    public int cancleSales(ArrayList<Sales> list){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
+        GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
         for (Sales sales:list) {
-            sales.setIsPaid("Y");
-            sales
-
+            GoodsInWarehouse tmpGoodsInWarehouse=new GoodsInWarehouse();
+            {
+                tmpGoodsInWarehouse=goodsInWarehouseMapper.selectByPrimaryKey(sales.getGoodsInWarehouseId());
+                tmpGoodsInWarehouse.setAmount(tmpGoodsInWarehouse.getAmount()+sales.getAmount());
+                goodsInWarehouseMapper.updateByPrimaryKeySelective(tmpGoodsInWarehouse);
+            }// can use a new update to simplefy this block
+            salesMapper.deleteByPrimaryKey(sales.getSalesId());
         }
+        return 0;
     }
 
-    public int updateCustomer(Customer customer){
+    public int buy(ArrayList<Sales> list){
+        Order tmpOrder=new Order();
+        tmpOrder.setSaleses(list);// maybe saleses is not needed
+        tmpOrder.setCustomerUserId(customer.getUserId());
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
-        CustomerMapper mapper=sqlSession.getMapper(CustomerMapper.class);
-=======
+        OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+        int orderId=0;
+        //orderId=orderMapper.selectMaxId();
+        //[add mapper] select max id of order
+        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
+        for (Sales sales:list) {
+            sales.setIsPaid("Y");
+            sales.setOrderOrderId(orderId);
+            salesMapper.updateByPrimaryKeySelective(sales);
+        }
+        DelivererMapper delivererMapper = sqlSession.getMapper(DelivererMapper.class);
+        Deliverer tmpDeliverer=null;
+        //tmpDeliverer=delivererMapper.getDelivererWithMinOrder();
+        //[add mapper] when there are several deliverer with the same #order, they should be chosen randomly
+        tmpOrder.setDeliveryUserId(tmpDeliverer.getUserId());
+        orderMapper.insertSelective(tmpOrder);
+        GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
+        //goodsInWarehouseMapper.updateAll(customer.getWarehouseId());
+        //[add mapper] updateAll to delete all goodsInWarehouse whose amount==0
+        return tmpOrder.getOrderId();//return id of order for front to view relevant message
+    }
+
     public int updateCustomer(Customer customer) {
         SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
->>>>>>> fec15263ef4b5cb1d6ad0c063dade22ec8153801
         mapper.updateByPrimaryKeySelective(customer);
         return 0;
     }
