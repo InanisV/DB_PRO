@@ -20,5 +20,7 @@ public class DelivererService extends UserService {
         SqlSession session=DAOService.sqlSessionFactory.openSession();
         OrderMapper mapper=session.getMapper(OrderMapper.class);
         ArrayList<Order> list=mapper.selectByCase();//[add mapper]
+        session.close();
+        return list;
     }
 }
