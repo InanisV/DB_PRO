@@ -14,6 +14,8 @@ public class Order {
 
     private Integer customerUserId;
 
+    public ArrayList<Sales> getSaleses() { return saleses; }
+
     private ArrayList<Sales> saleses;
 
     public Integer getOrderId() {
