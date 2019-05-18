@@ -99,6 +99,16 @@ public class CustomerService extends UserService{
         return 0;
     }
 
+    public int buy(ArrayList<Sales> list){
+        Order tmpOrder=new Order();
+        tmpOrder.setSaleses(list);
+        for (Sales sales:list) {
+            sales.setIsPaid("Y");
+            sales
+
+        }
+    }
+
     public int updateCustomer(Customer customer){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         CustomerMapper mapper=sqlSession.getMapper(CustomerMapper.class);
@@ -114,7 +124,6 @@ public class CustomerService extends UserService{
         ArrayList<Order> list=mapper.selectByCase(tmpOrder);//[add mapper]
         return list;
     }
-
 
 
 }
