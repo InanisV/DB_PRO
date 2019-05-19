@@ -7,9 +7,13 @@ import java.util.ArrayList;
 
 public interface GoodsInWarehouseMapper {
 
+    ArrayList<GoodsInWarehouse> nearlyExpired(Integer warehouseId);
+
     int deleteAll();
+
     //need to be test
     ArrayList<Goods> selectWithPages(int warehouseId, int itemsPerPage, int pageIndex);
+
     //need to be test
     ArrayList<Goods> selectConditionallyWithPages(
             String warehouseId, String type, String catagory,

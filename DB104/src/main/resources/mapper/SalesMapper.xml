@@ -11,12 +11,38 @@
     <result column="is_paid" jdbcType="CHAR" property="isPaid" />
     <result column="order_order_id" jdbcType="INTEGER" property="orderOrderId" />
   </resultMap>
+
+  <resultMap id="goodsWithAmount" type="org.sustcDB2019.entity.GoodsWithAmount">
+    <id column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="origin_place" jdbcType="VARCHAR" property="originPlace" />
+    <result column="preserve_time" jdbcType="INTEGER" property="preserveTime" />
+    <result column="volume" jdbcType="INTEGER" property="volume" />
+    <result column="refrigirated_condition" jdbcType="CHAR" property="refrigiratedCondition" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="catagory" jdbcType="VARCHAR" property="catagory" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="am" javaType="INTEGER" property="amount"/>
+  </resultMap>
   <sql id="Base_Column_List">
     sales_id, warehouse_warehouse_id, customer_user_id, goods_goods_id, amount, payment, 
     is_paid, order_order_id
   </sql>
 
 <!-- my sql statement -->
+  <select id="getSalesVolumeRank" resultMap="goodsWithAmount">
+    select *
+    from (select g.* , count(s.amount) am from sales s
+             join goods_in_warehouse giw on s.goods_in_warehouse_idgoods_in_warehouse = giw.idgoods_in_warehouse
+             join goods g on giw.goods_goods_id = g.goods_id
+             <if test="warehouseId!=null"> where warehouse_warehouse_id= #{warehouseId} </if>
+            group by goods_goods_id) s
+    order by s.am DESC;
+    limit #{itemsPerPage} offset #{pageIndex}
+  </select>
+
   <select id="selectByCase" parameterType="org.sustcDB2019.entity.Sales" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

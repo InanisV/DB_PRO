@@ -27,6 +27,16 @@
   </sql>
 
 <!--  my sql statement  -->
+  <select id="nearlyExpired" resultMap="BaseResultMap">
+    select giw.*
+    from goods_in_warehouse giw
+    join goods g on giw.goods_goods_id = g.goods_id
+    where DATEDIFF( giw.expired_day, curdate()) &lt; g.preserve_time*0.1
+    and DATEDIFF( giw.expired_day, curdate()) &gt; 0
+    <if test="warehouseId!=null">
+      and warehouse_warehouse_id=#{warehouseId}
+    </if>
+  </select>
   <select id="selectWithPages" resultMap="Goods">
     with touchable as ( select g2.*
     from goods_in_warehouse giw join goods g2 on giw.goods_goods_id = g2.goods_id

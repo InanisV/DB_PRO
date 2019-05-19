@@ -102,7 +102,7 @@ public class ManagerService extends UserService{
         return tmpCashier;
     }
 
-    @fixed: the four new methods was added
+    、、@fixed: the four new methods was added
     public int[] getRestVolume(int warehouseId){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         WarehouseMapper mapper=sqlSession.getMapper(WarehouseMapper.class);
@@ -130,6 +130,7 @@ public class ManagerService extends UserService{
         SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
         //salesMapper.getSalesVolumeRank(manager.getWarehouseWarehouseId(),itemsPerPage,pageIndex);
         //[add mapper] select count(amount)
+        //搞定了，返回值是GoodWithAmount;
         return 0;
     }
 
