@@ -100,7 +100,6 @@ public class CustomerService extends UserService {
         return 0;
     }
 
-<<<<<<< HEAD
     public int buy(ArrayList<Sales> list){
         Order tmpOrder=new Order();
         tmpOrder.setSaleses(list);
@@ -110,15 +109,9 @@ public class CustomerService extends UserService {
 
         }
     }
-
-    public int updateCustomer(Customer customer){
-        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
-        CustomerMapper mapper=sqlSession.getMapper(CustomerMapper.class);
-=======
     public int updateCustomer(Customer customer) {
         SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
         CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
->>>>>>> fec15263ef4b5cb1d6ad0c063dade22ec8153801
         mapper.updateByPrimaryKeySelective(customer);
         return 0;
     }
