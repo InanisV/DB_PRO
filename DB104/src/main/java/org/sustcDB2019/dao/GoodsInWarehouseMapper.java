@@ -6,6 +6,8 @@ import org.sustcDB2019.entity.GoodsInWarehouse;
 import java.util.ArrayList;
 
 public interface GoodsInWarehouseMapper {
+
+    int deleteAll();
     //need to be test
     ArrayList<Goods> selectWithPages(int warehouseId, int itemsPerPage, int pageIndex);
     //need to be test

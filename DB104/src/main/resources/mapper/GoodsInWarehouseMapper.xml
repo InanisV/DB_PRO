@@ -132,7 +132,10 @@
     and goods_goods_id = #{goodsGoodsId,jdbcType=INTEGER}
     order by expired_day;
   </select>
-
+  <delete id="deleteAll">
+    delete from goods_in_warehouse
+    where amount = 0;
+  </delete>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

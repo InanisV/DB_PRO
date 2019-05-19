@@ -115,7 +115,7 @@ public class CustomerService extends UserService {
         }
         return 0;
     }
-
+    @fixed the
     public int buy(ArrayList<Sales> list){
         Order tmpOrder=new Order();
         tmpOrder.setSaleses(list);// maybe saleses is not needed
@@ -125,6 +125,7 @@ public class CustomerService extends UserService {
         int orderId=0;
         //orderId=orderMapper.selectMaxId();
         //[add mapper] select max id of order
+        //搞定了
         SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
         for (Sales sales:list) {
             sales.setIsPaid("Y");
@@ -135,11 +136,13 @@ public class CustomerService extends UserService {
         Deliverer tmpDeliverer=null;
         //tmpDeliverer=delivererMapper.getDelivererWithMinOrder();
         //[add mapper] when there are several deliverer with the same #order, they should be chosen randomly
+        //
         tmpOrder.setDeliveryUserId(tmpDeliverer.getUserId());
         orderMapper.insertSelective(tmpOrder);
         GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
         //goodsInWarehouseMapper.updateAll(customer.getWarehouseId());
         //[add mapper] updateAll to delete all goodsInWarehouse whose amount==0
+        //搞定了
         return tmpOrder.getOrderId();//return id of order for front to view relevant message
     }
 

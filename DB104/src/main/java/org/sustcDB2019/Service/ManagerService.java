@@ -102,20 +102,16 @@ public class ManagerService extends UserService{
         return tmpCashier;
     }
 
-<<<<<<< HEAD
-    public Warehouse getRemainVolume(int warehouseId){
-        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
-
-    }
-=======
-    public int[] getRestVolume(){
+    @fixed: the four new methods was added
+    public int[] getRestVolume(int warehouseId){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         WarehouseMapper mapper=sqlSession.getMapper(WarehouseMapper.class);
->>>>>>> 95cd56181f0295b7b87cefdeb326c5b03def8966
 
         int [] volumns=null;
         //volumns=mapper.getRestVolumn(manager.getWarehouseWarehouseId());
         //[add mapper]
+
+
         sqlSession.close();
         return volumns;
     }
@@ -127,6 +123,7 @@ public class ManagerService extends UserService{
         //[add mapper] select GoodsInWarehouse whose remaining time = 10% * preserveTime
         return list;
     }
+
 
     public int getOrderedBySalesVolume(ArrayList<Goods> goodsArrayList,ArrayList<Integer> amount){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
