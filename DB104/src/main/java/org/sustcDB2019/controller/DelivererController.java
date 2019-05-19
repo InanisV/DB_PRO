@@ -31,7 +31,7 @@ public class DelivererController {
                     modify(delivererService.deliverer);
                 case 2:
                     ArrayList<Order> order = delivererService.getCurrentOrder();
-
+                    //
                     break;
                 case 3:
                     flag = false;
@@ -43,6 +43,7 @@ public class DelivererController {
     }
 
     public static void modify(Deliverer deliverer){
+        DelivererService delivererService = new DelivererService();
         boolean flag = true;
         do{
             System.out.println("Please choose the option:\n" +
@@ -76,10 +77,11 @@ public class DelivererController {
                             deliverer.setPhoneNumber(in.next());
                             break;
                         case 4:
-                            // Update personal information to database
-                            // UpdateManager
-                            // 返回 0 正常  其他则update失败
-                            System.out.println("Modify successfully.");
+                            if(delivererService.updateDeliverer(deliverer)==0){
+                                System.out.println("Modify successfully.");
+                            } else {
+                                System.out.println("Modification fails");
+                            }
                             flag3 = false;
                         default:
                             System.out.println("Your input is wrong, please input again.");
