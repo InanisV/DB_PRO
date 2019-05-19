@@ -33,7 +33,6 @@
   </resultMap>
 
 
-
   <sql id="Base_Column_List">
     order_id, arrival_time, departure_time, delivery_user_id, customer_user_id
   </sql>

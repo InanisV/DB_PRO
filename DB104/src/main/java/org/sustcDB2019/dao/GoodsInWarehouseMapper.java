@@ -6,8 +6,14 @@ import org.sustcDB2019.entity.GoodsInWarehouse;
 import java.util.ArrayList;
 
 public interface GoodsInWarehouseMapper {
+
+    ArrayList<GoodsInWarehouse> nearlyExpired(Integer warehouseId);
+
+    int deleteAll();
+
     //need to be test
     ArrayList<Goods> selectWithPages(int warehouseId, int itemsPerPage, int pageIndex);
+
     //need to be test
     ArrayList<Goods> selectConditionallyWithPages(
             String warehouseId, String type, String catagory,
@@ -16,11 +22,8 @@ public interface GoodsInWarehouseMapper {
             boolean discount, String orderByPriceIncrease, boolean orderByDiscount,
             int itemsPerPage, int pageIndex);
 
-<<<<<<< HEAD
-    ArrayList<GoodsInWarehouse> selectByCase(int goodsId, int warehouseId);
-=======
+
     ArrayList<GoodsInWarehouse> selectByCase(int warehouseWarehouseId, int goodsGoodsId);
->>>>>>> e96cf17645dcbf674523e3de5d8139bbbb85521a
 //    ArrayList<GoodsInWarehouse> selectConditionally(GoodsInWarehouse goodsInWarehouse);
 //    ArrayList<GoodsInWarehouse> selectConditionally(
 //            String warehouseId,String goodsId, String type, String catagory,

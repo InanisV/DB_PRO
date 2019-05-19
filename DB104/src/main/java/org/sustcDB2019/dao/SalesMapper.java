@@ -1,10 +1,13 @@
 package org.sustcDB2019.dao;
 
+import org.sustcDB2019.entity.GoodsWithAmount;
 import org.sustcDB2019.entity.Sales;
 
 import java.util.ArrayList;
 
 public interface SalesMapper {
+    ArrayList<GoodsWithAmount> getSalesVolumeRank(Integer warehouseId, int itemsPerPage, int PageIndex);
+
     //need to be tested
     ArrayList<Sales> selectByCase(Sales sales);
 
