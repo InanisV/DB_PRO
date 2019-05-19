@@ -102,7 +102,7 @@ public class ManagerService extends UserService{
         return tmpCashier;
     }
 
-    、、@fixed: the four new methods was added
+
     public int[] getRestVolume(int warehouseId){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         WarehouseMapper mapper=sqlSession.getMapper(WarehouseMapper.class);
@@ -110,6 +110,7 @@ public class ManagerService extends UserService{
         int [] volumns=null;
         //volumns=mapper.getRestVolumn(manager.getWarehouseWarehouseId());
         //[add mapper]
+        //搞定了  、、@fixed: the four new methods was added
 
 
         sqlSession.close();
@@ -121,6 +122,7 @@ public class ManagerService extends UserService{
         GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
         ArrayList<GoodsInWarehouse> list=null;
         //[add mapper] select GoodsInWarehouse whose remaining time = 10% * preserveTime
+        //搞定了，在goodsInWarehouse 里
         return list;
     }
 
