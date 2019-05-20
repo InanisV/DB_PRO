@@ -16,6 +16,17 @@ public class CustomerService extends UserService {
         return 0;
     }
 
+    public ArrayList<Sales> showCart(Integer userId) {
+        SqlSession session = DAOService.sqlSessionFactory.openSession();
+        SalesMapper salesMapper = session.getMapper(SalesMapper.class);
+        Sales sale = new Sales();
+        sale.setCustomerUserId(userId);
+        sale.setIsPaid("N");
+        ArrayList<Sales> result = salesMapper.selectByCase(sale);
+        session.close();
+        return result;
+    }
+
     public void updateWarehouse() {//start when logitude and latitude are changed or user is just sign in
         ArrayList<Warehouse> warehouses = WarehouseService.getAllWarehouse();
         double R = 6371.0;

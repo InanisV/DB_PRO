@@ -7,6 +7,8 @@
     <result column="goods_goods_id" jdbcType="INTEGER" property="goodsGoodsId" />
     <result column="amount" jdbcType="INTEGER" property="amount" />
     <result column="expired_day" jdbcType="DATE" property="expiredDay" />
+
+    <association property="goods" javaType="org.sustcDB2019.entity.Goods" column="goods_goods_id" resultMap="Goods"/>
   </resultMap>
   <resultMap id="Goods" type="org.sustcDB2019.entity.Goods">
     <id column="goods_id" jdbcType="INTEGER" property="goodsId" />

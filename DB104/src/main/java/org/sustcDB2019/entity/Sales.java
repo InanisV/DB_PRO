@@ -1,6 +1,7 @@
 package org.sustcDB2019.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class Sales {
     private Integer salesId;
@@ -17,15 +18,13 @@ public class Sales {
 
     private Integer goodsInWarehouseId;
 
-    public Goods getGoods() {
-        return goods;
-    }
+    private Date salesTime;
 
-    public void setGoods(Goods goods) {
-        this.goods = goods;
-    }
+    private GoodsInWarehouse goodsInWarehouse;
 
-    private Goods goods;
+    public GoodsInWarehouse getGoodsInWarehouse() { return goodsInWarehouse; }
+
+    public void setGoodsInWarehouse(GoodsInWarehouse goodsInWarehouse) { this.goodsInWarehouse = goodsInWarehouse; }
 
     public Integer getGoodsInWarehouseId() {
         return goodsInWarehouseId;
@@ -34,6 +33,10 @@ public class Sales {
     public void setGoodsInWarehouseId(Integer goodsInWarehouseId) {
         this.goodsInWarehouseId = goodsInWarehouseId;
     }
+
+    public Date getSalesTime() { return salesTime; }
+
+    public void setSalesTime(Date salesTime) { this.salesTime = salesTime; }
 
     public Integer getSalesId() {
         return salesId;
