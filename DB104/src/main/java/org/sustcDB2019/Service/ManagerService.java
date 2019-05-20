@@ -107,7 +107,7 @@ public class ManagerService extends UserService{
         int [] volumns=null;
         //volumns=mapper.getRestVolumn(manager.getWarehouseWarehouseId());
         //[add mapper]
-        sqlSession.close();
+        sqlSession.close(); 
         return volumns;
     }
 //-----------------------------------------------------------------------------just some empty method below
