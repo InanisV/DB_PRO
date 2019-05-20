@@ -183,4 +183,16 @@ public class ManagerService extends UserService{
 //        return warehouseMapper.selectMaxId();
         return 0;
     }
+
+    public int addNewCashier(String userName,String password,String phoneNumber,int warehouseId){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        CashierMapper cashierMapper = sqlSession.getMapper(CashierMapper.class);
+        Cashier tmpCashier=new Cashier();
+        tmpCashier.setUserName(userName);
+        tmpCashier.setPassword(String.format("%d",password.hashCode()));
+        tmpCashier.setPhoneNumber(phoneNumber);
+        tmpCashier.setWarehouseWarehouseId(warehouseId);
+        cashierMapper.insertSelective(tmpCashier);
+        return cashierMapper.selectMaxId();
+    }
 }
