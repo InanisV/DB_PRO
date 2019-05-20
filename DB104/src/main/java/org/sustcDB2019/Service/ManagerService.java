@@ -45,11 +45,11 @@ public class ManagerService extends UserService{
         return 0;
     }
 
-    public int addNewGoods(Goods newGoods){
+    public Goods addNewGoods(Goods newGoods){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         GoodsMapper goodsMapper=sqlSession.getMapper(GoodsMapper.class);
         goodsMapper.insertSelective(newGoods);
-        return 0;
+        return goodsMapper.selectConditionally(newGoods).get(0);
     }
 
     public int changeGoodsDiscount(int goodsId, double discount){
@@ -64,7 +64,7 @@ public class ManagerService extends UserService{
     }
 
 
-    public int purchaseToWarehouse(int purchaseId, int goodsId, int amount, Date productionDate){
+    public int purchaseToWarehouse( int goodsId, int amount, Date productionDate){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         GoodsMapper goodsMapper=sqlSession.getMapper(GoodsMapper.class);
         WarehouseMapper warehouseMapper=sqlSession.getMapper(WarehouseMapper.class);
@@ -76,7 +76,6 @@ public class ManagerService extends UserService{
                 return 1;
         }
         Purchase purchase=new Purchase();
-        purchase.setPurchaseId(purchaseId);
         purchase.setGoodsGoodsId(goodsId);
         purchase.setAmount(amount);
         purchase.setProductionDate(productionDate);
