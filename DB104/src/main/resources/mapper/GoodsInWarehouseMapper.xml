@@ -7,6 +7,8 @@
     <result column="goods_goods_id" jdbcType="INTEGER" property="goodsGoodsId" />
     <result column="amount" jdbcType="INTEGER" property="amount" />
     <result column="expired_day" jdbcType="DATE" property="expiredDay" />
+
+    <association property="goods" javaType="org.sustcDB2019.entity.Goods" column="goods_goods_id" resultMap="Goods"/>
   </resultMap>
   <resultMap id="Goods" type="org.sustcDB2019.entity.Goods">
     <id column="goods_id" jdbcType="INTEGER" property="goodsId" />
@@ -27,6 +29,16 @@
   </sql>
 
 <!--  my sql statement  -->
+  <select id="nearlyExpired" resultMap="BaseResultMap">
+    select giw.*
+    from goods_in_warehouse giw
+    join goods g on giw.goods_goods_id = g.goods_id
+    where DATEDIFF( giw.expired_day, curdate()) &lt; g.preserve_time*0.1
+    and DATEDIFF( giw.expired_day, curdate()) &gt; 0
+    <if test="warehouseId!=null">
+      and warehouse_warehouse_id=#{warehouseId}
+    </if>
+  </select>
   <select id="selectWithPages" resultMap="Goods">
     with touchable as ( select g2.*
     from goods_in_warehouse giw join goods g2 on giw.goods_goods_id = g2.goods_id
@@ -121,6 +133,7 @@
 <!--      order by expired_day-->
 <!--    </if>-->
 <!--  </select>-->
+
   <select id="selectByCase" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -130,7 +143,10 @@
     and goods_goods_id = #{goodsGoodsId,jdbcType=INTEGER}
     order by expired_day;
   </select>
-
+  <delete id="deleteAll">
+    delete from goods_in_warehouse
+    where amount = 0;
+  </delete>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

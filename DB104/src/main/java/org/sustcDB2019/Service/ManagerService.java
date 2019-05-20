@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class ManagerService extends UserService{
-    Manager manager=(Manager) super.user;
+    public Manager manager=(Manager) super.user;
 
 
     public int addNewManager(String userName,String password,String phoneNumber,int warehouseId){
@@ -28,7 +28,9 @@ public class ManagerService extends UserService{
         user.setPhoneNumber(phoneNumber);
         newManager.setUserId(user.getId()+1);
         newManager.setWarehouseWarehouseId(warehouseId);
-
+        userMapper.insertSelective(user);
+        managerMapper.insertSelective(newManager);
+        sqlSession.close();
         user = userMapper.selectByName(userName);
         if(user.getId()==null){
             return -1;
@@ -43,15 +45,42 @@ public class ManagerService extends UserService{
         return 0;
     }
 
-    public int purchaseToWarehouse(int purchaseId, int goodsId, int amount, Date productionDate){
+    public Goods addNewGoods(Goods newGoods){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        GoodsMapper goodsMapper=sqlSession.getMapper(GoodsMapper.class);
+        goodsMapper.insertSelective(newGoods);
+        return goodsMapper.selectConditionally(newGoods).get(0);
+    }
+
+    public int changeGoodsDiscount(int goodsId, double discount){
+        BigDecimal discountBD=new BigDecimal(discount);
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        GoodsMapper goodsMapper = sqlSession.getMapper(GoodsMapper.class);
+        Goods tmpGoods=new Goods();
+        tmpGoods.setGoodsId(goodsId);
+        tmpGoods.setDiscount(discountBD);
+        goodsMapper.updateByPrimaryKeySelective(tmpGoods);
+        return 0;
+    }
+
+
+    public int purchaseToWarehouse( int goodsId, int amount, Date productionDate){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        GoodsMapper goodsMapper=sqlSession.getMapper(GoodsMapper.class);
+        WarehouseMapper warehouseMapper=sqlSession.getMapper(WarehouseMapper.class);
+        if (goodsMapper.selectByPrimaryKey(goodsId).getRefrigiratedCondition().equals("Y")){
+            if (amount>warehouseMapper.getRefriRestVolume(manager.getWarehouseWarehouseId()))
+                return 1;
+        }else {
+            if (amount>warehouseMapper.getNonRefriRestVolume(manager.getWarehouseWarehouseId()))
+                return 1;
+        }
         Purchase purchase=new Purchase();
-        purchase.setPurchaseId(purchaseId);
         purchase.setGoodsGoodsId(goodsId);
         purchase.setAmount(amount);
         purchase.setProductionDate(productionDate);
         purchase.setWarehouseWarehouseId(manager.getWarehouseWarehouseId());
         purchase.setDate(currentDate);
-        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         GoodsMapper mapper = sqlSession.getMapper(GoodsMapper.class);
         Goods goods=mapper.selectByPrimaryKey(goodsId);
         purchase.setCost(goods.getPrice().multiply(new BigDecimal(amount)));
@@ -100,38 +129,69 @@ public class ManagerService extends UserService{
         return tmpCashier;
     }
 
-    public int[] getRestVolume(){
+
+    public int[] getRestVolume(int warehouseId){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         WarehouseMapper mapper=sqlSession.getMapper(WarehouseMapper.class);
 
-        int [] volumns=null;
-        //volumns=mapper.getRestVolumn(manager.getWarehouseWarehouseId());
+        int [] volumes=null;
+        volumes[1]=mapper.getRefriRestVolume(manager.getWarehouseWarehouseId());
+        volumes[0]=mapper.getNonRefriRestVolume(manager.getWarehouseWarehouseId());
         //[add mapper]
-        sqlSession.close(); 
-        return volumns;
+        //搞定了  、、@fixed: the four new methods was added
+        sqlSession.close();
+        return volumes;
     }
-//-----------------------------------------------------------------------------just some empty method below
     public ArrayList<GoodsInWarehouse> getNearOverdue(){//filter type? category? RefrigiratedCondition? or goods obj?
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
         ArrayList<GoodsInWarehouse> list=null;
+        list=goodsInWarehouseMapper.nearlyExpired(manager.getWarehouseWarehouseId());
         //[add mapper] select GoodsInWarehouse whose remaining time = 10% * preserveTime
+        //搞定了，在goodsInWarehouse 里
         return list;
     }
 
-    public int getOrderedBySalesVolume(ArrayList<Goods> goodsArrayList,ArrayList<Integer> amount){
+
+    public ArrayList<GoodsWithAmountIncome> getOrderedBySalesVolume(int pageIndex){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
-        //salesMapper.getSalesVolumeRank(manager.getWarehouseWarehouseId(),itemsPerPage,pageIndex);
+        ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesVolumeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
         //[add mapper] select count(amount)
-        return 0;
+        //搞定了，返回值是GoodWithAmount;
+        return list;
     }
 
-    public int getOrderedByProfit(){
-        return 0;
+    public ArrayList<GoodsWithAmountIncome> getOrderedByIncome(int pageIndex){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
+        ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesIncomeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
+        return list;
     }
 
-//    public int addNewWarehouse(String address, int refrigeratedShelfVolume, int ordinaryShelfVolume, BigDecimal warehouseLong,BigDecimal warehouseLati){//BigDecimal or Long or Integer?
-//
-//    }
+    //return id of new warehouse
+    public int addNewWarehouse(String address, int refrigeratedShelfVolume, int ordinaryShelfVolume, BigDecimal warehouseLong,BigDecimal warehouseLati){//BigDecimal or Long or Integer?
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        WarehouseMapper warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
+        Warehouse tmpWarehouse=new Warehouse();
+        tmpWarehouse.setAddress(address);
+        tmpWarehouse.setRefrigeratedShelfVolume(refrigeratedShelfVolume);
+        tmpWarehouse.setOrdinaryShelfVolume(ordinaryShelfVolume);
+        tmpWarehouse.setWarehouseLati(warehouseLati);
+        tmpWarehouse.setWarehouseLong(warehouseLong);
+        warehouseMapper.insertSelective(tmpWarehouse);
+        return warehouseMapper.selectMaxId();
+    }
+
+    public int addNewCashier(String userName,String password,String phoneNumber,int warehouseId){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        CashierMapper cashierMapper = sqlSession.getMapper(CashierMapper.class);
+        Cashier tmpCashier=new Cashier();
+        tmpCashier.setUserName(userName);
+        tmpCashier.setPassword(String.format("%d",password.hashCode()));
+        tmpCashier.setPhoneNumber(phoneNumber);
+        tmpCashier.setWarehouseWarehouseId(warehouseId);
+        cashierMapper.insertSelective(tmpCashier);
+        return cashierMapper.selectMaxId();
+    }
 }

@@ -6,6 +6,18 @@ import org.sustcDB2019.entity.Warehouse;
 import java.util.ArrayList;
 
 public interface WarehouseMapper {
+    @Select("select max(warehouse_id) from warehouse")
+    Integer selectMaxId();
+
+    int getNonRefriOccupVolume(Integer warehouseId);
+
+    int getRefriOccupVolume(Integer warehouseId);
+
+    int getNonRefriRestVolume(Integer warehouseId);
+
+    int getRefriRestVolume(Integer warehouseId);
+
+
     int deleteByPrimaryKey(Integer warehouseId);
 
     int insert(Warehouse record);
