@@ -23,6 +23,7 @@ public class CustomerService extends UserService {
         sale.setCustomerUserId(userId);
         sale.setIsPaid("N");
         ArrayList<Sales> result = salesMapper.selectByCase(sale);
+        session.close();
         return result;
     }
 
