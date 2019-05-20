@@ -31,7 +31,7 @@ public class DelivererController {
                     modify(delivererService.deliverer);
                 case 2:
                     ArrayList<Order> order = delivererService.getCurrentOrder();
-                    //
+                    showOrders(order, delivererService);
                     break;
                 case 3:
                     flag = false;
@@ -102,4 +102,16 @@ public class DelivererController {
             }
         } while (flag);
     }
+
+    public static void showOrders(ArrayList<Order> orders, DelivererService delivererService){
+        System.out.println(String.format("%-16s%-17s%-17s%-17s%-20s", "Order id", "Departure time",
+                "Customer name", "Phone number", "Address"));
+        for (Order x : orders) {
+            System.out.println(String.format(String.format("%-16s%-17s%-17s%-17s%-20s", x.getOrderId(), x.getDepartureTime(),
+                    delivererService.getCurrentCustomer(x.getCustomerUserId()).getUserName(),
+                    delivererService.getCurrentCustomer(x.getCustomerUserId()).getPhoneNumber(),
+                    delivererService.getCurrentCustomer(x.getCustomerUserId()).getAddress())));
+        }
+    }
+
 }

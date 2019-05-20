@@ -73,7 +73,7 @@ public class ManageController {
                         }
                     } while (flag5);
                     break;
-                case 5:
+                case 5: // 利润
                     int page = 1;
                     boolean flag3 = true;
                     do {
@@ -178,7 +178,10 @@ public class ManageController {
                                             g2.setVolume(in.nextInt());
                                             System.out.print("Please input the category: ");
                                             g2.setCatagory(in.next());
-                                            // 传入g2
+                                            System.out.print("Please input the amount: ");
+                                            int amount2 = in.nextInt();
+                                            g2 = managerService.addNewGoods(g2);
+                                            managerService.purchaseToWarehouse(g2.getGoodsId(), amount2, new Date());
                                             System.out.println("Replenish successfully.");
                                             break;
                                         case 2:
@@ -186,14 +189,8 @@ public class ManageController {
                                             int id = in.nextInt();
                                             System.out.print("Please input the amount: ");
                                             int amount = in.nextInt();
-//                                            df.format(new Date()); //Current system time
                                             Date date = new Date();
-//                                            try {
-//                                                date = df.parse("yyyy-MM-dd HH:mm:ss");
-//                                            } catch (Exception e) {
-//                                                System.out.println();
-//                                            }
-                                            managerService.purchaseToWarehouse(1, id, amount, date);
+                                            managerService.purchaseToWarehouse( id, amount, date);
                                             System.out.println("Replenish successfully.");
                                     }
                                 } while (flag4);
@@ -209,7 +206,7 @@ public class ManageController {
                                 int id2 = in.nextInt();
                                 System.out.print("Please input the discount: ");
                                 double discount2 = in.nextDouble();
-                                // pass id and discount to make discount
+                                managerService.changeGoodsDiscount(id2, discount2);
                                 System.out.println("Discount successfully.");
                                 break;
                             case 7:

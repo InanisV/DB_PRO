@@ -132,6 +132,7 @@ public class AdminController {
                                         break;
                                 }
                                 goods = customerService.goodsArrayListWithFilter(g, customerService.customer.getWarehouseId(),lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
+                                showGoods(goods);
                                 break;
                             case 4:
                                 System.out.println("Please choose the option:\n" +
@@ -172,6 +173,7 @@ public class AdminController {
                                         break;
                                 }
                                 goods = customerService.goodsArrayListWithFilter(g, customerService.customer.getWarehouseId(),lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
+                                showGoods(goods);
                                 break;
                             case 5:
                                 System.out.print("Please input the goods id: ");
@@ -237,7 +239,8 @@ public class AdminController {
                                 if(number>orders.size()){
                                     System.out.println("Wrong input.");
                                 } else{
-                                    showSales(orders.get(number+1).getSaleses());
+                                    ArrayList<ArrayList<Sales>> newSales = collectSales(orders.get(number-1).getSaleses());
+                                    showNewSales(newSales);
                                 }
                                 break;
                             case 2:
@@ -343,11 +346,11 @@ public class AdminController {
     }
 
     public static void showOrders(ArrayList<Order> orders){
-        System.out.println(String.format("%-8s%-10s%-15s%-15s%-6s", "Number", "Order id", "Departure time",
+        System.out.println(String.format("%-8s%-10s%-17s%-17s%-6s", "Number", "Order id", "Departure time",
                 "Arrival Time", "Deliverer id"));
         int i = 1;
         for (Order x : orders) {
-            System.out.println(String.format(String.format("%-8s%-10s%-15s%-15s%-6s", i,  x.getOrderId(), x.getDepartureTime(),
+            System.out.println(String.format(String.format("%-8s%-10s%-17s%-17s%-6s", i,  x.getOrderId(), x.getDepartureTime(),
                     x.getArrivalTime(), x.getDeliveryUserId())));
             i++;
         }
