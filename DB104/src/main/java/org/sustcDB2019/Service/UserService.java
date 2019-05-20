@@ -31,7 +31,6 @@ public class UserService {
         user.setPassword(String.format("%d",password.hashCode()));
         user.setUserName(userName);
         user.setPhoneNumber(phoneNumber);
-        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
         CustomerMapper mapper1=sqlSession.getMapper(CustomerMapper.class);
         user.setId(mapper1.selectMaxId()+1);//[add mapper] select the max id of customers , return integer only

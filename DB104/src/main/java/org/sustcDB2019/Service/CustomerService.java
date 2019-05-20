@@ -113,11 +113,14 @@ public class CustomerService extends UserService {
         return 0;
     }
 
-
+    //add return 1: sales not belong to this customer
     public int cancleSales(ArrayList<Sales> list){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
         GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
+        for (Sales sales:list) {
+            if (sales.getCustomerUserId()!=customer.getUserId())return 1;
+        }
         for (Sales sales:list) {
             GoodsInWarehouse tmpGoodsInWarehouse=new GoodsInWarehouse();
             {
@@ -131,7 +134,11 @@ public class CustomerService extends UserService {
     }
 
     // buy method need to be fixed
+    // return -1 if sales not belong to this customer
     public int buy(ArrayList<Sales> list){
+        for (Sales sales:list) {
+            if (sales.getCustomerUserId()!=customer.getUserId()) return -1;
+        }
         Order tmpOrder=new Order();
         tmpOrder.setSaleses(list);// maybe saleses is not needed
         tmpOrder.setCustomerUserId(customer.getUserId());
@@ -141,10 +148,7 @@ public class CustomerService extends UserService {
         SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
 
         Deliverer tmpDeliverer=null;
-//        tmpDeliverer=delivererMapper.getDelivererWithMinOrder();
-        //[add mapper] when there are several deliverer with the same #order, they should be chosen randomly
         //
-
         int orderId=0;
         orderId=orderMapper.selectMaxId();
         //[add mapper] select max id of order
