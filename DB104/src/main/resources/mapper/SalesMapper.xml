@@ -86,8 +86,8 @@
              join goods g on giw.goods_goods_id = g.goods_id
              <if test="warehouseId!=null"> where warehouse_warehouse_id= #{warehouseId} </if>
             group by goods_goods_id) s
-    order by s.am DESC;
-    limit #{itemsPerPage} offset #{pageIndex}
+    order by s.am DESC
+    limit #{itemsPerPage} offset #{pageIndex};
   </select>
 
   <select id="selectByCase" parameterType="org.sustcDB2019.entity.Sales" resultMap="BaseResultMap">

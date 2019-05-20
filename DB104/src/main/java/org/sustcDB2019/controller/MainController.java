@@ -31,7 +31,6 @@ public class MainController {
                     back = userService.signIn(name, password);
                     switch (back){
                         case 2:
-                            ManagerService managerService = (ManagerService) userService;
                             System.out.println("Log in successfully!");
                             ManageController.ManagerView(userService.user.getId());
                             break;
