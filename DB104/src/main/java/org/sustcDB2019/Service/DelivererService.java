@@ -1,8 +1,10 @@
 package org.sustcDB2019.service;
 
 import org.apache.ibatis.session.SqlSession;
+import org.sustcDB2019.dao.CustomerMapper;
 import org.sustcDB2019.dao.DelivererMapper;
 import org.sustcDB2019.dao.OrderMapper;
+import org.sustcDB2019.entity.Customer;
 import org.sustcDB2019.entity.Deliverer;
 import org.sustcDB2019.entity.Order;
 
@@ -14,6 +16,14 @@ public class DelivererService extends UserService {
     public int setStatus(String status) {
         deliverer.setStatusOn(status);
         return 0;
+    }
+
+    public Customer getCurrentCustomer(int orderId){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        CustomerMapper customerMapper=sqlSession.getMapper(CustomerMapper.class);
+        OrderMapper orderMapper=sqlSession.getMapper(OrderMapper.class);
+        Order tmpOrder=orderMapper.selectByPrimaryKey(orderId);
+        return customerMapper.selectByPrimaryKey(tmpOrder.getCustomerUserId());
     }
 
     public ArrayList<Order> getCurrentOrder(){
