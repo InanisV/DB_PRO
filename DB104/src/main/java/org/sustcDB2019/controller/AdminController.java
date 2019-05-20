@@ -13,7 +13,10 @@ public class AdminController {
     public static Scanner in = new Scanner(System.in);
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public static void CustomerView(CustomerService customerService){
+    public static void CustomerView(int customerid){
+        CustomerService customerService = new CustomerService();
+        ManagerService managerService = new ManagerService();
+        customerService.customer = managerService.getCustomerById(customerid);
         boolean flag = true;
         do {
             System.out.println("Please choose the option:\n" +

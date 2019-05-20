@@ -65,13 +65,11 @@ public class MainController {
                             break;
                         case 6:
                             System.out.println("Log in successfully!");
-                            DelivererService delivererService = (DelivererService) userService;
-                            DelivererController.DelivererView(delivererService);
+                            DelivererController.DelivererView(userService.user.getId());
                             break;
                         case 30:
                             System.out.println("Log in successfully!");
-                            CustomerService customerService2 = (CustomerService) userService;
-                            AdminController.CustomerView(customerService2);
+                            AdminController.CustomerView(userService.user.getId());
                             break;
                         case -1:
                             System.out.println("Your username or password is wrong, please input again.");

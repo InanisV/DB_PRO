@@ -370,12 +370,16 @@ public class ManageController {
     }
 
     public static void showGoodsWithAmount(ArrayList<GoodsWithAmountIncome> goodsWithAmounts){
-        System.out.println(String.format("%-10s%-45s%-13s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", "Good id", "Goods Name", "Sale amount",
+        System.out.println(String.format("%-10s%-55s%-13s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", "Good id", "Goods Name", "Sale amount",
                 "Price", "Discount", "Brand", "Origin Place", "Preserve Time", "Volume", "Frozen", "Category", "Type"));
         for (GoodsWithAmountIncome x : goodsWithAmounts) {
-            System.out.println(String.format("%-10s%-45s%-13s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", x.getGoodsId(), x.getName(), x.getAmount(), x.getPrice(), x.getDiscount(),
+            System.out.println(String.format("%-10s%-55s%-13s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", x.getGoodsId(), x.getName(), x.getAmount(), x.getPrice(), x.getDiscount(),
                     x.getBrand(), x.getOriginPlace(), x.getPreserveTime(), x.getVolume(), x.getRefrigiratedCondition(), x.getCatagory(), x.getType()));
         }
+//        for (GoodsWithAmountIncome x : goodsWithAmounts) {
+//            System.out.println(x.getGoodsId() + "\t" + x.getName()+ "\t" + x.getAmount()+ "\t" + x.getPrice()+ "\t" + x.getDiscount()+ "\t" +
+//                    x.getBrand()+ "\t" + x.getOriginPlace()+ "\t" + x.getPreserveTime()+ "\t" + x.getVolume()+ "\t" + x.getRefrigiratedCondition()+ "\t" + x.getCatagory()+ "\t" + x.getType());
+//        }
     }
 
 }

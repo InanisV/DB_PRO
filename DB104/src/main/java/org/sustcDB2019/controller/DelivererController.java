@@ -14,7 +14,10 @@ public class DelivererController {
     public static Scanner in = new Scanner(System.in);
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public static void DelivererView(DelivererService delivererService){
+    public static void DelivererView(int delivererid){
+        DelivererService delivererService = new DelivererService();
+        ManagerService managerService = new ManagerService();
+        delivererService.deliverer = managerService.getDelivererById(delivererid);
         boolean flag = true;
         do {
             System.out.println("Please choose the option:\n" +
