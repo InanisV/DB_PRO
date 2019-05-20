@@ -52,6 +52,17 @@ public class ManagerService extends UserService{
         return 0;
     }
 
+    public int changeGoodsDiscount(int goodsId, double discount){
+        BigDecimal discountBD=new BigDecimal(discount);
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        GoodsMapper goodsMapper = sqlSession.getMapper(GoodsMapper.class);
+        Goods tmpGoods=new Goods();
+        tmpGoods.setGoodsId(goodsId);
+        tmpGoods.setDiscount(discountBD);
+        goodsMapper.updateByPrimaryKeySelective(tmpGoods);
+        return 0;
+    }
+
 
     public int purchaseToWarehouse(int purchaseId, int goodsId, int amount, Date productionDate){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
