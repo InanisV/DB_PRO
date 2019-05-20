@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class CashierService {
+    Cashier cashier;
+
     public int updateCasher(Cashier cashier){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         CashierMapper mapper=sqlSession.getMapper(CashierMapper.class);//[add mapper] add casher's entity and mapper
