@@ -44,6 +44,7 @@ public class DelivererController {
 
     public static void modify(Deliverer deliverer){
         DelivererService delivererService = new DelivererService();
+        CustomerService customerService = new CustomerService();
         boolean flag = true;
         do{
             System.out.println("Please choose the option:\n" +
@@ -60,8 +61,17 @@ public class DelivererController {
                     int option2 = in.nextInt();
                     switch (option2){
                         case 1:
-                            System.out.print("Please input your new username: ");
-                            deliverer.setUserName(in.next());
+                            int repite = 0;
+                            do {
+                                System.out.print("Please set your username: ");
+                                String name = in.next();
+                                repite = customerService.userNameExist(name);
+                                if (repite==1){
+                                    System.out.println("The username repeated, please input again.");
+                                } else {
+                                    delivererService.deliverer.setUserName(name);
+                                }
+                            } while (repite==1);
                             break;
                         case 2:
                             System.out.print("Please input your old password: ");

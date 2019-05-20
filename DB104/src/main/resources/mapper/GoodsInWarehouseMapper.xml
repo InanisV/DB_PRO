@@ -131,7 +131,6 @@
 <!--      order by expired_day-->
 <!--    </if>-->
 <!--  </select>-->
-  <select id="getOccuVolume"
 
   <select id="selectByCase" resultMap="BaseResultMap">
     select

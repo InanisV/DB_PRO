@@ -13,7 +13,9 @@ public class ManageController {
     public static Scanner in = new Scanner(System.in);
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public static void ManagerView(ManagerService managerService){
+    public static void ManagerView(int managerid){
+        ManagerService managerService = new ManagerService();
+        managerService.manager = managerService.getManagerById(managerid);
         boolean flag = true;
         do {
             System.out.println("Please choose the option:\n" +
@@ -33,6 +35,7 @@ public class ManageController {
                     System.out.println("Phone number: " + managerService.manager.getPhoneNumber());
                     System.out.println("Warehouse id: " + managerService.manager.getWarehouseWarehouseId());
                     modify(managerService.manager);
+                    break;
                 case 2:
                     addAccount(managerService);
                     break;
@@ -40,18 +43,41 @@ public class ManageController {
                     modifyAccount(managerService);
                     break;
                 case 4:
-                    int normal=0;
-                    int cool=0;
-                    // 调用查看容量方法
-                    System.out.println("Remaining capacity of the regular warehouse is: " + normal);
-                    System.out.println("Remaining capacity of the frozen warehouse is: " + cool);
+                    int page3 = 1;
+                    boolean flag5 = true;
+                    ArrayList<GoodsWithAmount> goodsWithAmounts = managerService.getOrderedBySalesVolume(page3);
+                    showGoodsWithAmount(goodsWithAmounts);
+                    do {
+                        System.out.println("Please choose the option:\n" +
+                                "1. Next page\n" +
+                                "2. Jump to page\n" +
+                                "3. Return");
+                        int option3 = in.nextInt();
+                        switch (option3){
+                            case 1:
+                                page3 += 1;
+                                goodsWithAmounts = managerService.getOrderedBySalesVolume(page3);
+                                showGoodsWithAmount(goodsWithAmounts);
+                                break;
+                            case 2:
+                                System.out.print("Please input the page number: ");
+                                page3 = in.nextInt();
+                                goodsWithAmounts = managerService.getOrderedBySalesVolume(page3);
+                                showGoodsWithAmount(goodsWithAmounts);
+                                break;
+                            case 3:
+                                flag5 = false;
+                                break;
+                            default:
+                                System.out.println("Wrong input. Please input again.");
+                        }
+                    } while (flag5);
                     break;
                 case 5:
-                    System.out.println();
                     int page = 1;
                     boolean flag3 = true;
                     do {
-                        ArrayList<Goods> goods = new ArrayList<Goods>(); // 查看销量
+                        ArrayList<Goods> goods = new ArrayList<Goods>(); // 查看利润
                         AdminController.showGoods(goods);
                         System.out.println("Please choose the option:\n" +
                                 "1. Next page\n" +
@@ -76,10 +102,12 @@ public class ManageController {
                     } while (flag3);
                     break;
                 case 6:
+                    int[] capacity = managerService.getRestVolume(managerService.manager.getWarehouseWarehouseId());
+                    System.out.println("Remaining capacity of the regular warehouse is: " + capacity[0]);
+                    System.out.println("Remaining capacity of the frozen warehouse is: " + capacity[1]);
                     break;
                 case 7:
                     CustomerService customerService = new CustomerService();
-                    ArrayList<Goods> goods = new ArrayList<Goods>();
                     int page2 = 1;
                     Goods g = new Goods();
                     String lowerPrice = null;
@@ -87,7 +115,7 @@ public class ManageController {
                     boolean discount = false;
                     String orderByPrice = null;
                     boolean orderByDiscount = false;
-                    goods = customerService.goodsArrayListWithFilter(g, managerService.manager.getWarehouseWarehouseId(), lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page2);
+                    ArrayList<Goods> goods = customerService.goodsArrayListWithFilter(g, managerService.manager.getWarehouseWarehouseId(), lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page2);
                     AdminController.showGoods(goods);
                     boolean flag2 = true;
                     do {
@@ -158,7 +186,7 @@ public class ManageController {
                                             int id = in.nextInt();
                                             System.out.print("Please input the amount: ");
                                             int amount = in.nextInt();
-                                            df.format(new Date()); //Current system time
+//                                            df.format(new Date()); //Current system time
                                             Date date = new Date();
 //                                            try {
 //                                                date = df.parse("yyyy-MM-dd HH:mm:ss");
@@ -206,10 +234,20 @@ public class ManageController {
     }
 
     public static void addAccount(ManagerService managerService){
+        UserService userService = new UserService();
         System.out.println("Please choose the identity you want to add:\n1. Manager\n2. Deliverer");
         int identity = in.nextInt();
-        System.out.print("Please input the username: ");
-        String name = in.next();
+        boolean exit = true;
+        String name = null;
+        while (exit){
+            System.out.print("Please input the username: ");
+            name = in.next();
+            if(userService.userNameExist(name)==1){
+                System.out.println("The username repeated, please input again.");
+            } else {
+                exit = false;
+            }
+        }
         System.out.print("Please input the password: ");
         String password = in.next();
         System.out.print("Please input the phone number: ");
@@ -227,6 +265,7 @@ public class ManageController {
     public static void modify(Manager manager){
         boolean flag = true;
         ManagerService managerService = new ManagerService();
+        CustomerService customerService = new CustomerService();
         managerService.manager = manager;
         do{
             System.out.println("Please choose the option:\n" +
@@ -244,8 +283,17 @@ public class ManageController {
                     int option2 = in.nextInt();
                     switch (option2){
                         case 1:
-                            System.out.print("Please input your new username: ");
-                            manager.setUserName(in.next());
+                            int repite = 0;
+                            do {
+                                System.out.print("Please set your username: ");
+                                String name = in.next();
+                                repite = customerService.userNameExist(name);
+                                if (repite==1){
+                                    System.out.println("The username repeated, please input again.");
+                                } else {
+                                    managerService.manager.setUserName(name);
+                                }
+                            } while (repite==1);
                             break;
                         case 2:
                             System.out.print("Please input your old password: ");
@@ -309,5 +357,13 @@ public class ManageController {
         }
     }
 
+    public static void showGoodsWithAmount(ArrayList<GoodsWithAmount> goodsWithAmounts){
+        System.out.println(String.format("%-10s%-45s%-13s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", "Good id", "Goods Name", "Sale amount",
+                "Price", "Discount", "Brand", "Origin Place", "Preserve Time", "Volume", "Frozen", "Category", "Type"));
+        for (GoodsWithAmount x : goodsWithAmounts) {
+            System.out.println(String.format("%-10s%-45s%-13s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", x.getGoodsId(), x.getName(), x.getAmount(), x.getPrice(), x.getDiscount(),
+                    x.getBrand(), x.getOriginPlace(), x.getPreserveTime(), x.getVolume(), x.getRefrigiratedCondition(), x.getCatagory(), x.getType()));
+        }
+    }
 
 }

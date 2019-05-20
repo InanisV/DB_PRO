@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class UserService {
-    User user;
+    public User user;
     Date currentDate;
 
 
@@ -23,7 +23,7 @@ public class UserService {
     public int signUp(String userName,String password,String phoneNumber,String address) {//password need to be hashed
         if (userName.equals("")||password.equals("")||phoneNumber.equals("")||address.equals(""))// one or more of the inputs are empty (or null)
             return -1;
-        currentUser=new User(/*userName,password,phoneNumber*/);
+        user=new User(/*userName,password,phoneNumber*/);
 //        SqlSession sqlSession=DaoManager
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
 
@@ -31,7 +31,7 @@ public class UserService {
         user.setPassword(String.format("%d",password.hashCode()));
         user.setUserName(userName);
         user.setPhoneNumber(phoneNumber);
-        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+//        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
         CustomerMapper mapper1=sqlSession.getMapper(CustomerMapper.class);
         user.setId(mapper1.selectMaxId()+1);//[add mapper] select the max id of customers , return integer only
