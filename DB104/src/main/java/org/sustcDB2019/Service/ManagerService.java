@@ -153,21 +153,34 @@ public class ManagerService extends UserService{
     }
 
 
-    public ArrayList<GoodsWithAmount> getOrderedBySalesVolume(int pageIndex){
+    public ArrayList<GoodsWithAmountIncome> getOrderedBySalesVolume(int pageIndex){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
-        ArrayList<GoodsWithAmount> list=salesMapper.getSalesVolumeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
+        ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesVolumeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
         //[add mapper] select count(amount)
         //搞定了，返回值是GoodWithAmount;
         return list;
     }
-//-----------------------------------------------------------------------------just some empty method below
 
-    public int getOrderedByProfit(){
-        return 0;
+    public ArrayList<GoodsWithAmountIncome> getOrderedByProfit(int pageIndex){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
+        ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesIncomeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
+        return list;
     }
 
-//    public int addNewWarehouse(String address, int refrigeratedShelfVolume, int ordinaryShelfVolume, BigDecimal warehouseLong,BigDecimal warehouseLati){//BigDecimal or Long or Integer?
-//
-//    }
+    //return id of new warehouse
+    public int addNewWarehouse(String address, int refrigeratedShelfVolume, int ordinaryShelfVolume, BigDecimal warehouseLong,BigDecimal warehouseLati){//BigDecimal or Long or Integer?
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        WarehouseMapper warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
+        Warehouse tmpWarehouse=new Warehouse();
+        tmpWarehouse.setAddress(address);
+        tmpWarehouse.setRefrigeratedShelfVolume(refrigeratedShelfVolume);
+        tmpWarehouse.setOrdinaryShelfVolume(ordinaryShelfVolume);
+        tmpWarehouse.setWarehouseLati(warehouseLati);
+        tmpWarehouse.setWarehouseLong(warehouseLong);
+        warehouseMapper.insertSelective(tmpWarehouse);
+//        return warehouseMapper.selectMaxId();
+        return 0;
+    }
 }
