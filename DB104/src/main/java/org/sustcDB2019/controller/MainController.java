@@ -34,22 +34,47 @@ public class MainController {
                     switch (back){
                         case 2:
                             ManagerService managerService = (ManagerService) userService;
-                            //manager
                             System.out.println("Log in successfully!");
                             ManageController.ManagerView(managerService);
                             break;
                         case 4:
-                            // cashier
+                            CustomerService customerService = new CustomerService();
+                            boolean flag = true;
+                            do {
+                                System.out.println("Please choose the option:\n" +
+                                        "1. Add goods\n" +
+                                        "2. Delete goods\n" +
+                                        "3. Buy now");
+                                int option2 = in.nextInt();
+                                switch (option2){
+                                    case 1:
+                                        System.out.print("Please input the goods id: ");
+                                        int id = in.nextInt();
+                                        System.out.print("Please input the amount: ");
+                                        int amount = in.nextInt();
+                                        customerService.addToCart(id, amount);
+                                        break;
+                                    case 2:
+                                        System.out.print("Please input the goods id to delete: ");
+                                        int id2 = in.nextInt();
+                                        // pass in id to remove items from cart
+                                        break;
+                                    case 3:
+                                        // 购买
+                                        flag = false;
+                                        break;
+                                }
+                            } while (flag);
                             break;
                         case 6:
-                            //deliverer
                             System.out.println("Log in successfully!");
+                            DelivererService delivererService = (DelivererService) userService;
+                            DelivererController.DelivererView(delivererService);
                             break;
                         case 30:
                             System.out.println("Log in successfully!");
-                            CustomerService customerService = (CustomerService) userService;
-                            AdminController.CustomerView(customerService);
-                            // customer
+                            CustomerService customerService2 = (CustomerService) userService;
+                            AdminController.CustomerView(customerService2);
                             break;
                         case -1:
                             System.out.println("Your username or password is wrong, please input again.");
@@ -59,10 +84,10 @@ public class MainController {
             } else if(option==2){
                 Customer customer = new Customer();
                 int repite = 0;
-                String name;
                 do {
                     System.out.print("Please set your username: ");
                     customer.setUserName(in.next());
+                    repite = userService.userNameExist(customer.getUserName());
                     if (repite==1){
                         System.out.println("The username repeated, please input again.");
                     }
@@ -73,7 +98,7 @@ public class MainController {
                 customer.setPhoneNumber(in.next());
                 System.out.print("Please set your address: ");
                 customer.setAddress(in.next());
-                // 传入字符串
+                userService.signUp(customer.getUserName(), customer.getPassword(), customer.getPhoneNumber(), customer.getAddress());
                 System.out.println("Sign up successfully.");
             } else if(option==3){
                 flag1 = false;

@@ -23,6 +23,10 @@ public class UserService {
     public int signUp(String userName,String password,String phoneNumber,String address) {//password need to be hashed
         if (userName.equals("")||password.equals("")||phoneNumber.equals("")||address.equals(""))// one or more of the inputs are empty (or null)
             return -1;
+        currentUser=new User(/*userName,password,phoneNumber*/);
+//        SqlSession sqlSession=DaoManager
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+
         user=new User(/*userName,password,phoneNumber*/);
         user.setPassword(String.format("%d",password.hashCode()));
         user.setUserName(userName);

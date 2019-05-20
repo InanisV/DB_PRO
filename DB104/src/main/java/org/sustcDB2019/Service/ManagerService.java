@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class ManagerService extends UserService{
-    Manager manager=(Manager) super.user;
+    public Manager manager=(Manager) super.user;
 
 
     public int addNewManager(String userName,String password,String phoneNumber,int warehouseId){
