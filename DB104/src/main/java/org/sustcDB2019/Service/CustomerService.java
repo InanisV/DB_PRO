@@ -6,6 +6,8 @@ import org.sustcDB2019.entity.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static java.lang.Math.*;
 
@@ -178,5 +180,32 @@ public class CustomerService extends UserService {
         return list;
     }
 
+    public int getHistoryStatistics(Date startDate,Date endDate){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        SalesMapper salesMapper= sqlSession.getMapper(SalesMapper.class);
+        return salesMapper.countPaymentByIdAndDate(customer.getId(),startDate,endDate);
+    }
+    //test
+    public ArrayList<Integer> getHistoryStatisticsByMonth(Date startDate,Date endDate){
+        SqlSession sqlSession= DAOService.sqlSessionFactory.openSession();
+        SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
+        ArrayList<Integer> list=new ArrayList<>();
+        Calendar startCalendar=Calendar.getInstance();
+        Calendar endCalendar=Calendar.getInstance();
+        Calendar tmpCalendar=Calendar.getInstance();
+        startCalendar.setTime(startDate);
+        startCalendar.set(Calendar.DAY_OF_MONTH,startCalendar.getMinimum(Calendar.DAY_OF_MONTH));
+        tmpCalendar.setTime(startDate);
+        tmpCalendar.set(Calendar.DAY_OF_MONTH,startCalendar.getMinimum(Calendar.DAY_OF_MONTH));
+        endCalendar.setTime(endDate);
+        endCalendar.set(Calendar.DAY_OF_MONTH,endCalendar.getMaximum(Calendar.DAY_OF_MONTH));
+        for (; startCalendar.before(endCalendar); ) {
+            list.add(salesMapper.countPaymentByIdAndDate(customer.getId(),new Date(startCalendar.getTimeInMillis()),new Date(tmpCalendar.getTimeInMillis())));
+            startCalendar.set(Calendar.MONTH, startCalendar.get(Calendar.MONTH) + 1);
+            tmpCalendar.set(Calendar.MONTH, startCalendar.get(Calendar.MONTH) + 1);
+        }
+        return list;
+    }
 
+    public
 }
