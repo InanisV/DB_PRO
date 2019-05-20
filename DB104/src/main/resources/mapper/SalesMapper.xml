@@ -56,6 +56,17 @@
   </sql>
 
 <!-- my sql statement -->
+  <select id="countPaymentByIdAndDate" resultType="Integer">
+    select sum(payment)
+    from (
+      select sales.payment, sales_id
+      from sales
+      where customer_user_id = #{customerUserId, jdbcType=INTEGER}
+      and  #{startDate,jdbcType=DATE} &lt; sales_time
+      and #{endDate,jdbcType=DATE} &gt; sales_time
+      ) s;
+  </select>
+
   <select id="getSalesVolumeRank" resultMap="goodsWithAmount">
     select *
     from (select g.* , count(s.amount) am from sales s

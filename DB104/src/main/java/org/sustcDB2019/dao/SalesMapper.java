@@ -4,8 +4,11 @@ import org.sustcDB2019.entity.GoodsWithAmount;
 import org.sustcDB2019.entity.Sales;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public interface SalesMapper {
+    Integer countPaymentByIdAndDate(Integer customerUserId, Date startDate, Date endDate);
+
     ArrayList<GoodsWithAmount> getSalesVolumeRank(Integer warehouseId, int itemsPerPage, int PageIndex);
 
     //need to be tested
