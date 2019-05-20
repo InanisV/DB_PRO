@@ -13,6 +13,12 @@ public class GoodsInWarehouse {
 
     private Date expiredDay;
 
+    private Goods goods;
+
+    public Goods getGoods() { return goods; }
+
+    public void setGoods(Goods goods) { this.goods = goods; }
+
     public Integer getIdgoodsInWarehouse() {
         return idgoodsInWarehouse;
     }
@@ -25,9 +31,7 @@ public class GoodsInWarehouse {
         return warehouseWarehouseId;
     }
 
-    public void setWarehouseWarehouseId(Integer warehouseWarehouseId) {
-        this.warehouseWarehouseId = warehouseWarehouseId;
-    }
+    public void setWarehouseWarehouseId(Integer warehouseWarehouseId) { this.warehouseWarehouseId = warehouseWarehouseId; }
 
     public Integer getGoodsGoodsId() {
         return goodsGoodsId;
