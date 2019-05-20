@@ -38,7 +38,33 @@ public class MainController {
                             ManageController.ManagerView(managerService);
                             break;
                         case 4:
-                            // cashier
+                            CustomerService customerService = new CustomerService();
+                            boolean flag = true;
+                            do {
+                                System.out.println("Please choose the option:\n" +
+                                        "1. Add goods\n" +
+                                        "2. Delete goods\n" +
+                                        "3. Buy now");
+                                int option2 = in.nextInt();
+                                switch (option2){
+                                    case 1:
+                                        System.out.print("Please input the goods id: ");
+                                        int id = in.nextInt();
+                                        System.out.print("Please input the amount: ");
+                                        int amount = in.nextInt();
+                                        customerService.addToCart(id, amount);
+                                        break;
+                                    case 2:
+                                        System.out.print("Please input the goods id to delete: ");
+                                        int id2 = in.nextInt();
+                                        // pass in id to remove items from cart
+                                        break;
+                                    case 3:
+                                        // 购买
+                                        flag = false;
+                                        break;
+                                }
+                            } while (flag);
                             break;
                         case 6:
                             System.out.println("Log in successfully!");
@@ -47,8 +73,8 @@ public class MainController {
                             break;
                         case 30:
                             System.out.println("Log in successfully!");
-                            CustomerService customerService = (CustomerService) userService;
-                            AdminController.CustomerView(customerService);
+                            CustomerService customerService2 = (CustomerService) userService;
+                            AdminController.CustomerView(customerService2);
                             break;
                         case -1:
                             System.out.println("Your username or password is wrong, please input again.");

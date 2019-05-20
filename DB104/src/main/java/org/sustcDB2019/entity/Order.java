@@ -16,6 +16,10 @@ public class Order {
 
     public ArrayList<Sales> getSaleses() { return saleses; }
 
+    public void setSaleses(ArrayList<Sales> saleses) {
+        this.saleses = saleses;
+    }
+
     private ArrayList<Sales> saleses;
 
     public Integer getOrderId() {

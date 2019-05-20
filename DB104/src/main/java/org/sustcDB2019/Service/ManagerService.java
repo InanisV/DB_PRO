@@ -5,11 +5,13 @@ import org.sustcDB2019.dao.*;
 import org.sustcDB2019.entity.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 public class ManagerService extends UserService{
     public Manager manager=(Manager) super.user;
-    Manager Manager=(Manager) super.user;
+
 
     public int addNewManager(String userName,String password,String phoneNumber,int warehouseId){
         Manager newManager=new Manager();
@@ -26,7 +28,9 @@ public class ManagerService extends UserService{
         user.setPhoneNumber(phoneNumber);
         newManager.setUserId(user.getId()+1);
         newManager.setWarehouseWarehouseId(warehouseId);
-
+        userMapper.insertSelective(user);
+        managerMapper.insertSelective(newManager);
+        sqlSession.close();
         user = userMapper.selectByName(userName);
         if(user.getId()==null){
             return -1;
@@ -47,7 +51,7 @@ public class ManagerService extends UserService{
         purchase.setGoodsGoodsId(goodsId);
         purchase.setAmount(amount);
         purchase.setProductionDate(productionDate);
-        purchase.setWarehouseWarehouseId(Manager.getWarehouseWarehouseId());
+        purchase.setWarehouseWarehouseId(manager.getWarehouseWarehouseId());
         purchase.setDate(currentDate);
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         GoodsMapper mapper = sqlSession.getMapper(GoodsMapper.class);
@@ -99,7 +103,43 @@ public class ManagerService extends UserService{
     }
 
 
+    public int[] getRestVolume(int warehouseId){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        WarehouseMapper mapper=sqlSession.getMapper(WarehouseMapper.class);
 
+        int [] volumns=null;
+        //volumns=mapper.getRestVolumn(manager.getWarehouseWarehouseId());
+        //[add mapper]
+        //搞定了  、、@fixed: the four new methods was added
+
+
+        sqlSession.close();
+        return volumns;
+    }
+    public ArrayList<GoodsInWarehouse> getNearOverdue(){//filter type? category? RefrigiratedCondition? or goods obj?
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
+        ArrayList<GoodsInWarehouse> list=null;
+        list=goodsInWarehouseMapper.nearlyExpired(manager.getWarehouseWarehouseId());
+        //[add mapper] select GoodsInWarehouse whose remaining time = 10% * preserveTime
+        //搞定了，在goodsInWarehouse 里
+        return list;
+    }
+
+
+    public ArrayList<GoodsWithAmount> getOrderedBySalesVolume(int pageIndex){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
+        ArrayList<GoodsWithAmount> list=salesMapper.getSalesVolumeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
+        //[add mapper] select count(amount)
+        //搞定了，返回值是GoodWithAmount;
+        return list;
+    }
+//-----------------------------------------------------------------------------just some empty method below
+
+    public int getOrderedByProfit(){
+        return 0;
+    }
 
 //    public int addNewWarehouse(String address, int refrigeratedShelfVolume, int ordinaryShelfVolume, BigDecimal warehouseLong,BigDecimal warehouseLati){//BigDecimal or Long or Integer?
 //

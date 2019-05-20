@@ -41,7 +41,7 @@ public class AdminController {
                     String orderByPrice = null;
                     boolean orderByDiscount = false;
                     boolean flag2 = true;
-                    goods = customerService.goodsArrayListWithFilter(g, lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
+                    goods = customerService.goodsArrayListWithFilter(g, customerService.customer.getWarehouseId(),lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
                     do {
                         System.out.println("Please choose the option:\n" +
                                 "1. Next page\n" +
@@ -55,13 +55,13 @@ public class AdminController {
                         switch (option2){
                             case 1:
                                 page += 1;
-                                goods = customerService.goodsArrayListWithFilter(g, lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
+                                goods = customerService.goodsArrayListWithFilter(g, customerService.customer.getWarehouseId(),lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
                                 showGoods(goods);
                                 break;
                             case 2:
                                 System.out.print("Please input the page number: ");
                                 page = in.nextInt();
-                                goods = customerService.goodsArrayListWithFilter(g, lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
+                                goods = customerService.goodsArrayListWithFilter(g, customerService.customer.getWarehouseId(),lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
                                 showGoods(goods);
                             case 3:
                                 System.out.println("Please choose the option:\n" +
@@ -132,7 +132,7 @@ public class AdminController {
                                         }
                                         break;
                                 }
-                                goods = customerService.goodsArrayListWithFilter(g, lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
+                                goods = customerService.goodsArrayListWithFilter(g, customerService.customer.getWarehouseId(),lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
                                 break;
                             case 4:
                                 System.out.println("Please choose the option:\n" +
@@ -172,7 +172,7 @@ public class AdminController {
                                         g.setRefrigiratedCondition(null);
                                         break;
                                 }
-                                goods = customerService.goodsArrayListWithFilter(g, lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
+                                goods = customerService.goodsArrayListWithFilter(g, customerService.customer.getWarehouseId(),lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
                                 break;
                             case 5:
                                 System.out.print("Please input the goods id: ");
@@ -221,26 +221,37 @@ public class AdminController {
                     } while (flag2);
                     break;
                 case 3:
-                    // show historical orders
+                    ArrayList<Order> orders = customerService.getOrder();
+                    showOrders(orders);
                     boolean flag3 = true;
                     do {
                         System.out.println("Please choose the option:\n" +
-                                "1. Confirm arrival\n" +
-                                "2. Check total spending last month\n" +
-                                "3. Return");
+                                "1. Check specific order\n" +
+                                "2. Confirm arrival\n" +
+                                "3. Check total spending last month\n" +
+                                "4. Return");
                         int option3 = in.nextInt();
                         switch (option3){
                             case 1:
+                                System.out.print("Please input the order number: ");
+                                int number = in.nextInt();
+                                if(number>orders.size()){
+                                    System.out.println("Wrong input.");
+                                } else{
+                                    showSales(orders.get(number+1).getSaleses());
+                                }
+                                break;
+                            case 2:
                                 System.out.print("Please input the order id to confirm arrival: ");
                                 int id = in.nextInt();
                                 // 确认收货
                                 System.out.println("Confirm successfully.");
                                 break;
-                            case 2:
+                            case 3:
                                 // 上个月的消费总额
                                 System.out.println("Your total spending last month is: ");
                                 break;
-                            case 3:
+                            case 4:
                                 flag3 = false;
                                 break;
                             default:
@@ -258,10 +269,10 @@ public class AdminController {
     }
 
     public static void showGoods(ArrayList<Goods> goods){
-        System.out.println(String.format("%-6s%-45s%-4s%-15s%-15s%-5s%-3s%-3s%-5s%-5s", "Goods id", "Goods Name",
+        System.out.println(String.format("%-10s%-45s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", "Good id", "Goods Name",
                 "Price", "Discount", "Brand", "Origin Place", "Preserve Time", "Volume", "Frozen", "Category", "Type"));
         for (Goods x : goods) {
-            System.out.println(String.format("%-6s%-5s%-4s%-15s%-15s%-5s%-3s%-3s%-5s%-5s", x.getGoodsId(), x.getName(), x.getPrice(), x.getDiscount(),
+            System.out.println(String.format("%-10s%-45s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", x.getGoodsId(), x.getName(), x.getPrice(), x.getDiscount(),
                     x.getBrand(), x.getOriginPlace(), x.getPreserveTime(), x.getVolume(), x.getRefrigiratedCondition(), x.getCatagory(), x.getType()));
         }
     }
@@ -330,6 +341,26 @@ public class AdminController {
                 flag = false;
             }
         } while (flag);
+    }
+
+    public static void showOrders(ArrayList<Order> orders){
+        System.out.println(String.format("%-8s%-10s%-15s%-15s%-6s", "Number", "Order id", "Departure time",
+                "Arrival Time", "Deliverer id"));
+        int i = 1;
+        for (Order x : orders) {
+            System.out.println(String.format(String.format("%-8s%-10s%-15s%-15s%-6s", i,  x.getOrderId(), x.getDepartureTime(),
+                    x.getArrivalTime(), x.getDeliveryUserId())));
+            i++;
+        }
+    }
+
+    public static void showSales(ArrayList<Sales> sales){
+        System.out.println(String.format("%-45s%-8s%-11s%-12s%-12s%-20s", "Goods Name",
+                "Price", "Amount", "Discount", "Payment", "Paid condition"));
+        for (Sales x : sales) {
+            System.out.println(String.format("%-45s%-8s%-11s%-12s%-12s%-20s", x.getGoods().getName(), x.getGoods().getPrice(),
+                    x.getAmount(), x.getGoods().getDiscount(), x.getPayment(), x.getIsPaid()));
+        }
     }
 
 }
