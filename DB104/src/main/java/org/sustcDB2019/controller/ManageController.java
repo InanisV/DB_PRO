@@ -3,6 +3,7 @@ package org.sustcDB2019.controller;
 import org.sustcDB2019.entity.*;
 import org.sustcDB2019.service.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -26,7 +27,8 @@ public class ManageController {
                     "5. Check good profits\n" +
                     "6. Check capacity\n" +
                     "7. Manipulate and check goods\n" +
-                    "8. Log out");
+                    "8. Add new warehouse\n" +
+                    "9. Log out");
             int option = in.nextInt();
             switch (option){
                 case 1:
@@ -45,7 +47,7 @@ public class ManageController {
                 case 4:
                     int page3 = 1;
                     boolean flag5 = true;
-                    ArrayList<GoodsWithAmount> goodsWithAmounts = managerService.getOrderedBySalesVolume(page3);
+                    ArrayList<GoodsWithAmountIncome> goodsWithAmounts = managerService.getOrderedBySalesVolume(page3);
                     showGoodsWithAmount(goodsWithAmounts);
                     do {
                         System.out.println("Please choose the option:\n" +
@@ -222,6 +224,19 @@ public class ManageController {
                     } while (flag2);
                     break;
                 case 8:
+                    System.out.print("Please input the warehouse's address: ");
+                    String address = in.next();
+                    System.out.print("Please input the warehouse's refrigerated shelf volume: ");
+                    int volume = in.nextInt();
+                    System.out.print("Please input the warehouse's original shelf volume: ");
+                    int volume2 = in.nextInt();
+                    System.out.print("Please input the warehouse's longitude: ");
+                    BigDecimal longi = in.nextBigDecimal();
+                    System.out.print("Please input the warehouse's latitude: ");
+                    BigDecimal lati = in.nextBigDecimal();
+                    managerService.addNewWarehouse(address,volume, volume2, longi,lati);
+                    break;
+                case 9:
                     flag = false;
                     break;
                 default:
@@ -354,10 +369,10 @@ public class ManageController {
         }
     }
 
-    public static void showGoodsWithAmount(ArrayList<GoodsWithAmount> goodsWithAmounts){
+    public static void showGoodsWithAmount(ArrayList<GoodsWithAmountIncome> goodsWithAmounts){
         System.out.println(String.format("%-10s%-45s%-13s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", "Good id", "Goods Name", "Sale amount",
                 "Price", "Discount", "Brand", "Origin Place", "Preserve Time", "Volume", "Frozen", "Category", "Type"));
-        for (GoodsWithAmount x : goodsWithAmounts) {
+        for (GoodsWithAmountIncome x : goodsWithAmounts) {
             System.out.println(String.format("%-10s%-45s%-13s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", x.getGoodsId(), x.getName(), x.getAmount(), x.getPrice(), x.getDiscount(),
                     x.getBrand(), x.getOriginPlace(), x.getPreserveTime(), x.getVolume(), x.getRefrigiratedCondition(), x.getCatagory(), x.getType()));
         }

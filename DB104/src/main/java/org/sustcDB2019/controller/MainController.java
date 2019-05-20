@@ -3,10 +3,8 @@ package org.sustcDB2019.controller;
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
-import org.sustcDB2019.entity.Customer;
-import org.sustcDB2019.entity.User;
+import org.sustcDB2019.entity.*;
 import org.sustcDB2019.service.*;
-import org.sustcDB2019.controller.*;
 
 import javax.crypto.Mac;
 import java.text.SimpleDateFormat;
