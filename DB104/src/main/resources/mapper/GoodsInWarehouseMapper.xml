@@ -21,11 +21,22 @@
     <result column="catagory" jdbcType="VARCHAR" property="catagory" />
     <result column="type" jdbcType="VARCHAR" property="type" />
   </resultMap>
+
   <sql id="Base_Column_List">
     idgoods_in_warehouse, warehouse_warehouse_id, goods_goods_id, amount, expired_day
   </sql>
 
 <!--  my sql statement  -->
+  <select id="nearlyExpired" resultMap="BaseResultMap">
+    select giw.*
+    from goods_in_warehouse giw
+    join goods g on giw.goods_goods_id = g.goods_id
+    where DATEDIFF( giw.expired_day, curdate()) &lt; g.preserve_time*0.1
+    and DATEDIFF( giw.expired_day, curdate()) &gt; 0
+    <if test="warehouseId!=null">
+      and warehouse_warehouse_id=#{warehouseId}
+    </if>
+  </select>
   <select id="selectWithPages" resultMap="Goods">
     with touchable as ( select g2.*
     from goods_in_warehouse giw join goods g2 on giw.goods_goods_id = g2.goods_id
@@ -77,6 +88,64 @@
     limit #{itemsPerPage} offset #{pageIndex}
   </select>
 
+<!--  <select id="selectConditionally" resultMap="Goods">-->
+<!--    with touchable as ( select g2.*-->
+<!--    from goods_in_warehouse giw join goods g2 on giw.goods_goods_id = g2.goods_id-->
+<!--    where giw.warehouse_warehouse_id= #{warehouseId} )-->
+<!--    select *-->
+<!--    from touchable t-->
+<!--    where t.goods_id IS NOT null-->
+<!--    <if test="type!=null">-->
+<!--      AND t.type like #{type}-->
+<!--    </if>-->
+<!--    <if test="catagory!=null">-->
+<!--      AND t.catagory like #{catagory}-->
+<!--    </if>-->
+<!--    <if test="name!=null">-->
+<!--      AND t.name like #{name}-->
+<!--    </if>-->
+<!--    <if test="refrigiratedCondition!=null">-->
+<!--      AND t.refrigirated_condition = #{refrigiratedCondition}-->
+<!--    </if>-->
+<!--    <if test="lowerPrice!=null">-->
+<!--      AND t.price &gt; #{lowerPrice}-->
+<!--    </if>-->
+<!--    <if test="upperPrice!=null">-->
+<!--      AND t.price &lt; #{upperPrice}-->
+<!--    </if>-->
+<!--    <if test="discount=false">-->
+<!--      AND discount = 1-->
+<!--    </if>-->
+<!--    <if test="orderByPriceIncrease!=null">-->
+<!--      <if test="orderByPriceIncrease=false">-->
+<!--        order by price desc-->
+<!--      </if>-->
+<!--      <if test="orderByPriceIncrease=true">-->
+<!--        order by price-->
+<!--      </if>-->
+<!--    </if>-->
+<!--    <if test="orderByDiscount=true">-->
+<!--      order by discount-->
+<!--    </if>-->
+<!--    <if test="orderByExpiredDay=true">-->
+<!--      order by expired_day-->
+<!--    </if>-->
+<!--  </select>-->
+  <select id="getOccuVolume"
+
+  <select id="selectByCase" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods_in_warehouse
+    where
+    and warehouse_warehouse_id = #{warehouseWarehouseId,jdbcType=INTEGER}
+    and goods_goods_id = #{goodsGoodsId,jdbcType=INTEGER}
+    order by expired_day;
+  </select>
+  <delete id="deleteAll">
+    delete from goods_in_warehouse
+    where amount = 0;
+  </delete>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

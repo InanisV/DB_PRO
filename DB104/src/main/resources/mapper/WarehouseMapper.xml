@@ -13,6 +13,30 @@
     warehouse_id, address, refrigerated_shelf_volume, ordinary_shelf_volume, warehouse_long, 
     warehouse_lati
   </sql>
+  
+<!-- my sql statement -->
+  <select id="getNonRefriOccupVolume" parameterType="java.lang.Integer" resultType="int">
+    call get_used_volume(#{warehouseId}, @y, @n);
+    select @n;
+  </select>
+  <select id="getRefriOccupVolume" parameterType="java.lang.Integer" resultType="int">
+    call get_used_volume(#{warehouseId}, @y, @n);
+    select @y;
+  </select>
+
+  <select id="getNonRefriRestVolume" parameterType="java.lang.Integer" resultType="int">
+    call get_used_volume(#{warehouseId}, @y, @n);
+    select ordinary_shelf_volume-@n as ordinary_left_volume
+    from warehouse w
+    where w.warehouse_id=#{warehouseId};
+  </select>
+  <select id="getRefriRestVolume" parameterType="java.lang.Integer" resultType="int">
+    call get_used_volume(#{warehouseId}, @y, @n)
+    select w.refrigerated_shelf_volume-@y as refrigirated_left_volume
+    from warehouse w
+    where w.warehouse_id=#{warehouseId}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

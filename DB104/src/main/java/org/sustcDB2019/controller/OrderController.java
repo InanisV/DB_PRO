@@ -25,13 +25,13 @@ public class OrderController {
         return goods;
     }
 
-    public static boolean addGoods(Sales sale){
-        
-        if(sale.getIsPaid()=="Y"){
-
-        }
-        Sales
-    }
+//    public static boolean addGoods(Sales sale){
+//
+//        if(sale.getIsPaid()=="Y"){
+//
+//        }
+//        Sales
+//    }
 
 
 }

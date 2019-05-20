@@ -1,5 +1,6 @@
 package org.sustcDB2019.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Order {
@@ -12,6 +13,14 @@ public class Order {
     private Integer deliveryUserId;
 
     private Integer customerUserId;
+
+    public ArrayList<Sales> getSaleses() { return saleses; }
+
+    public void setSaleses(ArrayList<Sales> saleses) {
+        this.saleses = saleses;
+    }
+
+    private ArrayList<Sales> saleses;
 
     public Integer getOrderId() {
         return orderId;

@@ -9,7 +9,7 @@ import org.sustcDB2019.entity.Order;
 import java.util.ArrayList;
 
 public class DelivererService extends UserService {
-    Deliverer deliverer= (Deliverer) super.user;
+    public Deliverer deliverer= (Deliverer) super.user;
 
     public int setStatus(String status) {
         deliverer.setStatusOn(status);
@@ -19,6 +19,20 @@ public class DelivererService extends UserService {
     public ArrayList<Order> getCurrentOrder(){
         SqlSession session=DAOService.sqlSessionFactory.openSession();
         OrderMapper mapper=session.getMapper(OrderMapper.class);
-        ArrayList<Order> list=mapper.selectByCase();//[add mapper]
+        Order tmpOrder=new Order();
+        tmpOrder.setDeliveryUserId(deliverer.getUserId());
+        ArrayList<Order> list=mapper.selectByCase(tmpOrder);//[add mapper]
+        session.close();
+        return list;
     }
+
+    public int updateDeliverer(Deliverer deliverer){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        DelivererMapper mapper=sqlSession.getMapper(DelivererMapper.class);
+        mapper.updateByPrimaryKeySelective(deliverer);
+        return 0;
+    }
+
+
+
 }

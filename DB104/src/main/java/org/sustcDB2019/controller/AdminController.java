@@ -31,8 +31,6 @@ public class AdminController {
                     modify(customerService.customer);
                     break;
                 case 2:
-                    // Display goods information
-                    // 输入页码 返回goods的arraylist
                     int page  = 1;
                     ArrayList<Goods> goods = new ArrayList<Goods>();
                     boolean flag2 = true;
@@ -41,9 +39,9 @@ public class AdminController {
                                 "1. Next page\n" +
                                 "2. Jump to page\n" +
                                 "3. Search goods\n" +
-                                "3. Add goods to cart\n" +
-                                "4. Check the cart and purchase\n" +
-                                "5. Return");
+                                "4. Add goods to cart\n" +
+                                "5. Check the cart and purchase\n" +
+                                "6. Return");
                         int option2 = in.nextInt();
                         switch (option2){
                             case 1:
@@ -57,13 +55,17 @@ public class AdminController {
                                 showGoods(goods);
                                 // 查看
                             case 3:
+                                System.out.print("Please input the name of the goods: ");
+                                String name = in.next();
+                                break;
+                            case 4:
                                 System.out.print("Please input the goods id: ");
                                 int id = in.nextInt();
                                 System.out.print("Please input the amount: ");
                                 int amount = in.nextInt();
                                 // pass in id and quantity to add to the cart
                                 break;
-                            case 4:
+                            case 5:
                                 // displays shopping cart items and amounts
                                 showGoods(goods);
                                 double total = 0;
@@ -94,7 +96,7 @@ public class AdminController {
                                             System.out.println("Wrong input. Please input again.");
                                     }
                                 } while (flag3);
-                            case 5:
+                            case 6:
                                 flag2 = false;
                             default:
                                 System.out.println("Wrong input. Please input again.");
@@ -139,9 +141,11 @@ public class AdminController {
     }
 
     public static void showGoods(ArrayList<Goods> goods){
-
+        System.out.println(String.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s", "Goods id", "Goods Name",
+                "Price", "Discount", "Brand", "Origin Place", "Preserve Time", "Volume", "Frozen", "Category", "Type"));
         for (Goods x : goods) {
-            System.out.printf("");
+            System.out.println(String.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s", x.getGoodsId(), x.getName(), x.getPrice(), x.getDiscount(),
+                    x.getBrand(), x.getOriginPlace(), x.getPreserveTime(), x.getVolume(), x.getRefrigiratedCondition(), x.getCatagory(), x.getType()));
         }
     }
 

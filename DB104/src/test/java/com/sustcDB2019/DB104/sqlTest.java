@@ -27,12 +27,15 @@ public class sqlTest {
 
     public static void main(String[] args){
         new sqlTest();
-        deliverer();
 
+
+        deliverer();
+//        test1();
     }
 
     public static void deliverer(){
         SqlSession session = sqlSessionFactory.openSession();
+
         DelivererMapper mapper = session.getMapper(DelivererMapper.class);
         Deliverer deliverer = new Deliverer();
         deliverer.setStatusOn("Y");
@@ -41,6 +44,10 @@ public class sqlTest {
         for(Deliverer x: arrayList){
             System.out.println(x.getUserId().toString());
         }
+    }
+
+    public static void test1(){
+
     }
 
 }
