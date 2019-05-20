@@ -45,7 +45,36 @@ public class ManagerService extends UserService{
         return 0;
     }
 
+    public int addNewGoods(Goods newGoods){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        GoodsMapper goodsMapper=sqlSession.getMapper(GoodsMapper.class);
+        goodsMapper.insertSelective(newGoods);
+        return 0;
+    }
+
+    public int changeGoodsDiscount(int goodsId, double discount){
+        BigDecimal discountBD=new BigDecimal(discount);
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        GoodsMapper goodsMapper = sqlSession.getMapper(GoodsMapper.class);
+        Goods tmpGoods=new Goods();
+        tmpGoods.setGoodsId(goodsId);
+        tmpGoods.setDiscount(discountBD);
+        goodsMapper.updateByPrimaryKeySelective(tmpGoods);
+        return 0;
+    }
+
+
     public int purchaseToWarehouse(int purchaseId, int goodsId, int amount, Date productionDate){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        GoodsMapper goodsMapper=sqlSession.getMapper(GoodsMapper.class);
+        WarehouseMapper warehouseMapper=sqlSession.getMapper(WarehouseMapper.class);
+        if (goodsMapper.selectByPrimaryKey(goodsId).getRefrigiratedCondition().equals("Y")){
+            if (amount>warehouseMapper.getRefriRestVolume(manager.getWarehouseWarehouseId()))
+                return 1;
+        }else {
+            if (amount>warehouseMapper.getNonRefriRestVolume(manager.getWarehouseWarehouseId()))
+                return 1;
+        }
         Purchase purchase=new Purchase();
         purchase.setPurchaseId(purchaseId);
         purchase.setGoodsGoodsId(goodsId);
@@ -53,7 +82,6 @@ public class ManagerService extends UserService{
         purchase.setProductionDate(productionDate);
         purchase.setWarehouseWarehouseId(manager.getWarehouseWarehouseId());
         purchase.setDate(currentDate);
-        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         GoodsMapper mapper = sqlSession.getMapper(GoodsMapper.class);
         Goods goods=mapper.selectByPrimaryKey(goodsId);
         purchase.setCost(goods.getPrice().multiply(new BigDecimal(amount)));
@@ -107,14 +135,13 @@ public class ManagerService extends UserService{
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         WarehouseMapper mapper=sqlSession.getMapper(WarehouseMapper.class);
 
-        int [] volumns=null;
-        //volumns=mapper.getRestVolumn(manager.getWarehouseWarehouseId());
+        int [] volumes=null;
+        volumes[1]=mapper.getRefriRestVolume(manager.getWarehouseWarehouseId());
+        volumes[0]=mapper.getNonRefriRestVolume(manager.getWarehouseWarehouseId());
         //[add mapper]
         //搞定了  、、@fixed: the four new methods was added
-
-
         sqlSession.close();
-        return volumns;
+        return volumes;
     }
     public ArrayList<GoodsInWarehouse> getNearOverdue(){//filter type? category? RefrigiratedCondition? or goods obj?
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();

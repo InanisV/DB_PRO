@@ -135,23 +135,25 @@ public class CustomerService extends UserService {
         tmpOrder.setCustomerUserId(customer.getUserId());
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+        DelivererMapper delivererMapper = sqlSession.getMapper(DelivererMapper.class);
+        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
+
+        Deliverer tmpDeliverer=null;
+//        tmpDeliverer=delivererMapper.getDelivererWithMinOrder();
+        //[add mapper] when there are several deliverer with the same #order, they should be chosen randomly
+        //
+
         int orderId=0;
         orderId=orderMapper.selectMaxId();
         //[add mapper] select max id of order
         //搞定了
-        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
         for (Sales sales:list) {
             sales.setIsPaid("Y");
             sales.setOrderOrderId(orderId);
             salesMapper.updateByPrimaryKeySelective(sales);
         }
-        DelivererMapper delivererMapper = sqlSession.getMapper(DelivererMapper.class);
-        Deliverer tmpDeliverer=null;
-//        tmpDeliverer=delivererMapper.getDelivererWithMinOrder();
-        //[add mapper] when there are several deliverer with the same #order, they should be chosen randomly
-        //
-        tmpOrder.setDeliveryUserId(tmpDeliverer.getUserId());
-        orderMapper.insertSelective(tmpOrder);
+
+
         GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
         goodsInWarehouseMapper.deleteAll();
         //[add mapper] updateAll to delete all goodsInWarehouse whose amount==0
