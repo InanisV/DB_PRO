@@ -212,7 +212,7 @@ public class AdminController {
                                             break;
                                         case 2:
                                             sales = customerService.showCart(customerService.customer.getUserId());
-                                            customerService.buy(sales);
+                                            customerService.buy(sales, new Date());
                                             System.out.println("Order generated successfully.");
                                             flag3 = false;
                                             break;

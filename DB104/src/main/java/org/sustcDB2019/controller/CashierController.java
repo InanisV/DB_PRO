@@ -5,6 +5,7 @@ import org.sustcDB2019.service.*;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class CashierController {
@@ -52,7 +53,7 @@ public class CashierController {
                     break;
                 case 4:
                     sales = cashierService.showCart(cashierService.cashier.getUserId());
-                    cashierService.buyOffline(sales);
+                    cashierService.buyOffline(sales, new Date());
                     flag = false;
                     break;
                 case 5:
