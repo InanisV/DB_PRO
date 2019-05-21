@@ -20,6 +20,7 @@ public class AdminController {
         CustomerService customerService = new CustomerService();
         ManagerService managerService = new ManagerService();
         customerService.customer = managerService.getCustomerById(customerid);
+        customerService.updateWarehouse();
         boolean flag = true;
         do {
             System.out.println("Please choose the option:\n" +
@@ -34,6 +35,7 @@ public class AdminController {
                     System.out.println("Username: " + customerService.customer.getUserName());
                     System.out.println("Phone number: " + customerService.customer.getPhoneNumber());
                     System.out.println("Address: " + customerService.customer.getAddress());
+                    System.out.println(customerService.customer.getWarehouseId());
                     modify(customerService.customer);
                     break;
                 case 2:
@@ -47,6 +49,7 @@ public class AdminController {
                     boolean orderByDiscount = false;
                     boolean flag2 = true;
                     goods = customerService.goodsArrayListWithFilter(g, customerService.customer.getWarehouseId(),lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
+                    showGoods(goods);
                     do {
                         System.out.println("Please choose the option:\n" +
                                 "1. Next page\n" +
@@ -68,6 +71,7 @@ public class AdminController {
                                 page = in.nextInt();
                                 goods = customerService.goodsArrayListWithFilter(g, customerService.customer.getWarehouseId(),lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
                                 showGoods(goods);
+                                break;
                             case 3:
                                 System.out.println("Please choose the option:\n" +
                                         "1. By name\n" +
@@ -75,7 +79,7 @@ public class AdminController {
                                         "3. By type\n" +
                                         "4. By price\n" +
                                         "5. Ordered by price\n" +
-                                        "6. By brand\n " +
+                                        "6. By brand\n" +
                                         "7. By origin place\n" +
                                         "8. By discounted\n" +
                                         "9. Ordered by discount\n" +
@@ -101,7 +105,7 @@ public class AdminController {
                                         upperPrice = in.next();
                                         break;
                                     case 5:
-                                        System.out.print("Please choose the option:\n1. Ordered increasingly\n2. Ordered decreasingly");
+                                        System.out.println("Please choose the option:\n1. Ordered increasingly\n2. Ordered decreasingly");
                                         int order = in.nextInt();
                                         if(order==1){
                                             orderByPrice = "";
@@ -126,7 +130,7 @@ public class AdminController {
                                         orderByDiscount = true;
                                         break;
                                     case 10:
-                                        System.out.print("Please choose the option:\n1. Refrigeration\n2. Not refrigeration");
+                                        System.out.println("Please choose the option:\n1. Refrigeration\n2. Not refrigeration");
                                         int re = in.nextInt();
                                         if(re==1){
                                             g.setRefrigiratedCondition("Y");
@@ -392,11 +396,11 @@ public class AdminController {
     }
 
     public static void showOrders(ArrayList<Order> orders){
-        System.out.println(String.format("%-8s%-10s%-17s%-17s%-6s", "Number", "Order id", "Departure time",
+        System.out.println(String.format("%-8s%-10s%-27s%-27s%-6s", "Number", "Order id", "Departure time",
                 "Arrival Time", "Deliverer id"));
         int i = 1;
         for (Order x : orders) {
-            System.out.println(String.format(String.format("%-8s%-10s%-17s%-17s%-6s", i,  x.getOrderId(), x.getDepartureTime(),
+            System.out.println(String.format(String.format("%-8s%-10s%-27s%-27s%-6s", i,  x.getOrderId(), x.getDepartureTime(),
                     x.getArrivalTime(), x.getDeliveryUserId())));
             i++;
         }

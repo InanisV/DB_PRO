@@ -27,10 +27,11 @@ public class ManageController {
                     "2. Add new accounts\n" +
                     "3. Modify accounts information\n" +
                     "4. Check good sales \n" +
-                    "5. Check capacity\n" +
-                    "6. Manipulate and check goods\n" +
-                    "7. Add new warehouse\n" +
-                    "8. Log out");
+                    "5. Check good incomes \n" +
+                    "6. Check capacity\n" +
+                    "7. Manipulate and check goods\n" +
+                    "8. Add new warehouse\n" +
+                    "9. Log out");
             int option = in.nextInt();
             switch (option){
                 case 1:
@@ -78,11 +79,42 @@ public class ManageController {
                     } while (flag5);
                     break;
                 case 5:
+                    int page4 = 1;
+                    boolean flag6 = true;
+                    ArrayList<GoodsWithAmountIncome> goodsWithIncomes = managerService.getOrderedByIncome(page4);
+                    showGoodsWithAmount(goodsWithIncomes);
+                    do {
+                        System.out.println("Please choose the option:\n" +
+                                "1. Next page\n" +
+                                "2. Jump to page\n" +
+                                "3. Return");
+                        int option3 = in.nextInt();
+                        switch (option3){
+                            case 1:
+                                page4 += 1;
+                                goodsWithIncomes = managerService.getOrderedByIncome(page4);
+                                showGoodsWithAmount(goodsWithIncomes);
+                                break;
+                            case 2:
+                                System.out.print("Please input the page number: ");
+                                page4 = in.nextInt();
+                                goodsWithIncomes = managerService.getOrderedByIncome(page4);
+                                showGoodsWithAmount(goodsWithIncomes);
+                                break;
+                            case 3:
+                                flag6 = false;
+                                break;
+                            default:
+                                System.out.println("Wrong input. Please input again.");
+                        }
+                    } while (flag6);
+                    break;
+                case 6:
                     int[] capacity = managerService.getRestVolume(managerService.manager.getWarehouseWarehouseId());
                     System.out.println("Remaining capacity of the regular warehouse is: " + capacity[0]);
                     System.out.println("Remaining capacity of the frozen warehouse is: " + capacity[1]);
                     break;
-                case 6:
+                case 7:
                     CustomerService customerService = new CustomerService();
                     int page2 = 1;
                     Goods g = new Goods();
@@ -197,7 +229,7 @@ public class ManageController {
                         }
                     } while (flag2);
                     break;
-                case 7:
+                case 8:
                     System.out.print("Please input the warehouse's address: ");
                     String address = in.next();
                     System.out.print("Please input the warehouse's refrigerated shelf volume: ");
@@ -210,7 +242,7 @@ public class ManageController {
                     BigDecimal lati = in.nextBigDecimal();
                     managerService.addNewWarehouse(address,volume, volume2, longi,lati);
                     break;
-                case 8:
+                case 9:
                     flag = false;
                     break;
                 default:
