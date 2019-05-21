@@ -16,7 +16,6 @@ public class MainController {
 
     public static void main(String[] args) {
         DAOService s = new DAOService();
-
         UserService userService = new UserService();
         System.out.println("Welcome to Newly Retailing Chain Store!\nPlease log in or sign up.");
         boolean flag1 = true;
