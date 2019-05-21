@@ -82,7 +82,7 @@ public class ManageController {
                     int page4 = 1;
                     boolean flag6 = true;
                     ArrayList<GoodsWithAmountIncome> goodsWithIncomes = managerService.getOrderedByIncome(page4);
-                    showGoodsWithAmount(goodsWithIncomes);
+                    showGoodsWithIncome(goodsWithIncomes);
                     do {
                         System.out.println("Please choose the option:\n" +
                                 "1. Next page\n" +
@@ -99,7 +99,7 @@ public class ManageController {
                                 System.out.print("Please input the page number: ");
                                 page4 = in.nextInt();
                                 goodsWithIncomes = managerService.getOrderedByIncome(page4);
-                                showGoodsWithAmount(goodsWithIncomes);
+                                showGoodsWithIncome(goodsWithIncomes);
                                 break;
                             case 3:
                                 flag6 = false;
