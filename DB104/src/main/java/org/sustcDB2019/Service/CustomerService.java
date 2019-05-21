@@ -98,7 +98,7 @@ public class CustomerService extends UserService {
         GoodsInWarehouseMapper goodsInWarehouseMapper = sqlSession.getMapper(GoodsInWarehouseMapper.class);
 
         Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
-        ArrayList<GoodsInWarehouse> list = goodsInWarehouseMapper.selectByCase(goodsId, customer.getWarehouseId());
+        ArrayList<GoodsInWarehouse> list = goodsInWarehouseMapper.selectByCase(customer.getWarehouseId(), goodsId);
         int rest = 0;
         for (GoodsInWarehouse goodsInWarehouse : list) {
             rest += goodsInWarehouse.getAmount();

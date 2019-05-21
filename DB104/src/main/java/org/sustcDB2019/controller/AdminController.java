@@ -396,11 +396,11 @@ public class AdminController {
     }
 
     public static void showOrders(ArrayList<Order> orders){
-        System.out.println(String.format("%-8s%-10s%-17s%-17s%-6s", "Number", "Order id", "Departure time",
+        System.out.println(String.format("%-8s%-10s%-27s%-27s%-6s", "Number", "Order id", "Departure time",
                 "Arrival Time", "Deliverer id"));
         int i = 1;
         for (Order x : orders) {
-            System.out.println(String.format(String.format("%-8s%-10s%-17s%-17s%-6s", i,  x.getOrderId(), x.getDepartureTime(),
+            System.out.println(String.format(String.format("%-8s%-10s%-27s%-27s%-6s", i,  x.getOrderId(), x.getDepartureTime(),
                     x.getArrivalTime(), x.getDeliveryUserId())));
             i++;
         }
