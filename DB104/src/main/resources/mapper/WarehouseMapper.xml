@@ -18,26 +18,29 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select * from warehouse;
   </select>
-  <select id="getNonRefriOccupVolume" parameterType="java.lang.Integer" statementType="CALLABLE" resultType="java.lang.Integer">
-    {call get_used_non_refri_volume(#{warehouseId, mode=IN, jdbcType=INTEGER}, @n)}
-    select @n;
+  <select id="getNonRefriOccupVolume" parameterType="int" resultType="int">
+    select sum(giw.amount*g.volume)
+    from ( select * from goods_in_warehouse where warehouse_warehouse_id=#{warehouseId}) giw
+    join goods g on giw.goods_goods_id=g.goods_id
+   where g.refrigirated_condition='Y'
+    group by g.refrigirated_condition;
+
   </select>
-  <select id="getRefriOccupVolume" parameterType="org.sustcDB2019.entity.Warehouse" statementType="CALLABLE" resultMap="BaseResultMap" >
-    {call get_used_volume(
-    #{warehouseId, mode=IN, jdbcType=INTEGER},
-    #{refrigeratedShelfVolume, mode=OUT, jdbcType=INTEGER},
-    #{ordinaryShelfVolume,mode=OUT, jdbcType=INTEGER})}
+  <select id="getRefriOccupVolume" parameterType="int" resultType="int" >
+    select sum(giw.amount*g.volume)
+    from ( select * from goods_in_warehouse where warehouse_warehouse_id=#{warehouseId}) giw
+    join goods g on giw.goods_goods_id=g.goods_id
+   where g.refrigirated_condition='N'
+    group by g.refrigirated_condition;
   </select>
 
-  <select id="getNonRefriRestVolume" parameterType="java.lang.Integer" statementType="CALLABLE" resultType="java.lang.Integer">
-    {call get_used_non_refri_volume(#{warehouseId}, @n);}
-    select ordinary_shelf_volume-@n as ordinary_left_volume
+  <select id="getNonRefriRestVolume" parameterType="int" resultType="int">
+    select ordinary_shelf_volume-a.summ
     from warehouse w
     where w.warehouse_id=#{warehouseId};
   </select>
-  <select id="getRefriRestVolume" parameterType="java.lang.Integer" statementType="CALLABLE" resultType="java.lang.Integer">
-    {call get_used_refri_volume(#{warehouseId}, @y)}
-    select w.refrigerated_shelf_volume - @y as refrigerated_left_volumes
+  <select id="getRefriRestVolume" parameterType="java.lang.Integer" resultType="int">
+    select w.refrigerated_shelf_volume - @y
     from warehouse w
     where w.warehouse_id=#{warehouseId, jdbcType=INTEGER};
   </select>
