@@ -164,7 +164,7 @@ public class CustomerService extends UserService {
     // return -1 if sales not belong to this customer
     public int buy(ArrayList<Sales> list,Date currentDate){
         for (Sales sales:list) {
-            if (sales.getCustomerUserId()!=customer.getUserId()) return -1;
+            if (!sales.getCustomerUserId().equals(customer.getUserId())) return -1;
         }
 
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
