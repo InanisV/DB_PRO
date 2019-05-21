@@ -87,7 +87,7 @@ public class CustomerService extends UserService {
                 lowerPerice, upperPirce, discount, orderByPriceIncrease, orderByDiscount, 10, index*10);
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return list;
     }
 
@@ -131,7 +131,7 @@ public class CustomerService extends UserService {
         }
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return 0;
     }
 
@@ -156,7 +156,7 @@ public class CustomerService extends UserService {
         }
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return 0;
     }
 
@@ -193,7 +193,7 @@ public class CustomerService extends UserService {
         //deleteAll to delete all goodsInWarehouse whose amount==0
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return tmpOrder.getOrderId();//return id of order for front to view relevant message
     }
 
@@ -215,7 +215,7 @@ public class CustomerService extends UserService {
         }
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return 0;
     }
 
@@ -228,7 +228,7 @@ public class CustomerService extends UserService {
         ArrayList<Order> list = mapper.selectByCase(tmpOrder);//[add mapper]
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return list;
     }
 
@@ -239,7 +239,7 @@ public class CustomerService extends UserService {
         int historyCost= salesMapper.countPaymentByIdAndDate(customer.getId(),startDate,endDate);
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return historyCost;
     }
 
@@ -265,7 +265,7 @@ public class CustomerService extends UserService {
         }
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return list;
     }
 
@@ -279,7 +279,7 @@ public class CustomerService extends UserService {
         DelivererService.getOrderForDeliverer(tmpOrder.getDeliveryUserId());
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return 0;
     }
 

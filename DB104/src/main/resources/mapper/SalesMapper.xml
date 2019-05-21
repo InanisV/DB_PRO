@@ -19,7 +19,7 @@
       <result column="amount" jdbcType="INTEGER" property="amount" />
       <result column="expired_day" jdbcType="DATE" property="expiredDay" />
 
-      <association property="goods" javaType="org.sustcDB2019.entity.Goods" column="goods_goods_id" />
+      <association property="goods" javaType="org.sustcDB2019.entity.Goods" resultMap="Goods" column="goods_goods_id" />
     </association>
 
   </resultMap>
@@ -92,7 +92,7 @@
   </select>
 
   <select id="selectByCase" parameterType="org.sustcDB2019.entity.Sales" resultMap="BaseResultMap">
-    select *
+    select sales.*, giw.*, g.*
     from sales
     join goods_in_warehouse giw on sales.goods_in_warehouse_idgoods_in_warehouse = giw.idgoods_in_warehouse
     join goods g on giw.goods_goods_id = g.goods_id

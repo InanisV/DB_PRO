@@ -151,7 +151,7 @@ public class ManageController {
                                 break;
                             case 3:
                                 System.out.print("Please input the name of the goods: ");
-                                g.setName(in.next());
+                                g.setName("'%" + in.next() + "'%");
                                 goods = customerService.goodsArrayListWithFilter(g,managerService.manager.getWarehouseWarehouseId(), lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page2);
                                 AdminController.showGoods(goods);
                                 break;

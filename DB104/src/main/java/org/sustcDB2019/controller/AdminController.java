@@ -87,7 +87,7 @@ public class AdminController {
                                 switch (option4){
                                     case 1:
                                         System.out.print("Please input the name: ");
-                                        g.setName(in.next());
+                                        g.setName("'%" + in.next() + "%'");
                                         break;
                                     case 2:
                                         System.out.print("Please input the category: ");
@@ -107,9 +107,9 @@ public class AdminController {
                                         System.out.println("Please choose the option:\n1. Ordered increasingly\n2. Ordered decreasingly");
                                         int order = in.nextInt();
                                         if(order==1){
-                                            orderByPrice = "";
+                                            orderByPrice = "true";
                                         } else if(order==2){
-                                            orderByPrice = "";
+                                            orderByPrice = "false";
                                         } else {
                                             System.out.println("Wrong input.");
                                         }
@@ -149,7 +149,7 @@ public class AdminController {
                                         "2. Delete category\n" +
                                         "3. Delete type\n" +
                                         "4. Delete price\n" +
-                                        "5. Delete brand\n " +
+                                        "5. Delete brand\n" +
                                         "6. Delete origin place\n" +
                                         "7. Delete discounted\n" +
                                         "8. Delete refrigeration condition");
@@ -221,10 +221,13 @@ public class AdminController {
                                             break;
                                         default:
                                             System.out.println("Wrong input. Please input again.");
+                                            break;
                                     }
                                 } while (flag3);
+                                break;
                             case 7:
                                 flag2 = false;
+                                break;
                             default:
                                 System.out.println("Wrong input. Please input again.");
                         }
@@ -289,7 +292,11 @@ public class AdminController {
                                 ArrayList<Integer> spend = customerService.getHistoryStatisticsByMonth(sdate, edate);
                                 System.out.print("Your total spending during these month are: ");
                                 for (Integer x: spend) {
-                                    System.out.print(x + " ");
+                                    if(x==null){
+                                        System.out.print(0 + " ");
+                                    } else {
+                                        System.out.print(x + " ");
+                                    }
                                 }
                                 System.out.println();
                                 break;
@@ -431,6 +438,9 @@ public class AdminController {
         ArrayList<ArrayList<Sales>> newSales = new ArrayList<ArrayList<Sales>>();
         for (int i = 0; i < sales.size(); i++) {
             boolean exit = false;
+
+            sales.get(i).getGoodsInWarehouse().getGoods();
+
             c: for (int j = 0; j < newSales.size(); j++) {
                 sales.get(i).getGoodsInWarehouse();
                 sales.get(i).getGoodsInWarehouse().getGoods();
