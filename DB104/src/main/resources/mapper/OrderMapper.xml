@@ -21,15 +21,16 @@
 
   <resultMap id="SalesMap" type="org.sustcDB2019.entity.Sales">
     <id column="sales_id" jdbcType="INTEGER" property="salesId" />
-    <result column="warehouse_warehouse_id" jdbcType="INTEGER" property="warehouseWarehouseId" />
+    <result column="goods_in_warehouse_idgoods_in_warehouse" jdbcType="INTEGER" property="goodsInWarehouseId" />
     <result column="customer_user_id" jdbcType="INTEGER" property="customerUserId" />
-    <result column="goods_goods_id" jdbcType="INTEGER" property="goodsGoodsId" />
     <result column="amount" jdbcType="INTEGER" property="amount" />
     <result column="payment" jdbcType="DECIMAL" property="payment" />
     <result column="is_paid" jdbcType="CHAR" property="isPaid" />
     <result column="order_order_id" jdbcType="INTEGER" property="orderOrderId" />
+    <result column="sales_time" jdbcType="DATE" property="salesTime"/>
 
-    <association property="goods" column="warehouse_warehouse_id"/>
+    <association property="goodsInWarehouse" column="goods_in_warehouse_idgoods_in_warehouse" javaType="org.sustcDB2019.entity.GoodsInWarehouse"/>
+
   </resultMap>
 
 

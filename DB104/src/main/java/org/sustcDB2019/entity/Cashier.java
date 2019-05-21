@@ -1,6 +1,6 @@
 package org.sustcDB2019.entity;
 
-public class Cashier {
+public class Cashier extends User{
     private Integer userId;
 
     private Integer warehouseWarehouseId;
@@ -19,5 +19,21 @@ public class Cashier {
 
     public void setWarehouseWarehouseId(Integer warehouseWarehouseId) {
         this.warehouseWarehouseId = warehouseWarehouseId;
+    }
+
+    public void setByUser(User user1){
+        this.setUserName(user1.getUserName());
+        this.setId(user1.getId());
+        this.setPhoneNumber(user1.getPhoneNumber());
+        this.setPassword(user1.getPassword());
+    }
+
+    public Cashier(){}
+
+    public Cashier(User user1){
+        this.setUserName(user1.getUserName());
+        this.setId(user1.getId());
+        this.setPhoneNumber(user1.getPhoneNumber());
+        this.setPassword(user1.getPassword());
     }
 }

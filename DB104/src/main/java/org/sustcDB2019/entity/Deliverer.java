@@ -30,4 +30,20 @@ public class Deliverer extends User {
     public void setWarehouseWarehouseId(Integer warehouseWarehouseId) {
         this.warehouseWarehouseId = warehouseWarehouseId;
     }
+
+    public void setByUser(User user1){
+        this.setUserName(user1.getUserName());
+        this.setId(user1.getId());
+        this.setPhoneNumber(user1.getPhoneNumber());
+        this.setPassword(user1.getPassword());
+    }
+
+    public Deliverer(User user1){
+        this.setUserName(user1.getUserName());
+        this.setId(user1.getId());
+        this.setPhoneNumber(user1.getPhoneNumber());
+        this.setPassword(user1.getPassword());
+    }
+
+    public Deliverer(){}
 }

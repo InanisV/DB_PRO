@@ -6,7 +6,9 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.sustcDB2019.dao.DaoManager;
 import org.sustcDB2019.dao.DelivererMapper;
+import org.sustcDB2019.dao.SalesMapper;
 import org.sustcDB2019.entity.Deliverer;
+import org.sustcDB2019.entity.Sales;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +33,11 @@ public class sqlTest {
 
         deliverer();
 //        test1();
+//        int i = 30001302;
+//        ArrayList<Sales> s = showCart(i);
+//        for(Sales x: s){
+//            System.out.println( x.getSalesId().toString());
+//        }
     }
 
     public static void deliverer(){
@@ -38,16 +45,26 @@ public class sqlTest {
 
         DelivererMapper mapper = session.getMapper(DelivererMapper.class);
         Deliverer deliverer = new Deliverer();
-        deliverer.setStatusOn("Y");
-        deliverer.setWarehouseWarehouseId(6);
+        deliverer.setStatusOn("N");
+        deliverer.setUserId(6000001);
         ArrayList<Deliverer> arrayList = mapper.selectByCase(deliverer);
+        System.out.println(arrayList.size());
+//        if(arrayList.size()){
+//            System.out.println("null");
+//        }
         for(Deliverer x: arrayList){
             System.out.println(x.getUserId().toString());
         }
     }
 
-    public static void test1(){
-
+    public static ArrayList<Sales> showCart(Integer userId) {
+        SqlSession session = sqlSessionFactory.openSession();
+        SalesMapper salesMapper = session.getMapper(SalesMapper.class);
+        Sales sale = new Sales();
+        sale.setCustomerUserId(userId);
+        sale.setIsPaid("N");
+        ArrayList<Sales> result = salesMapper.selectByCase(sale);
+        return result;
     }
 
 }

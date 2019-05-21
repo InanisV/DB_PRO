@@ -40,4 +40,43 @@ public class User {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public User(){}
+
+    public User(int id,String password,String userName,String phoneNumber){
+        this.id=id;
+        this.password=password;
+        this.userName=userName;
+        this.phoneNumber=phoneNumber;
+    }
+    public User(String password,String userName,String phoneNumber){
+        this.password=password;
+        this.userName=userName;
+        this.phoneNumber=phoneNumber;
+    }
+
+    public User(Customer otherUser){
+        this.phoneNumber=otherUser.getPhoneNumber();
+        this.userName=otherUser.getUserName();
+        this.password=otherUser.getPassword();
+        this.id=otherUser.getId();
+    }
+    public User(Manager otherUser){
+        this.phoneNumber=otherUser.getPhoneNumber();
+        this.userName=otherUser.getUserName();
+        this.password=otherUser.getPassword();
+        this.id=otherUser.getId();
+    }
+    public User(Deliverer otherUser){
+        this.phoneNumber=otherUser.getPhoneNumber();
+        this.userName=otherUser.getUserName();
+        this.password=otherUser.getPassword();
+        this.id=otherUser.getId();
+    }
+    public User(Cashier otherUser){
+        this.phoneNumber=otherUser.getPhoneNumber();
+        this.userName=otherUser.getUserName();
+        this.password=otherUser.getPassword();
+        this.id=otherUser.getId();
+    }
 }

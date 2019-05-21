@@ -4,14 +4,19 @@
   <resultMap id="BaseResultMap" type="org.sustcDB2019.entity.Manager">
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="warehouse_warehouse_id" jdbcType="INTEGER" property="warehouseWarehouseId" />
+    <result column="id" jdbcType="INTEGER" property="id"/>
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
   </resultMap>
   <sql id="Base_Column_List">
-    user_id, warehouse_warehouse_id
+    user_id, warehouse_warehouse_id, id, password, user_name, phone_number
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from manager
+    join user u on manager.user_id = u.id
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

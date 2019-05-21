@@ -1,12 +1,18 @@
 package org.sustcDB2019.dao;
 
-import org.sustcDB2019.entity.GoodsWithAmount;
+import org.sustcDB2019.entity.GoodsWithAmountIncome;
 import org.sustcDB2019.entity.Sales;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public interface SalesMapper {
-    ArrayList<GoodsWithAmount> getSalesVolumeRank(Integer warehouseId, int itemsPerPage, int PageIndex);
+    //warehouseId 可以为空
+    ArrayList<GoodsWithAmountIncome> getSalesIncomeRank(Integer warehouseId, int itemsPerPage, int PageIndex);
+
+    Integer countPaymentByIdAndDate(Integer customerUserId, Date startDate, Date endDate);
+
+    ArrayList<GoodsWithAmountIncome> getSalesVolumeRank(Integer warehouseId, int itemsPerPage, int pageIndex);
 
     //need to be tested
     ArrayList<Sales> selectByCase(Sales sales);

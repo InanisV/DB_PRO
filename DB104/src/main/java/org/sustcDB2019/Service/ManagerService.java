@@ -10,16 +10,20 @@ import java.util.Date;
 import java.util.Map;
 
 public class ManagerService extends UserService{
-    Manager manager=(Manager) super.user;
+    public Manager manager=new Manager(super.user);
 
 
     public int addNewManager(String userName,String password,String phoneNumber,int warehouseId){
         Manager newManager=new Manager();
         SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+
         User user = userMapper.selectByName(userName);
-        if(user.getId()!=null){
+        if(user!=null){
+            sqlSession.close();
             return -1;
+        }else {
+            user = new User();
         }
         ManagerMapper managerMapper = sqlSession.getMapper(ManagerMapper.class);
         user.setId(managerMapper.selectMaxId()+1);
@@ -32,7 +36,8 @@ public class ManagerService extends UserService{
         managerMapper.insertSelective(newManager);
         sqlSession.close();
         user = userMapper.selectByName(userName);
-        if(user.getId()==null){
+        sqlSession.close();
+        if(user==null){
             return -1;
         }
         return 0;
@@ -42,23 +47,58 @@ public class ManagerService extends UserService{
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         ManagerMapper mapper=sqlSession.getMapper(ManagerMapper.class);
         mapper.updateByPrimaryKeySelective(manager);
+        sqlSession.close();
         return 0;
     }
 
-    public int purchaseToWarehouse(int purchaseId, int goodsId, int amount, Date productionDate){
+    public Goods addNewGoods(Goods newGoods){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        GoodsMapper goodsMapper=sqlSession.getMapper(GoodsMapper.class);
+        goodsMapper.insertSelective(newGoods);
+        sqlSession.close();
+        return goodsMapper.selectConditionally(newGoods).get(0);
+    }
+
+    public int changeGoodsDiscount(int goodsId, double discount){
+        BigDecimal discountBD=new BigDecimal(discount);
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        GoodsMapper goodsMapper = sqlSession.getMapper(GoodsMapper.class);
+        Goods tmpGoods=new Goods();
+        tmpGoods.setGoodsId(goodsId);
+        tmpGoods.setDiscount(discountBD);
+        goodsMapper.updateByPrimaryKeySelective(tmpGoods);
+        sqlSession.close();
+        return 0;
+    }
+
+
+    public int purchaseToWarehouse( int goodsId, int amount, Date productionDate){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        GoodsMapper goodsMapper=sqlSession.getMapper(GoodsMapper.class);
+        WarehouseMapper warehouseMapper=sqlSession.getMapper(WarehouseMapper.class);
+        if (goodsMapper.selectByPrimaryKey(goodsId).getRefrigiratedCondition().equals("Y")){
+            if (amount>warehouseMapper.getRefriRestVolume(manager.getWarehouseWarehouseId())) {
+                sqlSession.close();
+                return 1;
+            }
+        }else {
+            if (amount>warehouseMapper.getNonRefriRestVolume(manager.getWarehouseWarehouseId())) {
+                sqlSession.close();
+                return 1;
+            }
+        }
         Purchase purchase=new Purchase();
-        purchase.setPurchaseId(purchaseId);
         purchase.setGoodsGoodsId(goodsId);
         purchase.setAmount(amount);
         purchase.setProductionDate(productionDate);
         purchase.setWarehouseWarehouseId(manager.getWarehouseWarehouseId());
         purchase.setDate(currentDate);
-        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         GoodsMapper mapper = sqlSession.getMapper(GoodsMapper.class);
         Goods goods=mapper.selectByPrimaryKey(goodsId);
         purchase.setCost(goods.getPrice().multiply(new BigDecimal(amount)));
         PurchaseMapper mapper1=sqlSession.getMapper(PurchaseMapper.class);
         mapper1.insertSelective(purchase);
+        sqlSession.close();
         return 0;
     }
 
@@ -107,41 +147,87 @@ public class ManagerService extends UserService{
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         WarehouseMapper mapper=sqlSession.getMapper(WarehouseMapper.class);
 
-        int [] volumns=null;
-        //volumns=mapper.getRestVolumn(manager.getWarehouseWarehouseId());
+        int [] volumes=null;
+        volumes[1]=mapper.getRefriRestVolume(manager.getWarehouseWarehouseId());
+        volumes[0]=mapper.getNonRefriRestVolume(manager.getWarehouseWarehouseId());
         //[add mapper]
         //搞定了  、、@fixed: the four new methods was added
-
-
         sqlSession.close();
-        return volumns;
+        return volumes;
     }
     public ArrayList<GoodsInWarehouse> getNearOverdue(){//filter type? category? RefrigiratedCondition? or goods obj?
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
         ArrayList<GoodsInWarehouse> list=null;
         list=goodsInWarehouseMapper.nearlyExpired(manager.getWarehouseWarehouseId());
-        //[add mapper] select GoodsInWarehouse whose remaining time = 10% * preserveTime
-        //搞定了，在goodsInWarehouse 里
+        // select GoodsInWarehouse whose remaining time = 10% * preserveTime
+        sqlSession.close();
         return list;
     }
 
 
-    public ArrayList<GoodsWithAmount> getOrderedBySalesVolume(int pageIndex){
+    public ArrayList<GoodsWithAmountIncome> getOrderedBySalesVolume(int pageIndex){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
-        ArrayList<GoodsWithAmount> list=salesMapper.getSalesVolumeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
-        //[add mapper] select count(amount)
-        //搞定了，返回值是GoodWithAmount;
+        ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesVolumeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
+        sqlSession.close();
         return list;
     }
-//-----------------------------------------------------------------------------just some empty method below
 
-    public int getOrderedByProfit(){
-        return 0;
+    public ArrayList<GoodsWithAmountIncome> getOrderedByIncome(int pageIndex){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
+        ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesIncomeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
+        sqlSession.close();
+        return list;
     }
 
-//    public int addNewWarehouse(String address, int refrigeratedShelfVolume, int ordinaryShelfVolume, BigDecimal warehouseLong,BigDecimal warehouseLati){//BigDecimal or Long or Integer?
-//
-//    }
+    //return id of new warehouse
+    public int addNewWarehouse(String address, int refrigeratedShelfVolume, int ordinaryShelfVolume, BigDecimal warehouseLong,BigDecimal warehouseLati){//BigDecimal or Long or Integer?
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        WarehouseMapper warehouseMapper = sqlSession.getMapper(WarehouseMapper.class);
+        Warehouse tmpWarehouse=new Warehouse();
+        tmpWarehouse.setAddress(address);
+        tmpWarehouse.setRefrigeratedShelfVolume(refrigeratedShelfVolume);
+        tmpWarehouse.setOrdinaryShelfVolume(ordinaryShelfVolume);
+        tmpWarehouse.setWarehouseLati(warehouseLati);
+        tmpWarehouse.setWarehouseLong(warehouseLong);
+        warehouseMapper.insertSelective(tmpWarehouse);
+        int maxId= warehouseMapper.selectMaxId();
+        sqlSession.close();
+        return maxId;
+    }
+
+    public int addNewCashier(String userName,String password,String phoneNumber,int warehouseId){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        CashierMapper cashierMapper = sqlSession.getMapper(CashierMapper.class);
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+        Cashier tmpCashier=new Cashier();
+        tmpCashier.setUserName(userName);
+        tmpCashier.setPassword(String.format("%d",password.hashCode()));
+        tmpCashier.setPhoneNumber(phoneNumber);
+        tmpCashier.setWarehouseWarehouseId(warehouseId);
+        cashierMapper.insertSelective(tmpCashier);
+        int maxId=cashierMapper.selectMaxId();
+        sqlSession.close();
+        return maxId;
+    }
+
+    public int addNewDeliverer(String userName,String password,String phoneNumber,int warehouseId){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        DelivererMapper delivererMapper=sqlSession.getMapper(DelivererMapper.class);
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+
+
+        User newUser=new User(userName,password,phoneNumber);
+        newUser.setId(delivererMapper.selectMaxId()+1);
+        Deliverer tmpDeliverer=new Deliverer();
+        tmpDeliverer.setByUser(newUser);
+        userMapper.insertSelective(newUser);
+
+        tmpDeliverer.setStatusOn("N");
+        tmpDeliverer.setWarehouseWarehouseId(warehouseId);
+        delivererMapper.insertSelective(tmpDeliverer);
+        return 0;
+    }
 }
