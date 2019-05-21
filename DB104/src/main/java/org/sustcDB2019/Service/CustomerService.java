@@ -161,7 +161,7 @@ public class CustomerService extends UserService {
     }
 
     // return -1 if sales not belong to this customer
-    public int buy(ArrayList<Sales> list){
+    public int buy(ArrayList<Sales> list,Date currentDate){
         for (Sales sales:list) {
             if (sales.getCustomerUserId()!=customer.getUserId()) return -1;
         }
@@ -185,8 +185,10 @@ public class CustomerService extends UserService {
         for (Sales sales:list) {
             sales.setIsPaid("Y");
             sales.setOrderOrderId(orderId);
+            sales.setSalesTime(currentDate);
             salesMapper.updateByPrimaryKeySelective(sales);
         }
+        sqlSession.commit();
         goodsInWarehouseMapper.deleteAll();
         //deleteAll to delete all goodsInWarehouse whose amount==0
 

@@ -27,7 +27,7 @@ public class sqlTest {
     public static void main(String[] args){
         new sqlTest();
 
-        test3();
+        test5();
 //        deliverer();
 //        test1();
 //        int i = 30001302;
@@ -88,7 +88,7 @@ public class sqlTest {
         OrderMapper orderMapper = session.getMapper(OrderMapper.class);
         Order order = new Order();
         order.setCustomerUserId(30000001);
-        orderMapper.selectByCase(order);
+        orderMapper.selectByPrimaryKey(20000001);
     }
 
     public static void test6(){
