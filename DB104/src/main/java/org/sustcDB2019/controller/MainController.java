@@ -16,26 +16,7 @@ public class MainController {
 
     public static void main(String[] args) {
         DAOService s = new DAOService();
-        SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
-        WarehouseMapper mapper = sqlSession.getMapper(WarehouseMapper.class);
-<<<<<<< HEAD
-        ArrayList<Warehouse> list=mapper.selectAll();
-        sqlSession.commit();
-        sqlSession.close();
 
-=======
-        ManagerService managerService=new ManagerService();
-        CustomerService customerService=new CustomerService();
-        customerService.customer=new Customer(managerService.getUserByName("Colemin531"));
-        managerService.manager=new Manager();
-        Calendar calendar=Calendar.getInstance();
-        calendar.set(Calendar.MONTH,4);
-        ArrayList<Integer> list=customerService.getHistoryStatisticsByMonth(new Date(calendar.getTimeInMillis()),new Date(calendar.getTimeInMillis()));
-
-
-
-//        DAOService s = new DAOService();
->>>>>>> 010861a0f1e0667447682491535d6aed8cbc3cbb
         UserService userService = new UserService();
         System.out.println("Welcome to Newly Retailing Chain Store!\nPlease log in or sign up.");
         boolean flag1 = true;
