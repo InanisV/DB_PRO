@@ -80,7 +80,7 @@ public class CustomerService extends UserService {
                 filterGoods.getBrand(),
                 filterGoods.getOriginPlace(),
                 filterGoods.getRefrigiratedCondition(),
-                lowerPerice, upperPirce, discount, orderByPriceIncrease, orderByDiscount, 10, index);
+                lowerPerice, upperPirce, discount, orderByPriceIncrease, orderByDiscount, 10, index*10);
 
         sqlSession.commit();
             sqlSession.close();
