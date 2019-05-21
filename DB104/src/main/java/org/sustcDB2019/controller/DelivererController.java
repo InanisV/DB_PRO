@@ -14,7 +14,10 @@ public class DelivererController {
     public static Scanner in = new Scanner(System.in);
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public static void DelivererView(DelivererService delivererService){
+    public static void DelivererView(int delivererid){
+        DelivererService delivererService = new DelivererService();
+        ManagerService managerService = new ManagerService();
+        delivererService.deliverer = managerService.getDelivererById(delivererid);
         boolean flag = true;
         do {
             System.out.println("Please choose the option:\n" +
@@ -31,7 +34,7 @@ public class DelivererController {
                     modify(delivererService.deliverer);
                 case 2:
                     ArrayList<Order> order = delivererService.getCurrentOrder();
-                    //
+                    showOrders(order, delivererService);
                     break;
                 case 3:
                     flag = false;
@@ -44,6 +47,7 @@ public class DelivererController {
 
     public static void modify(Deliverer deliverer){
         DelivererService delivererService = new DelivererService();
+        CustomerService customerService = new CustomerService();
         boolean flag = true;
         do{
             System.out.println("Please choose the option:\n" +
@@ -60,8 +64,17 @@ public class DelivererController {
                     int option2 = in.nextInt();
                     switch (option2){
                         case 1:
-                            System.out.print("Please input your new username: ");
-                            deliverer.setUserName(in.next());
+                            int repite = 0;
+                            do {
+                                System.out.print("Please set your username: ");
+                                String name = in.next();
+                                repite = customerService.userNameExist(name);
+                                if (repite==1){
+                                    System.out.println("The username repeated, please input again.");
+                                } else {
+                                    delivererService.deliverer.setUserName(name);
+                                }
+                            } while (repite==1);
                             break;
                         case 2:
                             System.out.print("Please input your old password: ");
@@ -92,4 +105,16 @@ public class DelivererController {
             }
         } while (flag);
     }
+
+    public static void showOrders(ArrayList<Order> orders, DelivererService delivererService){
+        System.out.println(String.format("%-16s%-17s%-17s%-17s%-20s", "Order id", "Departure time",
+                "Customer name", "Phone number", "Address"));
+        for (Order x : orders) {
+            System.out.println(String.format(String.format("%-16s%-17s%-17s%-17s%-20s", x.getOrderId(), x.getDepartureTime(),
+                    delivererService.getCurrentCustomer(x.getCustomerUserId()).getUserName(),
+                    delivererService.getCurrentCustomer(x.getCustomerUserId()).getPhoneNumber(),
+                    delivererService.getCurrentCustomer(x.getCustomerUserId()).getAddress())));
+        }
+    }
+
 }

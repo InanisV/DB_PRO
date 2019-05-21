@@ -1,6 +1,6 @@
 package org.sustcDB2019.entity;
 
-public class Cashier {
+public class Cashier extends User{
     private Integer userId;
 
     private Integer warehouseWarehouseId;

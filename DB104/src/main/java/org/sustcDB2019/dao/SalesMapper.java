@@ -12,7 +12,7 @@ public interface SalesMapper {
 
     Integer countPaymentByIdAndDate(Integer customerUserId, Date startDate, Date endDate);
 
-    ArrayList<GoodsWithAmountIncome> getSalesVolumeRank(Integer warehouseId, int itemsPerPage, int PageIndex);
+    ArrayList<GoodsWithAmountIncome> getSalesVolumeRank(Integer warehouseId, int itemsPerPage, int pageIndex);
 
     //need to be tested
     ArrayList<Sales> selectByCase(Sales sales);
