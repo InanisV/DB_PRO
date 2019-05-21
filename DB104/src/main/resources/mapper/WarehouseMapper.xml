@@ -15,6 +15,9 @@
   </sql>
   
 <!-- my sql statement -->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from warehouse;
+  </select>
   <select id="getNonRefriOccupVolume" parameterType="java.lang.Integer" resultType="java.lang.Integer">
     call get_used_volume(#{warehouseId}, @y, @n);
     select @n;

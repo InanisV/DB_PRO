@@ -26,7 +26,7 @@ public interface WarehouseMapper {
 
     Warehouse selectByPrimaryKey(Integer warehouseId);
 
-    @Select("select * from warehouse")
+    //@Select("select * from warehouse")
     ArrayList<Warehouse> selectAll();
 
     int updateByPrimaryKeySelective(Warehouse record);

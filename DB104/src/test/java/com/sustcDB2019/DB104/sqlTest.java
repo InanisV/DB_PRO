@@ -27,7 +27,7 @@ public class sqlTest {
     public static void main(String[] args){
         new sqlTest();
 
-        test5();
+        test6();
 //        deliverer();
 //        test1();
 //        int i = 30001302;
@@ -89,5 +89,14 @@ public class sqlTest {
         Order order = new Order();
         order.setCustomerUserId(30000001);
         orderMapper.selectByCase(order);
+    }
+
+    public static void test6(){
+        SqlSession session = sqlSessionFactory.openSession();
+        WarehouseMapper warehouseMapper = session.getMapper(WarehouseMapper.class);
+        ArrayList<Warehouse> w = warehouseMapper.selectAll();
+        for(Warehouse x: w){
+            System.out.println(x.getWarehouseId());
+        }
     }
 }
