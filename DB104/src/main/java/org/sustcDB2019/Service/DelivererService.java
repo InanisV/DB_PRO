@@ -134,7 +134,7 @@ public class DelivererService extends UserService {
         Order filterOrder=new Order();
         ArrayList<Order> orderArrayList=null;
 
-        orderMapper.selectByCase()
+        orderArrayList=orderMapper.selectOrderWithNoDeliverer();
         if (orderArrayList.size()==0){
             Deliverer tmpDeliverer=delivererMapper.selectByPrimaryKey(delivererId);
             tmpDeliverer.setStatusOn("N");
