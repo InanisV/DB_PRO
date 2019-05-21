@@ -8,7 +8,7 @@ import java.util.Date;
 
 public interface SalesMapper {
     //warehouseId 可以为空
-    ArrayList<GoodsWithAmountIncome> getSalesIncomeRank(Integer warehouseId, int itemsPerPage, int PageIndex);
+    ArrayList<GoodsWithAmountIncome> getSalesIncomeRank(Integer warehouseId, int itemsPerPage, int pageIndex);
 
     Integer countPaymentByIdAndDate(Integer customerUserId, Date startDate, Date endDate);
 

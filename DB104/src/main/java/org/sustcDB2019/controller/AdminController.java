@@ -189,8 +189,11 @@ public class AdminController {
                                 int id = in.nextInt();
                                 System.out.print("Please input the amount: ");
                                 int amount = in.nextInt();
-                                customerService.addToCart(id, amount);
-                                System.out.println("Add successfully.");
+                                if(customerService.addToCart(id, amount)==1){
+                                    System.out.println("Goods id not found or out of stock.");
+                                } else {
+                                    System.out.println("Add successfully.");
+                                }
                                 break;
                             case 6:
                                 ArrayList<Sales> sales = customerService.showCart(customerService.customer.getUserId());
@@ -209,6 +212,7 @@ public class AdminController {
                                             int id2 = in.nextInt();
                                             customerService.cancleSales(newSales.get(id2-1));
                                             newSales.remove(id2-1);
+                                            showNewSales(newSales);
                                             break;
                                         case 2:
                                             sales = customerService.showCart(customerService.customer.getUserId());

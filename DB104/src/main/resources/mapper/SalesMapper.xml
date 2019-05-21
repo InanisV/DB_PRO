@@ -76,11 +76,11 @@
     join goods g on giw.goods_goods_id = g.goods_id
     <if test="warehouseId!=null"> where warehouse_warehouse_id= #{warehouseId} </if>
     group by goods_goods_id) s
-    order by s.pm DESC;
+    order by s.pm DESC
     limit #{itemsPerPage} offset #{pageIndex}
   </select>
 
-  <select id="getSalesVolumeRank" resultMap="BaseResultMap">
+  <select id="getSalesVolumeRank" resultMap="goodsWithAmount">
     select *
     from (select g.* , sum(s.amount) am from sales s
              join goods_in_warehouse giw on s.goods_in_warehouse_idgoods_in_warehouse = giw.idgoods_in_warehouse
