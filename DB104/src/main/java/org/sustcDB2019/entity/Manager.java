@@ -11,6 +11,7 @@ public class Manager extends User {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+        this.setId(userId);
     }
 
     public Integer getWarehouseWarehouseId() {
@@ -19,5 +20,24 @@ public class Manager extends User {
 
     public void setWarehouseWarehouseId(Integer warehouseWarehouseId) {
         this.warehouseWarehouseId = warehouseWarehouseId;
+    }
+
+    public void setByUser(User user1){
+        this.setUserName(user1.getUserName());
+        this.setId(user1.getId());
+        this.setPhoneNumber(user1.getPhoneNumber());
+        this.setPassword(user1.getPassword());
+    }
+
+    public Manager(User user1){
+        this.setUserId(user1.getId());
+        this.setUserName(user1.getUserName());
+        this.setId(user1.getId());
+        this.setPhoneNumber(user1.getPhoneNumber());
+        this.setPassword(user1.getPassword());
+    }
+
+    public Manager(){
+
     }
 }

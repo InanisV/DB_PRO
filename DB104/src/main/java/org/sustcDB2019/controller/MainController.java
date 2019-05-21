@@ -1,19 +1,25 @@
 package org.sustcDB2019.controller;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.sustcDB2019.entity.*;
 import org.sustcDB2019.service.*;
 
-import javax.crypto.Mac;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class MainController {
     public static Scanner in = new Scanner(System.in);
 
     public static void main(String[] args) {
+//        DAOService s = new DAOService();
+//        Manager manager=new Manager(new User(2000008,"12","asdcd","12312312321"));
+//        ManagerService managerService=new ManagerService();
+//        manager.setWarehouseWarehouseId(11);
+//        managerService.manager=manager;
+//        managerService.updateManager(manager);
+//        System.out.println();
+
+
         DAOService s = new DAOService();
         UserService userService = new UserService();
         System.out.println("Welcome to Newly Retailing Chain Store!\nPlease log in or sign up.");
@@ -35,33 +41,8 @@ public class MainController {
                             ManageController.ManagerView(userService.user.getId());
                             break;
                         case 4:
-                            CustomerService customerService = new CustomerService();
-                            boolean flag = true;
-                            do {
-                                System.out.println("Please choose the option:\n" +
-                                        "1. Add goods\n" +
-                                        "2. Delete goods\n" +
-                                        "3. Buy now");
-                                int option2 = in.nextInt();
-                                switch (option2){
-                                    case 1:
-                                        System.out.print("Please input the goods id: ");
-                                        int id = in.nextInt();
-                                        System.out.print("Please input the amount: ");
-                                        int amount = in.nextInt();
-                                        customerService.addToCart(id, amount);
-                                        break;
-                                    case 2:
-                                        System.out.print("Please input the goods id to delete: ");
-                                        int id2 = in.nextInt();
-                                        // pass in id to remove items from cart
-                                        break;
-                                    case 3:
-                                        // 购买
-                                        flag = false;
-                                        break;
-                                }
-                            } while (flag);
+                            System.out.println("Log in successfully!");
+                            CashierController.CashierView(userService.user.getId());
                             break;
                         case 6:
                             System.out.println("Log in successfully!");
@@ -71,7 +52,7 @@ public class MainController {
                             System.out.println("Log in successfully!");
                             AdminController.CustomerView(userService.user.getId());
                             break;
-                        case -1:
+                        default:
                             System.out.println("Your username or password is wrong, please input again.");
                             break;
                     }
@@ -83,10 +64,10 @@ public class MainController {
                     System.out.print("Please set your username: ");
                     customer.setUserName(in.next());
                     repite = userService.userNameExist(customer.getUserName());
-                    if (repite==1){
+                    if (repite!=0){
                         System.out.println("The username repeated, please input again.");
                     }
-                } while (repite==1);
+                } while (repite!=0);
                 System.out.print("Please set your password: ");
                 customer.setPassword(in.next());
                 System.out.print("Please set your phone number: ");

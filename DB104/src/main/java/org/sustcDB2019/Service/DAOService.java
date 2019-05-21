@@ -10,8 +10,7 @@ import java.io.InputStream;
 
 public class DAOService {
     public static SqlSessionFactory sqlSessionFactory;
-    public static SqlSessionFactory customerSqlFactory;
-    public static SqlSessionFactory managerSqlFactory;
+    public static SqlSessionFactory DelivererSqlFactory;
 
 
     public DAOService(){

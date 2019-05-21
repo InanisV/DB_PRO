@@ -31,13 +31,15 @@ public class UserService {
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
         CustomerMapper mapper1=sqlSession.getMapper(CustomerMapper.class);
         user.setId(mapper1.selectMaxId()+1);//[add mapper] select the max id of customers , return integer only
-        mapper.insert(user);
+        mapper.insertSelective(user);
         customer.setAddress(address);
+        customer.setId(mapper1.selectMaxId());
         customer.setCustomerLati(new BigDecimal(Math.random()*0.164798+22.521605));
         customer.setCustomerLong(new BigDecimal(Math.random()*0.42234+113.849056));
         CustomerMapper customerMapper=sqlSession.getMapper(CustomerMapper.class);
-        customerMapper.insert(customer);
-        sqlSession.close();
+        customerMapper.insertSelective(customer);
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -46,13 +48,14 @@ public class UserService {
     public int userNameExist(String userName) {
         SqlSession sqlSession= DAOService.sqlSessionFactory.openSession();
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
-        if (mapper.selectByName(userName)==null){
+        User tmpUser=mapper.selectByName(userName);
+        if (tmpUser==null){
             return 0;
         }
-        sqlSession.close();
-        return 1;
+        sqlSession.commit();
+            sqlSession.close();
+        return tmpUser.getId()/1000000;
     }
-
 
 
 
@@ -71,7 +74,8 @@ public class UserService {
             session.close();
             return -1;
         }
-        if (String.format("%d",password.hashCode()).equals(user.getPassword())){
+//        if (String.format("%d",password.hashCode()).equals(user.getPassword())){
+        if (password.equals(user.getPassword())){
             flag=true;
         }
         session.close();

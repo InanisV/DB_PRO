@@ -52,4 +52,20 @@ public class Customer extends User {
     public void setCustomerLati(BigDecimal customerLati) {
         this.customerLati = customerLati;
     }
+
+    public void setByUser(User user1){
+        this.setUserName(user1.getUserName());
+        this.setId(user1.getId());
+        this.setPhoneNumber(user1.getPhoneNumber());
+        this.setPassword(user1.getPassword());
+    }
+
+    public Customer(User user1){
+        this.setUserName(user1.getUserName());
+        this.setId(user1.getId());
+        this.setPhoneNumber(user1.getPhoneNumber());
+        this.setPassword(user1.getPassword());
+    }
+
+    public Customer(){}
 }

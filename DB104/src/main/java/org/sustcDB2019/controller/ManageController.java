@@ -24,11 +24,10 @@ public class ManageController {
                     "2. Add new accounts\n" +
                     "3. Modify accounts information\n" +
                     "4. Check good sales \n" +
-                    "5. Check good profits\n" +
-                    "6. Check capacity\n" +
-                    "7. Manipulate and check goods\n" +
-                    "8. Add new warehouse\n" +
-                    "9. Log out");
+                    "5. Check capacity\n" +
+                    "6. Manipulate and check goods\n" +
+                    "7. Add new warehouse\n" +
+                    "8. Log out");
             int option = in.nextInt();
             switch (option){
                 case 1:
@@ -75,40 +74,12 @@ public class ManageController {
                         }
                     } while (flag5);
                     break;
-                case 5: // 利润
-                    int page = 1;
-                    boolean flag3 = true;
-                    do {
-                        ArrayList<Goods> goods = new ArrayList<Goods>(); // 查看利润
-                        AdminController.showGoods(goods);
-                        System.out.println("Please choose the option:\n" +
-                                "1. Next page\n" +
-                                "2. Jump to page\n" +
-                                "3. Return");
-                        int option3 = in.nextInt();
-                        switch (option3){
-                            case 1:
-                                page += 1;
-                                break;
-                            case 2:
-                                System.out.print("Please input the page number: ");
-                                page = in.nextInt();
-                                AdminController.showGoods(goods);
-                                break;
-                            case 3:
-                                flag3 = false;
-                                break;
-                            default:
-                                System.out.println("Wrong input. Please input again.");
-                        }
-                    } while (flag3);
-                    break;
-                case 6:
+                case 5:
                     int[] capacity = managerService.getRestVolume(managerService.manager.getWarehouseWarehouseId());
                     System.out.println("Remaining capacity of the regular warehouse is: " + capacity[0]);
                     System.out.println("Remaining capacity of the frozen warehouse is: " + capacity[1]);
                     break;
-                case 7:
+                case 6:
                     CustomerService customerService = new CustomerService();
                     int page2 = 1;
                     Goods g = new Goods();
@@ -223,7 +194,7 @@ public class ManageController {
                         }
                     } while (flag2);
                     break;
-                case 8:
+                case 7:
                     System.out.print("Please input the warehouse's address: ");
                     String address = in.next();
                     System.out.print("Please input the warehouse's refrigerated shelf volume: ");
@@ -236,7 +207,7 @@ public class ManageController {
                     BigDecimal lati = in.nextBigDecimal();
                     managerService.addNewWarehouse(address,volume, volume2, longi,lati);
                     break;
-                case 9:
+                case 8:
                     flag = false;
                     break;
                 default:
@@ -247,7 +218,7 @@ public class ManageController {
 
     public static void addAccount(ManagerService managerService){
         UserService userService = new UserService();
-        System.out.println("Please choose the identity you want to add:\n1. Manager\n2. Deliverer");
+        System.out.println("Please choose the identity you want to add:\n1. Manager\n2. Deliverer\n3. Cashier");
         int identity = in.nextInt();
         boolean exit = true;
         String name = null;
@@ -269,7 +240,9 @@ public class ManageController {
         if(identity==1){
             managerService.addNewManager(name, password, phone, id);
         } else if(identity==2){
-
+            managerService.addNewDeliverer(name, password, phone, id);
+        } else if(identity==3){
+            managerService.addNewCashier(name, password, phone, id);
         }
         System.out.println("Add new account successfully.");
     }
@@ -341,10 +314,11 @@ public class ManageController {
             }
         } while (flag);
     }
-    // 348 null Exception，应该是347行的为空
-    public static void modifyAccount(ManagerService managerService){
+
+    public static int modifyAccount(ManagerService managerService){
         System.out.print("Please input the username of the account to modify: ");
         User user = managerService.getUserByName(in.next());
+
         int identity = user.getId()/1000000;
         if(identity==2){
             Manager manager = managerService.getManagerById(user.getId());
@@ -355,9 +329,13 @@ public class ManageController {
         } else if(identity==30){
             Customer customer = managerService.getCustomerById(user.getId());
             AdminController.modify(customer);
+        } else if(identity==4){
+            Cashier cashier = managerService.getCashierById(user.getId());
+            CashierController.modify(cashier);
         } else {
             System.out.println("Your input username is wrong.");
         }
+        return 0;
     }
 
     public static void showGoodsInWarehouse(ArrayList<GoodsInWarehouse> goodsInWarehouses){
@@ -370,10 +348,10 @@ public class ManageController {
     }
 
     public static void showGoodsWithAmount(ArrayList<GoodsWithAmountIncome> goodsWithAmounts){
-        System.out.println(String.format("%-10s%-55s%-13s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", "Good id", "Goods Name", "Sale amount",
+        System.out.println(String.format("%-10s\t%-95s\t%-13s\t%-8s\t%-12s\t%-25s\t%-16s\t%-8s\t%-8s\t%-8s\t%-5s\t", "Good id", "Goods Name", "Sale amount",
                 "Price", "Discount", "Brand", "Origin Place", "Preserve Time", "Volume", "Frozen", "Category", "Type"));
         for (GoodsWithAmountIncome x : goodsWithAmounts) {
-            System.out.println(String.format("%-10s%-55s%-13s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", x.getGoodsId(), x.getName(), x.getAmount(), x.getPrice(), x.getDiscount(),
+            System.out.println(String.format("%-10s\t%-95s\t%-13s\t%-8s\t%-12s\t%-25s\t%-16s\t%-8s\t%-8s\t%-8s\t%-5s\t", x.getGoodsId(), x.getName(), x.getAmount(), x.getPrice(), x.getDiscount(),
                     x.getBrand(), x.getOriginPlace(), x.getPreserveTime(), x.getVolume(), x.getRefrigiratedCondition(), x.getCatagory(), x.getType()));
         }
 //        for (GoodsWithAmountIncome x : goodsWithAmounts) {
