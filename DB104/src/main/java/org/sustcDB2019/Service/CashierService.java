@@ -13,8 +13,8 @@ import org.sustcDB2019.entity.Sales;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class CashierService {
-    Cashier cashier;
+public class CashierService extends UserService{
+    public Cashier cashier=new Cashier(super.user);
 
     public int updateCasher(Cashier cashier){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();

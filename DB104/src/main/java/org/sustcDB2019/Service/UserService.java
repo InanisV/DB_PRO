@@ -31,12 +31,13 @@ public class UserService {
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
         CustomerMapper mapper1=sqlSession.getMapper(CustomerMapper.class);
         user.setId(mapper1.selectMaxId()+1);//[add mapper] select the max id of customers , return integer only
-        mapper.insert(user);
+        mapper.insertSelective(user);
         customer.setAddress(address);
+        customer.setId(mapper1.selectMaxId());
         customer.setCustomerLati(new BigDecimal(Math.random()*0.164798+22.521605));
         customer.setCustomerLong(new BigDecimal(Math.random()*0.42234+113.849056));
         CustomerMapper customerMapper=sqlSession.getMapper(CustomerMapper.class);
-        customerMapper.insert(customer);
+        customerMapper.insertSelective(customer);
         sqlSession.close();
         return 0;
     }

@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class ManagerService extends UserService{
-    public Manager manager=(Manager) super.user;
+    public Manager manager=new Manager(super.user);
 
 
     public int addNewManager(String userName,String password,String phoneNumber,int warehouseId){
@@ -201,6 +201,7 @@ public class ManagerService extends UserService{
     public int addNewCashier(String userName,String password,String phoneNumber,int warehouseId){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         CashierMapper cashierMapper = sqlSession.getMapper(CashierMapper.class);
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
         Cashier tmpCashier=new Cashier();
         tmpCashier.setUserName(userName);
         tmpCashier.setPassword(String.format("%d",password.hashCode()));
@@ -210,5 +211,23 @@ public class ManagerService extends UserService{
         int maxId=cashierMapper.selectMaxId();
         sqlSession.close();
         return maxId;
+    }
+
+    public int addNewDeliverer(String userName,String password,String phoneNumber,int warehouseId){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        DelivererMapper delivererMapper=sqlSession.getMapper(DelivererMapper.class);
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+
+
+        User newUser=new User(userName,password,phoneNumber);
+        newUser.setId(delivererMapper.selectMaxId()+1);
+        Deliverer tmpDeliverer=new Deliverer();
+        tmpDeliverer.setByUser(newUser);
+        userMapper.insertSelective(newUser);
+
+        tmpDeliverer.setStatusOn("N");
+        tmpDeliverer.setWarehouseWarehouseId(warehouseId);
+        delivererMapper.insertSelective(tmpDeliverer);
+        return 0;
     }
 }

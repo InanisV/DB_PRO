@@ -12,7 +12,7 @@ import java.util.Date;
 import static java.lang.Math.*;
 
 public class CustomerService extends UserService {
-    public Customer customer = (Customer) super.user;
+    public Customer customer = new Customer(super.user);
 
 
 
