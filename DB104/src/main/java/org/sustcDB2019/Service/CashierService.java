@@ -18,8 +18,10 @@ public class CashierService {
 
     public int updateCasher(Cashier cashier){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
-        CashierMapper mapper=sqlSession.getMapper(CashierMapper.class);//[add mapper] add casher's entity and mapper
+        CashierMapper mapper=sqlSession.getMapper(CashierMapper.class);
+
         mapper.updateByPrimaryKeySelective(cashier);
+
         sqlSession.close();
         return 0;
     }
@@ -29,6 +31,7 @@ public class CashierService {
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
         GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
+
         BigDecimal totalPayment=new BigDecimal(0);
         for (Sales sales:list) {
             sales.setIsPaid("Y");
@@ -36,37 +39,35 @@ public class CashierService {
             salesMapper.updateByPrimaryKeySelective(sales);
         }
         goodsInWarehouseMapper.deleteAll();
+
         sqlSession.close();
         return totalPayment;
     }
 
 
     public int addToCart(int goodsId, int amount) {
-//        Sales sales=new Sales();
-//        sales.setAmount(amount);
-//        sales.setGoodsInWarehouseId(goodsId);
-//        sales.setIsPaid("N");
-//        sales.setCustomerUserId(customer.getId());
         SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
         GoodsMapper goodsMapper = sqlSession.getMapper(GoodsMapper.class);
-        Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
-//        BigDecimal amountDecimal=new BigDecimal(amount);
         GoodsInWarehouseMapper goodsInWarehouseMapper = sqlSession.getMapper(GoodsInWarehouseMapper.class);
+        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
+
+        Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
         ArrayList<GoodsInWarehouse> list = goodsInWarehouseMapper.selectByCase(goodsId, cashier.getWarehouseWarehouseId());
         int rest = 0;
         for (GoodsInWarehouse goodsInWarehouse : list) {
             rest += goodsInWarehouse.getAmount();
         }
-        if (rest < amount) return 1;// fail to add to cart since amount excceed
+        if (rest < amount) {
+            sqlSession.close();
+            return 1;// fail to add to cart since amount excceed
+        }
         int tmpAmount = amount;
-        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
         for (int i = 0; i < list.size(); i++) {
             Sales tmpSales = new Sales();
             GoodsInWarehouse tmpGIW = list.get(i);
             if (tmpGIW.getAmount() >= tmpAmount) {
                 tmpSales.setAmount(tmpAmount);
                 tmpSales.setGoodsInWarehouseId(tmpGIW.getIdgoodsInWarehouse());
-//                tmpSales.setCustomerUserId(cashier.getId());
                 tmpSales.setIsPaid("N");
                 tmpSales.setPayment(goods.getPrice().multiply(goods.getDiscount()).multiply(new BigDecimal(tmpAmount)));
                 salesMapper.insertSelective(tmpSales);
@@ -84,21 +85,26 @@ public class CashierService {
                 goodsInWarehouseMapper.updateByPrimaryKeySelective(tmpGIW);
             }
         }
+
+        sqlSession.close();
         return 0;
     }
     public int cancleSales(ArrayList<Sales> list){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
         GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
+
         for (Sales sales:list) {
             GoodsInWarehouse tmpGoodsInWarehouse=new GoodsInWarehouse();
             {
                 tmpGoodsInWarehouse=goodsInWarehouseMapper.selectByPrimaryKey(sales.getGoodsInWarehouseId());
                 tmpGoodsInWarehouse.setAmount(tmpGoodsInWarehouse.getAmount()+sales.getAmount());
                 goodsInWarehouseMapper.updateByPrimaryKeySelective(tmpGoodsInWarehouse);
-            }// can use a new update to simplefy this block
+            }
             salesMapper.deleteByPrimaryKey(sales.getSalesId());
         }
+
+        sqlSession.close();
         return 0;
     }
 
