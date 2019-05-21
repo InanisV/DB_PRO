@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DelivererService extends UserService {
-    public Deliverer deliverer= (Deliverer) super.user;
+    public Deliverer deliverer= new Deliverer();
 
     /*
     ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
@@ -95,9 +95,12 @@ public class DelivererService extends UserService {
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
 
-        Order filterOrder=new Order();
-        filterOrder.setDeliveryUserId(deliverer.getUserId());
-        ArrayList<Order> list=orderMapper.selectByCase(filterOrder);
+        ArrayList<Order> list=getCurrentOrder();
+        if (list.size()==0){
+            sqlSession.commit();
+            sqlSession.close();
+            return 1;
+        }
         for (Order order:list) {
             order.setDepartureTime(currentDate);
             orderMapper.updateByPrimaryKeySelective(order);

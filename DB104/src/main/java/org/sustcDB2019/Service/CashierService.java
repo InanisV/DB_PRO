@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CashierService extends UserService{
-    public Cashier cashier=new Cashier(super.user);
+    public Cashier cashier=new Cashier();
 
     public int updateCashier(Cashier cashier){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
