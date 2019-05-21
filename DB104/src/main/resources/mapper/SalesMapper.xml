@@ -11,6 +11,7 @@
     <result column="order_order_id" jdbcType="INTEGER" property="orderOrderId" />
     <result column="sales_time" jdbcType="DATE" property="salesTime"/>
 
+
     <association property="goodsInWarehouse" javaType="org.sustcDB2019.entity.GoodsInWarehouse">
       <id column="idgoods_in_warehouse" jdbcType="INTEGER" property="idgoodsInWarehouse" />
       <result column="warehouse_warehouse_id" jdbcType="INTEGER" property="warehouseWarehouseId" />
@@ -79,7 +80,7 @@
     limit #{itemsPerPage} offset #{pageIndex}
   </select>
 
-  <select id="getSalesVolumeRank" resultMap="goodsWithAmount">
+  <select id="getSalesVolumeRank" resultMap="BaseResultMap">
     select *
     from (select g.* , sum(s.amount) am from sales s
              join goods_in_warehouse giw on s.goods_in_warehouse_idgoods_in_warehouse = giw.idgoods_in_warehouse
@@ -91,30 +92,31 @@
   </select>
 
   <select id="selectByCase" parameterType="org.sustcDB2019.entity.Sales" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
+    select *
     from sales
+    join goods_in_warehouse giw on sales.goods_in_warehouse_idgoods_in_warehouse = giw.idgoods_in_warehouse
+    join goods g on giw.goods_goods_id = g.goods_id
     where sales_id is not null
     <if test="customerUserId != null">
-      and customer_user_id = #{customerUserId,jdbcType=INTEGER}
+      and sales.customer_user_id = #{customerUserId,jdbcType=INTEGER}
     </if>
     <if test="amount != null">
-      and amount = #{amount,jdbcType=INTEGER}
+      and sales.amount = #{amount,jdbcType=INTEGER}
     </if>
     <if test="payment != null">
-      and payment = #{payment,jdbcType=DECIMAL}
+      and sales.payment = #{payment,jdbcType=DECIMAL}
     </if>
     <if test="isPaid != null">
-      and is_paid = #{isPaid,jdbcType=CHAR}
+      and sales.is_paid = #{isPaid,jdbcType=CHAR}
     </if>
     <if test="orderOrderId != null">
-      and order_order_id = #{orderOrderId,jdbcType=INTEGER}
+      and sales.order_order_id = #{orderOrderId,jdbcType=INTEGER}
     </if>
     <if test="goodsInWarehouseId != null">
-      and goods_in_warehouse_idgoods_in_warehouse = #{goodsInWarehouseId, jdbcType=INTEGER}
+      and sales.goods_in_warehouse_idgoods_in_warehouse = #{goodsInWarehouseId, jdbcType=INTEGER}
     </if>
     <if test="salesTime != null">
-      and sales_time = #{salesTime, jdbcType=DATE};
+      and sales.sales_time = #{salesTime, jdbcType=DATE};
     </if>
   </select>
 
