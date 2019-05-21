@@ -432,6 +432,8 @@ public class AdminController {
         for (int i = 0; i < sales.size(); i++) {
             boolean exit = false;
             c: for (int j = 0; j < newSales.size(); j++) {
+                sales.get(i).getGoodsInWarehouse();
+                sales.get(i).getGoodsInWarehouse().getGoods();
                 if(sales.get(i).getGoodsInWarehouse().getGoods().getName()==newSales.get(j).get(0).getGoodsInWarehouse().getGoods().getName()){
                     newSales.get(j).add(sales.get(i));
                     exit = true;
