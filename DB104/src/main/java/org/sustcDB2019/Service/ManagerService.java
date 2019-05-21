@@ -179,7 +179,7 @@ public class ManagerService extends UserService{
     public ArrayList<GoodsWithAmountIncome> getOrderedBySalesVolume(int pageIndex){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
-        ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesVolumeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
+        ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesVolumeRank(manager.getWarehouseWarehouseId(),20,pageIndex*20);
         sqlSession.close();
         return list;
     }
