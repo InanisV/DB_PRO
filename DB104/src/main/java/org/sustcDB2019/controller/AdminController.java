@@ -442,9 +442,6 @@ public class AdminController {
         ArrayList<ArrayList<Sales>> newSales = new ArrayList<ArrayList<Sales>>();
         for (int i = 0; i < sales.size(); i++) {
             boolean exit = false;
-
-            sales.get(i).getGoodsInWarehouse().getGoods();
-
             c: for (int j = 0; j < newSales.size(); j++) {
                 sales.get(i).getGoodsInWarehouse();
                 sales.get(i).getGoodsInWarehouse().getGoods();

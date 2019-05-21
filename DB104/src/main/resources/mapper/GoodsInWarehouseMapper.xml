@@ -84,9 +84,6 @@
     order by price
         </if>
     </if>
-    <if test="orderByDiscount=true">
-    order by discount
-    </if>
     limit #{itemsPerPage} offset #{pageIndex}
   </select>
 
