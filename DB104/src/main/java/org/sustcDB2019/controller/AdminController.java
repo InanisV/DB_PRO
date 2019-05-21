@@ -87,15 +87,15 @@ public class AdminController {
                                 switch (option4){
                                     case 1:
                                         System.out.print("Please input the name: ");
-                                        g.setName("'%" + in.next() + "%'");
+                                        g.setName("%" + in.next() + "%");
                                         break;
                                     case 2:
                                         System.out.print("Please input the category: ");
-                                        g.setCatagory(in.next());
+                                        g.setCatagory("%"+in.next()+"%");
                                         break;
                                     case 3:
                                         System.out.print("Please input the type: ");
-                                        g.setType(in.next());
+                                        g.setType("%"+in.next()+"%");
                                         break;
                                     case 4:
                                         System.out.print("Please input the lower price: ");
@@ -116,11 +116,11 @@ public class AdminController {
                                         break;
                                     case 6:
                                         System.out.print("Please input the brand: ");
-                                        g.setBrand(in.next());
+                                        g.setBrand("%"+in.next()+"%");
                                         break;
                                     case 7:
                                         System.out.print("Please input the origin place: ");
-                                        g.setOriginPlace(in.next());
+                                        g.setOriginPlace("%"+in.next()+"%");
                                         break;
                                     case 8:
                                         discount = true;
