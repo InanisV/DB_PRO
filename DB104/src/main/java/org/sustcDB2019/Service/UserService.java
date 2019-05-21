@@ -22,7 +22,8 @@ public class UserService {
     public int signUp(String userName,String password,String phoneNumber,String address) {//password need to be hashed
         if (userName.equals("")||password.equals("")||phoneNumber.equals("")||address.equals(""))// one or more of the inputs are empty (or null)
             return -1;
-        user=new User();
+        Customer customer=new Customer();
+        user=(User) customer;
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         user.setPassword(String.format("%d",password.hashCode()));
         user.setUserName(userName);
@@ -31,7 +32,6 @@ public class UserService {
         CustomerMapper mapper1=sqlSession.getMapper(CustomerMapper.class);
         user.setId(mapper1.selectMaxId()+1);//[add mapper] select the max id of customers , return integer only
         mapper.insert(user);
-        Customer customer=(Customer) user;
         customer.setAddress(address);
         customer.setCustomerLati(new BigDecimal(Math.random()*0.164798+22.521605));
         customer.setCustomerLong(new BigDecimal(Math.random()*0.42234+113.849056));
@@ -67,6 +67,10 @@ public class UserService {
         SqlSession session=DAOService.sqlSessionFactory.openSession();
         UserMapper mapper = session.getMapper(UserMapper.class);
         user =mapper.selectByName(userName);
+        if(user==null) {
+            session.close();
+            return -1;
+        }
         if (String.format("%d",password.hashCode()).equals(user.getPassword())){
             flag=true;
         }
