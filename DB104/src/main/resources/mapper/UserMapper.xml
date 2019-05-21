@@ -10,6 +10,9 @@
   <sql id="Base_Column_List">
     id, password, user_name, phone_number
   </sql>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from user where user_name=#{userName, jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

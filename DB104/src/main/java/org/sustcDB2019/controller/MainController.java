@@ -2,6 +2,8 @@ package org.sustcDB2019.controller;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 import org.apache.ibatis.session.SqlSession;
@@ -23,10 +25,13 @@ public class MainController {
         DAOService s = new DAOService();
         SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
         WarehouseMapper mapper = sqlSession.getMapper(WarehouseMapper.class);
-        ArrayList<Warehouse> list=mapper.selectAll();
-        sqlSession.commit();
-        sqlSession.close();
-
+        ManagerService managerService=new ManagerService();
+        CustomerService customerService=new CustomerService();
+        customerService.customer=new Customer(managerService.getUserByName("Colemin531"));
+        managerService.manager=new Manager();
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.MONTH,4);
+        ArrayList<Integer> list=customerService.getHistoryStatisticsByMonth(new Date(calendar.getTimeInMillis()),new Date(calendar.getTimeInMillis()));
 
 
 
