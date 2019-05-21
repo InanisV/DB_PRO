@@ -8,10 +8,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AdminController {
     public static Scanner in = new Scanner(System.in);
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    private static final String DOUBLE_CHAR_REG = "[^\\x00-\\xff]";
 
     public static void CustomerView(int customerid){
         CustomerService customerService = new CustomerService();
@@ -305,11 +308,20 @@ public class AdminController {
     }
 
     public static void showGoods(ArrayList<Goods> goods){
-        System.out.println(String.format("%-10s%-45s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", "Good id", "Goods Name",
+//        System.out.println(String.format("%-10s%-45s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", "Good id", "Goods Name",
+//                "Price", "Discount", "Brand", "Origin Place", "Preserve Time", "Volume", "Frozen", "Category", "Type"));
+//        for (Goods x : goods) {
+//            System.out.println(String.format("%-10s%-45s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", x.getGoodsId(), x.getName(), x.getPrice(), x.getDiscount(),
+//                    x.getBrand(), x.getOriginPlace(), x.getPreserveTime(), x.getVolume(), x.getRefrigiratedCondition(), x.getCatagory(), x.getType()));
+//        }
+        System.out.println(String.format("%-9s%-101s%-10s%-12s%-36s%-36s%-16s%-10s%-10s%-16s%-15s", "Good id", "Goods Name",
                 "Price", "Discount", "Brand", "Origin Place", "Preserve Time", "Volume", "Frozen", "Category", "Type"));
         for (Goods x : goods) {
-            System.out.println(String.format("%-10s%-45s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", x.getGoodsId(), x.getName(), x.getPrice(), x.getDiscount(),
-                    x.getBrand(), x.getOriginPlace(), x.getPreserveTime(), x.getVolume(), x.getRefrigiratedCondition(), x.getCatagory(), x.getType()));
+            System.out.println(String.format("%-9s",x.getGoodsId()) + "" + expend(x.getName(),100)+ ""
+                    + String.format("%-10s",x.getPrice())+ "" + String.format("%-12s",x.getDiscount())+ "" +
+                    expend(x.getBrand(),35)+ "" + expend(x.getOriginPlace(),35)+ "" + String.format("%-16s",x.getPreserveTime())+ ""
+                    + String.format("%-10s",x.getVolume())+ "" + String.format("%-10s",x.getRefrigiratedCondition())+ ""
+                    + expend(x.getCatagory(),16)+ "" + expend(x.getType(),15));
         }
     }
 
@@ -398,7 +410,7 @@ public class AdminController {
     }
 
     public static void showNewSales(ArrayList<ArrayList<Sales>> sales){
-        System.out.println(String.format("%-8s%-45s%-8s%-11s%-12s%-12s%-20s", "Number", "Goods Name",
+        System.out.println(String.format("%-8s%-101s%-8s%-11s%-12s%-12s%-20s", "Number", "Goods Name",
                 "Price", "Amount", "Discount", "Payment", "Paid condition"));
         for (int i = 0; i < sales.size(); i++) {
             int amount = 0;
@@ -407,7 +419,7 @@ public class AdminController {
                 amount += sales.get(i).get(j).getAmount();
                 payment.add(sales.get(i).get(j).getPayment());
             }
-            System.out.println(String.format("%-8s%-45s%-8s%-11s%-12s%-12s%-20s", (i+1), sales.get(i).get(0).getGoodsInWarehouse().getGoods().getName(), sales.get(i).get(0).getGoodsInWarehouse().getGoods().getPrice(),
+            System.out.println(String.format("%-8s%-45s%-8s%-11s%-12s%-12s%-20s", (i+1), expend(sales.get(i).get(0).getGoodsInWarehouse().getGoods().getName(), 100), sales.get(i).get(0).getGoodsInWarehouse().getGoods().getPrice(),
                     amount, sales.get(i).get(0).getGoodsInWarehouse().getGoods().getDiscount(), payment, sales.get(i).get(0).getIsPaid()));
         }
     }
@@ -429,6 +441,23 @@ public class AdminController {
             }
         }
         return newSales;
+    }
+
+    public static String expend(String str, int num){
+        int le = count(str);
+        for (int i = le; i <= num; i++) {
+            str += " ";
+        }
+        return str;
+    }
+
+    public static int count(String str){
+        int len = str.length();
+        Matcher matcher = Pattern.compile(DOUBLE_CHAR_REG).matcher(str);
+        while (matcher.find()) {
+            len++;//双字节长度+1
+        }
+        return len;
     }
 
 }
