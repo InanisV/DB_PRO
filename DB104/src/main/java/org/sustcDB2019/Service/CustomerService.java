@@ -103,7 +103,7 @@ public class CustomerService extends UserService {
         for (GoodsInWarehouse goodsInWarehouse : list) {
             rest += goodsInWarehouse.getAmount();
         }
-        if (rest < amount) return 1;// fail to add to cart since amount excceed
+        if (rest < amount||list.size()==0) return 1;// fail to add to cart since amount excceed
         int tmpAmount = amount;
         for (int i = 0; i < list.size(); i++) {
             Sales tmpSales = new Sales();
@@ -137,9 +137,9 @@ public class CustomerService extends UserService {
 
     //add return -1: sales not belong to this customer
     public int cancleSales(ArrayList<Sales> list){
-        for (Sales sales:list) {
-            if (!sales.getCustomerUserId().equals(customer.getUserId())) return -1;
-        }
+//        for (Sales sales:list) {
+//            if (!sales.getCustomerUserId().equals(customer.getUserId())) return -1;
+//        }
 
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
