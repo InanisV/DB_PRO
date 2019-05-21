@@ -256,7 +256,7 @@ public class ManagerService extends UserService{
         user.setPassword(String.format("%d",password.hashCode()));
         user.setUserName(userName);
         user.setPhoneNumber(phoneNumber);
-        newCashier.setUserId(user.getId()+1);
+        newCashier.setUserId(user.getId());
         newCashier.setWarehouseWarehouseId(warehouseId);
         userMapper.insertSelective(user);
         sqlSession.commit();
@@ -289,7 +289,7 @@ public class ManagerService extends UserService{
         user.setPassword(String.format("%d",password.hashCode()));
         user.setUserName(userName);
         user.setPhoneNumber(phoneNumber);
-        newDeliverer.setUserId(user.getId()+1);
+        newDeliverer.setUserId(user.getId());
         newDeliverer.setWarehouseWarehouseId(warehouseId);
         newDeliverer.setStatusOn("N");
         userMapper.insertSelective(user);
