@@ -35,6 +35,7 @@ public class AdminController {
                     System.out.println("Username: " + customerService.customer.getUserName());
                     System.out.println("Phone number: " + customerService.customer.getPhoneNumber());
                     System.out.println("Address: " + customerService.customer.getAddress());
+                    System.out.println(customerService.customer.getWarehouseId());
                     modify(customerService.customer);
                     break;
                 case 2:
