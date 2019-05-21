@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DelivererService extends UserService {
-    public Deliverer deliverer= (Deliverer) super.user;
+    public Deliverer deliverer= new Deliverer();
 
     /*
     ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
@@ -48,7 +48,7 @@ public class DelivererService extends UserService {
         return tmpCustomer;
     }
 
-    public ArrayList<Order> getCurrentOrder(){
+    public ArrayList<Order> getOrder(){
         SqlSession session=DAOService.sqlSessionFactory.openSession();
         OrderMapper mapper=session.getMapper(OrderMapper.class);
 
@@ -58,6 +58,17 @@ public class DelivererService extends UserService {
 
         session.close();
         return list;
+    }
+    public ArrayList<Order> getCurrentOrder(){
+        ArrayList<Order> tmpList=getOrder();
+        ArrayList<Order> tmpList1=new ArrayList<>();
+        for (Order order:tmpList) {
+            if (order.getArrivalTime()==null){
+                tmpList1.add(order);
+            }
+
+        }
+        return tmpList1;
     }
 
     public int updateDeliverer(Deliverer deliverer){
@@ -84,9 +95,12 @@ public class DelivererService extends UserService {
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
 
-        Order filterOrder=new Order();
-        filterOrder.setDeliveryUserId(deliverer.getUserId());
-        ArrayList<Order> list=orderMapper.selectByCase(filterOrder);
+        ArrayList<Order> list=getCurrentOrder();
+        if (list.size()==0){
+            sqlSession.commit();
+            sqlSession.close();
+            return 1;
+        }
         for (Order order:list) {
             order.setDepartureTime(currentDate);
             orderMapper.updateByPrimaryKeySelective(order);

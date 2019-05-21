@@ -6,9 +6,10 @@ import org.sustcDB2019.entity.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CashierService extends UserService{
-    public Cashier cashier=new Cashier(super.user);
+    public Cashier cashier=new Cashier();
 
     public int updateCashier(Cashier cashier){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
@@ -30,7 +31,7 @@ public class CashierService extends UserService{
         return 0;
     }
 
-    public BigDecimal buyOffline(ArrayList<Sales> list){//not completed
+    public BigDecimal buyOffline(ArrayList<Sales> list, Date currentDate){//not completed
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
         GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
@@ -39,8 +40,10 @@ public class CashierService extends UserService{
         for (Sales sales:list) {
             sales.setIsPaid("Y");
             totalPayment.add(sales.getPayment());
+            sales.setSalesTime(currentDate);
             salesMapper.updateByPrimaryKeySelective(sales);
         }
+        sqlSession.commit();
         goodsInWarehouseMapper.deleteAll();
 
         sqlSession.commit();
