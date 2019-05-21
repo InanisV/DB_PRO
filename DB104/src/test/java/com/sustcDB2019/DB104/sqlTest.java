@@ -4,11 +4,8 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.sustcDB2019.dao.DaoManager;
-import org.sustcDB2019.dao.DelivererMapper;
-import org.sustcDB2019.dao.SalesMapper;
-import org.sustcDB2019.entity.Deliverer;
-import org.sustcDB2019.entity.Sales;
+import org.sustcDB2019.dao.*;
+import org.sustcDB2019.entity.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,8 +27,8 @@ public class sqlTest {
     public static void main(String[] args){
         new sqlTest();
 
-
-        deliverer();
+        test6();
+//        deliverer();
 //        test1();
 //        int i = 30001302;
 //        ArrayList<Sales> s = showCart(i);
@@ -67,4 +64,39 @@ public class sqlTest {
         return result;
     }
 
+    public static void test3(){
+        SqlSession session = sqlSessionFactory.openSession();
+        WarehouseMapper mapper = session.getMapper(WarehouseMapper.class);
+        Warehouse warehouse = mapper.getRefriOccupVolume(3);
+        System.out.println();
+    }
+
+    public static void test4(){
+        SqlSession session = sqlSessionFactory.openSession();
+        ManagerMapper managerMapper = session.getMapper(ManagerMapper.class);
+        Manager manager = new Manager();
+        manager.setUserId(2000001);
+        manager.setWarehouseWarehouseId(10);
+
+        int i = managerMapper.updateByPrimaryKey(manager);
+        System.out.println("Yes "+i);
+        session.close();
+    }
+
+    public static void test5(){
+        SqlSession session = sqlSessionFactory.openSession();
+        OrderMapper orderMapper = session.getMapper(OrderMapper.class);
+        Order order = new Order();
+        order.setCustomerUserId(30000001);
+        orderMapper.selectByCase(order);
+    }
+
+    public static void test6(){
+        SqlSession session = sqlSessionFactory.openSession();
+        WarehouseMapper warehouseMapper = session.getMapper(WarehouseMapper.class);
+        ArrayList<Warehouse> w = warehouseMapper.selectAll();
+        for(Warehouse x: w){
+            System.out.println(x.getWarehouseId());
+        }
+    }
 }
