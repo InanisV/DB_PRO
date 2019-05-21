@@ -68,6 +68,7 @@ public class CashierService {
             if (tmpGIW.getAmount() >= tmpAmount) {
                 tmpSales.setAmount(tmpAmount);
                 tmpSales.setGoodsInWarehouseId(tmpGIW.getIdgoodsInWarehouse());
+                tmpSales.setCustomerUserId(cashier.getId());
                 tmpSales.setIsPaid("N");
                 tmpSales.setPayment(goods.getPrice().multiply(goods.getDiscount()).multiply(new BigDecimal(tmpAmount)));
                 salesMapper.insertSelective(tmpSales);
@@ -89,6 +90,20 @@ public class CashierService {
         sqlSession.close();
         return 0;
     }
+
+    public ArrayList<Sales> showCart(Integer userId) {
+        SqlSession session = DAOService.sqlSessionFactory.openSession();
+        SalesMapper salesMapper = session.getMapper(SalesMapper.class);
+
+        Sales sale = new Sales();
+        sale.setCustomerUserId(userId);
+        sale.setIsPaid("N");
+        ArrayList<Sales> result = salesMapper.selectByCase(sale);
+
+        session.close();
+        return result;
+    }
+
     public int cancleSales(ArrayList<Sales> list){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
