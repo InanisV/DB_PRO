@@ -31,13 +31,13 @@ public class sqlTest {
         new sqlTest();
 
 
-//        deliverer();
+        deliverer();
 //        test1();
-        int i = 30001302;
-        ArrayList<Sales> s = showCart(i);
-        for(Sales x: s){
-            System.out.println( x.getSalesId().toString());
-        }
+//        int i = 30001302;
+//        ArrayList<Sales> s = showCart(i);
+//        for(Sales x: s){
+//            System.out.println( x.getSalesId().toString());
+//        }
     }
 
     public static void deliverer(){
@@ -45,9 +45,13 @@ public class sqlTest {
 
         DelivererMapper mapper = session.getMapper(DelivererMapper.class);
         Deliverer deliverer = new Deliverer();
-        deliverer.setStatusOn("Y");
-        deliverer.setWarehouseWarehouseId(6);
+        deliverer.setStatusOn("N");
+        deliverer.setUserId(6000001);
         ArrayList<Deliverer> arrayList = mapper.selectByCase(deliverer);
+        System.out.println(arrayList.size());
+//        if(arrayList.size()){
+//            System.out.println("null");
+//        }
         for(Deliverer x: arrayList){
             System.out.println(x.getUserId().toString());
         }
