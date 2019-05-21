@@ -35,7 +35,6 @@ public class AdminController {
                     System.out.println("Username: " + customerService.customer.getUserName());
                     System.out.println("Phone number: " + customerService.customer.getPhoneNumber());
                     System.out.println("Address: " + customerService.customer.getAddress());
-                    System.out.println(customerService.customer.getWarehouseId());
                     modify(customerService.customer);
                     break;
                 case 2:
@@ -318,12 +317,12 @@ public class AdminController {
 //            System.out.println(String.format("%-10s%-45s%-8s%-12s%-15s%-16s%-8s%-8s%-8s%-5s", x.getGoodsId(), x.getName(), x.getPrice(), x.getDiscount(),
 //                    x.getBrand(), x.getOriginPlace(), x.getPreserveTime(), x.getVolume(), x.getRefrigiratedCondition(), x.getCatagory(), x.getType()));
 //        }
-        System.out.println(String.format("%-9s%-101s%-10s%-12s%-36s%-36s%-16s%-10s%-10s%-16s%-15s", "Good id", "Goods Name",
+        System.out.println(String.format("%-9s%-101s%-10s%-12s%-36s%-48s%-16s%-10s%-10s%-16s%-15s", "Good id", "Goods Name",
                 "Price", "Discount", "Brand", "Origin Place", "Preserve Time", "Volume", "Frozen", "Category", "Type"));
         for (Goods x : goods) {
             System.out.println(String.format("%-9s",x.getGoodsId()) + "" + expend(x.getName(),100)+ ""
                     + String.format("%-10s",x.getPrice())+ "" + String.format("%-12s",x.getDiscount())+ "" +
-                    expend(x.getBrand(),35)+ "" + expend(x.getOriginPlace(),35)+ "" + String.format("%-16s",x.getPreserveTime())+ ""
+                    expend(x.getBrand(),35)+ "" + expend(x.getOriginPlace(),47)+ "" + String.format("%-16s",x.getPreserveTime())+ ""
                     + String.format("%-10s",x.getVolume())+ "" + String.format("%-10s",x.getRefrigiratedCondition())+ ""
                     + expend(x.getCatagory(),16)+ "" + expend(x.getType(),15));
         }
@@ -423,9 +422,6 @@ public class AdminController {
                 amount += sales.get(i).get(j).getAmount();
                 payment.add(sales.get(i).get(j).getPayment());
             }
-            System.out.println(sales.get(i).get(0).getGoodsInWarehouse());
-            System.out.println(sales.get(i).get(0).getGoodsInWarehouse().getGoods().getName());
-            System.out.println(sales.get(i).get(0).getGoodsInWarehouse().getGoods().getPrice());
             System.out.println(String.format("%-8s%-45s%-8s%-11s%-12s%-12s%-20s", (i+1), expend(sales.get(i).get(0).getGoodsInWarehouse().getGoods().getName(), 100), sales.get(i).get(0).getGoodsInWarehouse().getGoods().getPrice(),
                     amount, sales.get(i).get(0).getGoodsInWarehouse().getGoods().getDiscount(), payment, sales.get(i).get(0).getIsPaid()));
         }
