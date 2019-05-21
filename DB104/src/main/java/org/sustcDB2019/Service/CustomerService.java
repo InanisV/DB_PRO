@@ -45,7 +45,7 @@ public class CustomerService extends UserService {
             double d = R * acos(c);
             if (d < minDistance) {
                 minDistance = d;
-                minWarehouseId = i;
+                minWarehouseId = i+1;
             }
         }
         customer.setWarehouseId(minWarehouseId);
