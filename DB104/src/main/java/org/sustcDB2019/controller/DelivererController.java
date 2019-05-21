@@ -41,6 +41,7 @@ public class DelivererController {
                     break;
                 default:
                     System.out.println("Wrong input. Please input again.");
+                    break;
             }
         } while(flag);
     }
