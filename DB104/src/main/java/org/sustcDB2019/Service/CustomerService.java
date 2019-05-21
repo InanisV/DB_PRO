@@ -138,7 +138,7 @@ public class CustomerService extends UserService {
     //add return -1: sales not belong to this customer
     public int cancleSales(ArrayList<Sales> list){
         for (Sales sales:list) {
-            if (sales.getCustomerUserId()!=customer.getUserId()) return -1;
+            if (!sales.getCustomerUserId().equals(customer.getUserId())) return -1;
         }
 
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
@@ -151,11 +151,12 @@ public class CustomerService extends UserService {
                 tmpGoodsInWarehouse=goodsInWarehouseMapper.selectByPrimaryKey(sales.getGoodsInWarehouseId());
                 tmpGoodsInWarehouse.setAmount(tmpGoodsInWarehouse.getAmount()+sales.getAmount());
                 goodsInWarehouseMapper.updateByPrimaryKeySelective(tmpGoodsInWarehouse);
+                sqlSession.commit();
             }
             salesMapper.deleteByPrimaryKey(sales.getSalesId());
+            sqlSession.commit();
         }
 
-        sqlSession.commit();
         sqlSession.close();
         return 0;
     }

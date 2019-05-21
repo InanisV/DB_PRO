@@ -15,7 +15,6 @@ public class MainController {
     public static Scanner in = new Scanner(System.in);
 
     public static void main(String[] args) {
-<<<<<<< HEAD
 //        DAOService s = new DAOService();
 //        Manager manager=new Manager(new User(2000008,"12","asdcd","12312312321"));
 //        ManagerService managerService=new ManagerService();
@@ -36,8 +35,6 @@ public class MainController {
 
 
 
-=======
->>>>>>> df51db20d7d4e3bf2a0037850430feab5dc6d617
         DAOService s = new DAOService();
         UserService userService = new UserService();
         System.out.println("Welcome to Newly Retailing Chain Store!\nPlease log in or sign up.");
