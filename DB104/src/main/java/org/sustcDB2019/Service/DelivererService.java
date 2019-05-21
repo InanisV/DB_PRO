@@ -40,6 +40,7 @@ public class DelivererService extends UserService {
         CustomerMapper customerMapper=sqlSession.getMapper(CustomerMapper.class);
         OrderMapper orderMapper=sqlSession.getMapper(OrderMapper.class);
 
+
         Order tmpOrder=orderMapper.selectByPrimaryKey(orderId);
         Customer tmpCustomer= customerMapper.selectByPrimaryKey(tmpOrder.getCustomerUserId());
 
@@ -60,7 +61,7 @@ public class DelivererService extends UserService {
         return list;
     }
     public ArrayList<Order> getCurrentOrder(){
-        ArrayList<Order> tmpList=getOrder();
+        ArrayList<Order> tmpList=this.getOrder();
         ArrayList<Order> tmpList1=new ArrayList<>();
         for (Order order:tmpList) {
             if (order.getArrivalTime()==null){
@@ -132,6 +133,8 @@ public class DelivererService extends UserService {
 
         Order filterOrder=new Order();
         ArrayList<Order> orderArrayList=null;
+
+        orderMapper.selectByCase()
         if (orderArrayList.size()==0){
             Deliverer tmpDeliverer=delivererMapper.selectByPrimaryKey(delivererId);
             tmpDeliverer.setStatusOn("N");
