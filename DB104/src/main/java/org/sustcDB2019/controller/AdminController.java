@@ -107,9 +107,9 @@ public class AdminController {
                                         System.out.println("Please choose the option:\n1. Ordered increasingly\n2. Ordered decreasingly");
                                         int order = in.nextInt();
                                         if(order==1){
-                                            orderByPrice = "";
+                                            orderByPrice = "true";
                                         } else if(order==2){
-                                            orderByPrice = "";
+                                            orderByPrice = "false";
                                         } else {
                                             System.out.println("Wrong input.");
                                         }
@@ -221,10 +221,13 @@ public class AdminController {
                                             break;
                                         default:
                                             System.out.println("Wrong input. Please input again.");
+                                            break;
                                     }
                                 } while (flag3);
+                                break;
                             case 7:
                                 flag2 = false;
+                                break;
                             default:
                                 System.out.println("Wrong input. Please input again.");
                         }
