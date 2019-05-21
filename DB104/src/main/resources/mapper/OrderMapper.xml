@@ -58,7 +58,7 @@
       and delivery_user_id = #{deliveryUserId,jdbcType=INTEGER}
     </if>
     <if test="customerUserId != null">
-      and customer_user_id = #{customerUserId,jdbcType=INTEGER}
+      and o.customer_user_id = #{customerUserId,jdbcType=INTEGER}
     </if>
   </select>
 
