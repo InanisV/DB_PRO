@@ -33,15 +33,19 @@ public class CustomerService extends UserService {
         ArrayList<Warehouse> warehouses = WarehouseService.getAllWarehouse();
         double R = 6371.0;
         int minWarehouseId = 0;
-        double minDistance = 0;
+        double minDistance = 9999999;
         for (int i = 0; i < warehouses.size(); i++) {
-            double phi1 = (90 - customer.getCustomerLati().doubleValue()) * PI / 180, phi2 = (90 - warehouses.get(i).getWarehouseLati().doubleValue()) * PI / 180;
+            double tmpDouble=customer.getCustomerLati().doubleValue();
+            double t2= customer.getCustomerLong().doubleValue();
+            customer.getAddress();
+            double phi1 = (90 - customer.getCustomerLati().doubleValue()) * PI / 180;
+            double phi2 = (90 - warehouses.get(i).getWarehouseLati().doubleValue()) * PI / 180;
             double c = sin(phi1) * sin(phi2) * cos((customer.getCustomerLong().doubleValue() - warehouses.get(i).getWarehouseLong().doubleValue()) * PI / 180) + cos(phi1) *
                     cos(phi2);
             double d = R * acos(c);
             if (d < minDistance) {
                 minDistance = d;
-                minWarehouseId = i;
+                minWarehouseId = i+1;
             }
         }
         customer.setWarehouseId(minWarehouseId);
@@ -80,7 +84,7 @@ public class CustomerService extends UserService {
                 filterGoods.getBrand(),
                 filterGoods.getOriginPlace(),
                 filterGoods.getRefrigiratedCondition(),
-                lowerPerice, upperPirce, discount, orderByPriceIncrease, orderByDiscount, 10, index);
+                lowerPerice, upperPirce, discount, orderByPriceIncrease, orderByDiscount, 10, index*10);
 
         sqlSession.commit();
             sqlSession.close();
@@ -94,7 +98,7 @@ public class CustomerService extends UserService {
         GoodsInWarehouseMapper goodsInWarehouseMapper = sqlSession.getMapper(GoodsInWarehouseMapper.class);
 
         Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
-        ArrayList<GoodsInWarehouse> list = goodsInWarehouseMapper.selectByCase(goodsId, customer.getWarehouseId());
+        ArrayList<GoodsInWarehouse> list = goodsInWarehouseMapper.selectByCase(customer.getWarehouseId(), goodsId);
         int rest = 0;
         for (GoodsInWarehouse goodsInWarehouse : list) {
             rest += goodsInWarehouse.getAmount();

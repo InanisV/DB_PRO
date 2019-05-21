@@ -4,6 +4,8 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.apache.ibatis.session.SqlSession;
+import org.sustcDB2019.dao.WarehouseMapper;
 import org.sustcDB2019.entity.*;
 import org.sustcDB2019.service.*;
 
@@ -18,11 +20,17 @@ public class MainController {
 //        managerService.manager=manager;
 //        managerService.updateManager(manager);
 //        System.out.println();
-
-
-
-
         DAOService s = new DAOService();
+        SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
+        WarehouseMapper mapper = sqlSession.getMapper(WarehouseMapper.class);
+        ArrayList<Warehouse> list=mapper.selectAll();
+        sqlSession.commit();
+        sqlSession.close();
+
+
+
+
+//        DAOService s = new DAOService();
         UserService userService = new UserService();
         System.out.println("Welcome to Newly Retailing Chain Store!\nPlease log in or sign up.");
         boolean flag1 = true;

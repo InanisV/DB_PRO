@@ -139,7 +139,7 @@
     <include refid="Base_Column_List" />
     from goods_in_warehouse
     where
-    and warehouse_warehouse_id = #{warehouseWarehouseId,jdbcType=INTEGER}
+    warehouse_warehouse_id = #{warehouseWarehouseId,jdbcType=INTEGER}
     and goods_goods_id = #{goodsGoodsId,jdbcType=INTEGER}
     order by expired_day;
   </select>
