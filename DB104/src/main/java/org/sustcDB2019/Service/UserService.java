@@ -47,11 +47,12 @@ public class UserService {
     public int userNameExist(String userName) {
         SqlSession sqlSession= DAOService.sqlSessionFactory.openSession();
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
-        if (mapper.selectByName(userName)==null){
+        User tmpUser=mapper.selectByName(userName);
+        if (tmpUser==null){
             return 0;
         }
         sqlSession.close();
-        return 1;
+        return tmpUser.getId()/1000000;
     }
 
 

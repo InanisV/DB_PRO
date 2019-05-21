@@ -342,9 +342,10 @@ public class ManageController {
         } while (flag);
     }
 
-    public static void modifyAccount(ManagerService managerService){
+    public static int modifyAccount(ManagerService managerService){
         System.out.print("Please input the username of the account to modify: ");
         User user = managerService.getUserByName(in.next());
+
         int identity = user.getId()/1000000;
         if(identity==2){
             Manager manager = managerService.getManagerById(user.getId());
@@ -358,6 +359,7 @@ public class ManageController {
         } else {
             System.out.println("Your input username is wrong.");
         }
+        return 0;
     }
 
     public static void showGoodsInWarehouse(ArrayList<GoodsInWarehouse> goodsInWarehouses){
