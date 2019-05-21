@@ -78,7 +78,7 @@ public class CustomerService extends UserService {
         GoodsInWarehouseMapper goodsInWarehouseMapper = sqlSession.getMapper(GoodsInWarehouseMapper.class);
 
         ArrayList<Goods> list = goodsInWarehouseMapper.selectConditionallyWithPages(
-                        customer.getWarehouseId() > 0 ? String.format("%d", customer.getWarehouseId()) : null, filterGoods.getType(),
+                customer.getWarehouseId() > 0 ? String.format("%d", customer.getWarehouseId()) : null, filterGoods.getType(),
                 filterGoods.getCatagory(),
                 filterGoods.getName(),
                 filterGoods.getBrand(),
@@ -87,7 +87,7 @@ public class CustomerService extends UserService {
                 lowerPerice, upperPirce, discount, orderByPriceIncrease, orderByDiscount, 10, index*10);
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return list;
     }
 
@@ -131,7 +131,7 @@ public class CustomerService extends UserService {
         }
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return 0;
     }
 
@@ -156,12 +156,12 @@ public class CustomerService extends UserService {
         }
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return 0;
     }
 
     // return -1 if sales not belong to this customer
-    public int buy(ArrayList<Sales> list){
+    public int buy(ArrayList<Sales> list,Date currentDate){
         for (Sales sales:list) {
             if (sales.getCustomerUserId()!=customer.getUserId()) return -1;
         }
@@ -185,13 +185,15 @@ public class CustomerService extends UserService {
         for (Sales sales:list) {
             sales.setIsPaid("Y");
             sales.setOrderOrderId(orderId);
+            sales.setSalesTime(currentDate);
             salesMapper.updateByPrimaryKeySelective(sales);
         }
+        sqlSession.commit();
         goodsInWarehouseMapper.deleteAll();
         //deleteAll to delete all goodsInWarehouse whose amount==0
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return tmpOrder.getOrderId();//return id of order for front to view relevant message
     }
 
@@ -213,7 +215,7 @@ public class CustomerService extends UserService {
         }
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return 0;
     }
 
@@ -226,7 +228,7 @@ public class CustomerService extends UserService {
         ArrayList<Order> list = mapper.selectByCase(tmpOrder);//[add mapper]
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return list;
     }
 
@@ -237,7 +239,7 @@ public class CustomerService extends UserService {
         int historyCost= salesMapper.countPaymentByIdAndDate(customer.getId(),startDate,endDate);
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return historyCost;
     }
 
@@ -263,7 +265,7 @@ public class CustomerService extends UserService {
         }
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return list;
     }
 
@@ -277,7 +279,7 @@ public class CustomerService extends UserService {
         DelivererService.getOrderForDeliverer(tmpOrder.getDeliveryUserId());
 
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return 0;
     }
 

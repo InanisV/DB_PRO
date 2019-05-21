@@ -11,7 +11,7 @@ public interface UserMapper {
     int insertSelective(User record);
 
     //tested
-    @Select("select * from user where user_name=#{userName, jdbcType=VARCHAR}")
+    //@Select("select * from user where user_name=#{userName, jdbcType=VARCHAR}")
     User selectByName(String userName);
 
     User selectByPrimaryKey(Integer id);
