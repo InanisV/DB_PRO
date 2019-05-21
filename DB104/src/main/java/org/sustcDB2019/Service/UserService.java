@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class UserService {
-    User user;
+    public User user;
     Date currentDate;
 
 
@@ -31,6 +31,10 @@ public class UserService {
         user.setPassword(String.format("%d",password.hashCode()));
         user.setUserName(userName);
         user.setPhoneNumber(phoneNumber);
+<<<<<<< HEAD
+=======
+//        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+>>>>>>> 68bfec45b012f7a8321ff645d36db6f0dc081c6c
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
         CustomerMapper mapper1=sqlSession.getMapper(CustomerMapper.class);
         user.setId(mapper1.selectMaxId()+1);//[add mapper] select the max id of customers , return integer only
@@ -41,6 +45,7 @@ public class UserService {
         customer.setCustomerLong(new BigDecimal(Math.random()*0.42234+113.849056));
         CustomerMapper customerMapper=sqlSession.getMapper(CustomerMapper.class);
         customerMapper.insert(customer);
+        sqlSession.close();
         return 0;
     }
 
@@ -76,6 +81,7 @@ public class UserService {
         if (String.format("%d",password.hashCode()).equals(user.getPassword())){
             flag=true;
         }
+        session.close();
         if (flag){
             this.user=user;
             return user.getId()/1000000;

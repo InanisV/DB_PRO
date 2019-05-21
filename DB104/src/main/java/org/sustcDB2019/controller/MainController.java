@@ -3,10 +3,8 @@ package org.sustcDB2019.controller;
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
-import org.sustcDB2019.entity.Customer;
-import org.sustcDB2019.entity.User;
+import org.sustcDB2019.entity.*;
 import org.sustcDB2019.service.*;
-import org.sustcDB2019.controller.*;
 
 import javax.crypto.Mac;
 import java.text.SimpleDateFormat;
@@ -16,6 +14,7 @@ public class MainController {
     public static Scanner in = new Scanner(System.in);
 
     public static void main(String[] args) {
+        DAOService s = new DAOService();
         UserService userService = new UserService();
         System.out.println("Welcome to Newly Retailing Chain Store!\nPlease log in or sign up.");
         boolean flag1 = true;
@@ -24,7 +23,6 @@ public class MainController {
             int option = in.nextInt();
             int back = 1;
             if(option==1){
-                User user = new User();
                 do{
                     System.out.print("Username: ");
                     String name = in.next();
@@ -33,9 +31,8 @@ public class MainController {
                     back = userService.signIn(name, password);
                     switch (back){
                         case 2:
-                            ManagerService managerService = (ManagerService) userService;
                             System.out.println("Log in successfully!");
-                            ManageController.ManagerView(managerService);
+                            ManageController.ManagerView(userService.user.getId());
                             break;
                         case 4:
                             CustomerService customerService = new CustomerService();
@@ -68,13 +65,11 @@ public class MainController {
                             break;
                         case 6:
                             System.out.println("Log in successfully!");
-                            DelivererService delivererService = (DelivererService) userService;
-                            DelivererController.DelivererView(delivererService);
+                            DelivererController.DelivererView(userService.user.getId());
                             break;
                         case 30:
                             System.out.println("Log in successfully!");
-                            CustomerService customerService2 = (CustomerService) userService;
-                            AdminController.CustomerView(customerService2);
+                            AdminController.CustomerView(userService.user.getId());
                             break;
                         case -1:
                             System.out.println("Your username or password is wrong, please input again.");

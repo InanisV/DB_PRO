@@ -162,7 +162,7 @@ public class ManagerService extends UserService{
         return list;
     }
 
-    public ArrayList<GoodsWithAmountIncome> getOrderedByProfit(int pageIndex){
+    public ArrayList<GoodsWithAmountIncome> getOrderedByIncome(int pageIndex){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
         ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesIncomeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
@@ -180,8 +180,7 @@ public class ManagerService extends UserService{
         tmpWarehouse.setWarehouseLati(warehouseLati);
         tmpWarehouse.setWarehouseLong(warehouseLong);
         warehouseMapper.insertSelective(tmpWarehouse);
-//        return warehouseMapper.selectMaxId();
-        return 0;
+        return warehouseMapper.selectMaxId();
     }
 
     public int addNewCashier(String userName,String password,String phoneNumber,int warehouseId){

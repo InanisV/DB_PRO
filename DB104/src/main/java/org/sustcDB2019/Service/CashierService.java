@@ -20,13 +20,26 @@ public class CashierService {
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         CashierMapper mapper=sqlSession.getMapper(CashierMapper.class);//[add mapper] add casher's entity and mapper
         mapper.updateByPrimaryKeySelective(cashier);
+        sqlSession.close();
         return 0;
     }
 
+
     public BigDecimal buyOffline(ArrayList<Sales> list){//not completed
-        BigDecimal totalPrice=new BigDecimal(0);
-        return totalPrice;
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);
+        GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
+        BigDecimal totalPayment=new BigDecimal(0);
+        for (Sales sales:list) {
+            sales.setIsPaid("Y");
+            totalPayment.add(sales.getPayment());
+            salesMapper.updateByPrimaryKeySelective(sales);
+        }
+        goodsInWarehouseMapper.deleteAll();
+        sqlSession.close();
+        return totalPayment;
     }
+
 
     public int addToCart(int goodsId, int amount) {
 //        Sales sales=new Sales();

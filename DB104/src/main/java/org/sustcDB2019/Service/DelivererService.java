@@ -9,11 +9,12 @@ import org.sustcDB2019.entity.Deliverer;
 import org.sustcDB2019.entity.Order;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DelivererService extends UserService {
     public Deliverer deliverer= (Deliverer) super.user;
 
-    public int setStatus(String status) {
+    public int setStatus(String status) {// dont need to change the DB?
         deliverer.setStatusOn(status);
         return 0;
     }
@@ -23,7 +24,9 @@ public class DelivererService extends UserService {
         CustomerMapper customerMapper=sqlSession.getMapper(CustomerMapper.class);
         OrderMapper orderMapper=sqlSession.getMapper(OrderMapper.class);
         Order tmpOrder=orderMapper.selectByPrimaryKey(orderId);
-        return customerMapper.selectByPrimaryKey(tmpOrder.getCustomerUserId());
+        Customer tmpCustomer= customerMapper.selectByPrimaryKey(tmpOrder.getCustomerUserId());
+        sqlSession.close();
+        return tmpCustomer;
     }
 
     public ArrayList<Order> getCurrentOrder(){
@@ -40,9 +43,59 @@ public class DelivererService extends UserService {
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         DelivererMapper mapper=sqlSession.getMapper(DelivererMapper.class);
         mapper.updateByPrimaryKeySelective(deliverer);
+        sqlSession.close();
         return 0;
     }
 
+    public int orderDepart(Date currentDate){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+        Order filterOrder=new Order();
+        filterOrder.setDeliveryUserId(deliverer.getUserId());
+        ArrayList<Order> list=orderMapper.selectByCase(filterOrder);
+        for (Order order:list) {
+            order.setDepartureTime(currentDate);
+            orderMapper.updateByPrimaryKeySelective(order);
+        }
+        sqlSession.close();
+        return 0;
+    }
 
+    public static int getFreeDelivererRandomly(DelivererMapper delivererMapper){
+        Deliverer filterDeliver=new Deliverer();
+        filterDeliver.setStatusOn("N");
+        ArrayList<Deliverer> delivererArrayList= delivererMapper.selectByCase(filterDeliver);
+        if (delivererArrayList.size()>0){
+            int random=(int)Math.random()*delivererArrayList.size();
+            Deliverer tmpDeliverer = delivererArrayList.get(random);
+            tmpDeliverer.setStatusOn("Y");
+            delivererMapper.updateByPrimaryKeySelective(tmpDeliverer);
+            return tmpDeliverer.getUserId();
+        }else return -1;
 
+    }
+
+    public static int getOrderForDeliverer(int delivererId){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        OrderMapper orderMapper= sqlSession.getMapper(OrderMapper.class);
+        DelivererMapper delivererMapper= sqlSession.getMapper(DelivererMapper.class);
+        Order filterOrder=new Order();
+        ArrayList<Order> orderArrayList=null;
+//        orderArrayList=orderMapper.selectFreeOrder();
+        //[add mapper] select order whose departureTime==null
+        if (orderArrayList.size()==0){
+            Deliverer tmpDeliverer=delivererMapper.selectByPrimaryKey(delivererId);
+            tmpDeliverer.setStatusOn("N");
+            delivererMapper.updateByPrimaryKeySelective(tmpDeliverer);
+            sqlSession.close();
+            return 1;
+        }else {
+            Order tmpOrder=orderArrayList.get(0);
+            tmpOrder.setDeliveryUserId(delivererId);
+            orderMapper.updateByPrimaryKeySelective(tmpOrder);
+            sqlSession.close();
+            return 0;
+        }
+
+    }
 }

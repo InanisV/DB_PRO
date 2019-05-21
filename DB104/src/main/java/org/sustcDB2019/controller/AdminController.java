@@ -1,20 +1,22 @@
 package org.sustcDB2019.controller;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.sustcDB2019.entity.*;
 import org.sustcDB2019.service.*;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.logging.SocketHandler;
 
 public class AdminController {
     public static Scanner in = new Scanner(System.in);
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public static void CustomerView(CustomerService customerService){
+    public static void CustomerView(int customerid){
+        CustomerService customerService = new CustomerService();
+        ManagerService managerService = new ManagerService();
+        customerService.customer = managerService.getCustomerById(customerid);
         boolean flag = true;
         do {
             System.out.println("Please choose the option:\n" +
@@ -133,6 +135,7 @@ public class AdminController {
                                         break;
                                 }
                                 goods = customerService.goodsArrayListWithFilter(g, customerService.customer.getWarehouseId(),lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
+                                showGoods(goods);
                                 break;
                             case 4:
                                 System.out.println("Please choose the option:\n" +
@@ -173,6 +176,7 @@ public class AdminController {
                                         break;
                                 }
                                 goods = customerService.goodsArrayListWithFilter(g, customerService.customer.getWarehouseId(),lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page);
+                                showGoods(goods);
                                 break;
                             case 5:
                                 System.out.print("Please input the goods id: ");
@@ -183,9 +187,9 @@ public class AdminController {
                                 System.out.println("Add successfully.");
                                 break;
                             case 6:
-                                // displays shopping cart items and amounts
-                                showGoods(goods);
-                                double total = 0;
+                                ArrayList<Sales> sales = customerService.showCart(customerService.customer.getUserId());
+                                ArrayList<ArrayList<Sales>> newSales = collectSales(sales);
+                                showNewSales(newSales);
                                 boolean flag3 = true;
                                 do {
                                     System.out.println("Please choose the option:\n" +
@@ -195,15 +199,15 @@ public class AdminController {
                                     int option3 = in.nextInt();
                                     switch (option3){
                                         case 1:
-                                            System.out.print("Please input the goods id to delete: ");
+                                            System.out.print("Please input the number to delete: ");
                                             int id2 = in.nextInt();
-                                            // pass in id to remove items from cart
+                                            customerService.cancleSales(newSales.get(id2-1));
+                                            newSales.remove(id2-1);
                                             break;
                                         case 2:
-                                            df.format(new Date()); //Current system time
-                                            // 传入顾客id warehouseid 时间
+                                            sales = customerService.showCart(customerService.customer.getUserId());
+                                            customerService.buy(sales);
                                             System.out.println("Order generated successfully.");
-                                            Order order = new Order();
                                             flag3 = false;
                                             break;
                                         case 3:
@@ -238,7 +242,8 @@ public class AdminController {
                                 if(number>orders.size()){
                                     System.out.println("Wrong input.");
                                 } else{
-                                    showSales(orders.get(number+1).getSaleses());
+                                    ArrayList<ArrayList<Sales>> newSales = collectSales(orders.get(number-1).getSaleses());
+                                    showNewSales(newSales);
                                 }
                                 break;
                             case 2:
@@ -344,23 +349,55 @@ public class AdminController {
     }
 
     public static void showOrders(ArrayList<Order> orders){
-        System.out.println(String.format("%-8s%-10s%-15s%-15s%-6s", "Number", "Order id", "Departure time",
+        System.out.println(String.format("%-8s%-10s%-17s%-17s%-6s", "Number", "Order id", "Departure time",
                 "Arrival Time", "Deliverer id"));
         int i = 1;
         for (Order x : orders) {
-            System.out.println(String.format(String.format("%-8s%-10s%-15s%-15s%-6s", i,  x.getOrderId(), x.getDepartureTime(),
+            System.out.println(String.format(String.format("%-8s%-10s%-17s%-17s%-6s", i,  x.getOrderId(), x.getDepartureTime(),
                     x.getArrivalTime(), x.getDeliveryUserId())));
             i++;
         }
     }
 
     public static void showSales(ArrayList<Sales> sales){
-        System.out.println(String.format("%-45s%-8s%-11s%-12s%-12s%-20s", "Goods Name",
-                "Price", "Amount", "Discount", "Payment", "Paid condition"));
         for (Sales x : sales) {
-            System.out.println(String.format("%-45s%-8s%-11s%-12s%-12s%-20s", x.getGoods().getName(), x.getGoods().getPrice(),
-                    x.getAmount(), x.getGoods().getDiscount(), x.getPayment(), x.getIsPaid()));
+            System.out.println(String.format("%-45s%-8s%-11s%-12s%-12s%-20s", x.getGoodsInWarehouse().getGoods().getName(), x.getGoodsInWarehouse().getGoods().getPrice(),
+                    x.getAmount(), x.getGoodsInWarehouse().getGoods().getDiscount(), x.getPayment(), x.getIsPaid()));
         }
+    }
+
+    public static void showNewSales(ArrayList<ArrayList<Sales>> sales){
+        System.out.println(String.format("%-8s%-45s%-8s%-11s%-12s%-12s%-20s", "Number", "Goods Name",
+                "Price", "Amount", "Discount", "Payment", "Paid condition"));
+        for (int i = 0; i < sales.size(); i++) {
+            int amount = 0;
+            BigDecimal payment = BigDecimal.valueOf(0);
+            for (int j = 0; j < sales.get(i).size(); j++) {
+                amount += sales.get(i).get(j).getAmount();
+                payment.add(sales.get(i).get(j).getPayment());
+            }
+            System.out.println(String.format("%-8s%-45s%-8s%-11s%-12s%-12s%-20s", (i+1), sales.get(i).get(0).getGoodsInWarehouse().getGoods().getName(), sales.get(i).get(0).getGoodsInWarehouse().getGoods().getPrice(),
+                    amount, sales.get(i).get(0).getGoodsInWarehouse().getGoods().getDiscount(), payment, sales.get(i).get(0).getIsPaid()));
+        }
+    }
+
+    public static ArrayList<ArrayList<Sales>> collectSales(ArrayList<Sales> sales){
+        ArrayList<ArrayList<Sales>> newSales = new ArrayList<ArrayList<Sales>>();
+        for (int i = 0; i < sales.size(); i++) {
+            boolean exit = false;
+            c: for (int j = 0; j < newSales.size(); j++) {
+                if(sales.get(i).getGoodsInWarehouse().getGoods().getName()==newSales.get(j).get(0).getGoodsInWarehouse().getGoods().getName()){
+                    newSales.get(j).add(sales.get(i));
+                    exit = true;
+                    break c;
+                }
+            }
+            if(!exit){
+                newSales.add(new ArrayList<Sales>());
+                newSales.get(newSales.size()-1).add(sales.get(i));
+            }
+        }
+        return newSales;
     }
 
 }
