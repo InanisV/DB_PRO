@@ -93,7 +93,7 @@ public class ManageController {
                             case 1:
                                 page4 += 1;
                                 goodsWithIncomes = managerService.getOrderedByIncome(page4);
-                                showGoodsWithAmount(goodsWithIncomes);
+                                showGoodsWithIncome(goodsWithIncomes);
                                 break;
                             case 2:
                                 System.out.print("Please input the page number: ");
@@ -391,6 +391,22 @@ public class ManageController {
 //        }
         for (GoodsWithAmountIncome x : goodsWithAmounts) {
             System.out.println(String.format("%-9s",x.getGoodsId()) + "" + expend(x.getName(),100)+ "" + String.format("%-13s",x.getAmount())+ ""
+                    + String.format("%-10s",x.getPrice())+ "" + String.format("%-12s",x.getDiscount())+ "" +
+                    expend(x.getBrand(),35)+ "" + expend(x.getOriginPlace(),35)+ "" + String.format("%-16s",x.getPreserveTime())+ ""
+                    + String.format("%-10s",x.getVolume())+ "" + String.format("%-10s",x.getRefrigiratedCondition())+ ""
+                    + expend(x.getCatagory(),16)+ "" + expend(x.getType(),15));
+        }
+    }
+
+    public static void showGoodsWithIncome(ArrayList<GoodsWithAmountIncome> goodsWithAmounts){
+        System.out.println(String.format("%-9s%-101s%-13s%-10s%-12s%-36s%-36s%-16s%-10s%-10s%-16s%-15s", "Good id", "Goods Name", "Sale income",
+                "Price", "Discount", "Brand", "Origin Place", "Preserve Time", "Volume", "Frozen", "Category", "Type"));
+//        for (GoodsWithAmountIncome x : goodsWithAmounts) {
+//            System.out.println(String.format("%-10s\t%-130s%-13s\t%-10s\t%-12s\t%-35s\t%-36s\t%-10s\t%-10s\t%-10s\t%-5s\t", x.getGoodsId(), expend(x.getName(),130), x.getAmount(), x.getPrice(), x.getDiscount(),
+//                    x.getBrand(), x.getOriginPlace(), x.getPreserveTime(), x.getVolume(), x.getRefrigiratedCondition(), x.getCatagory(), x.getType()));
+//        }
+        for (GoodsWithAmountIncome x : goodsWithAmounts) {
+            System.out.println(String.format("%-9s",x.getGoodsId()) + "" + expend(x.getName(),100)+ "" + String.format("%-13s",x.getIncome())+ ""
                     + String.format("%-10s",x.getPrice())+ "" + String.format("%-12s",x.getDiscount())+ "" +
                     expend(x.getBrand(),35)+ "" + expend(x.getOriginPlace(),35)+ "" + String.format("%-16s",x.getPreserveTime())+ ""
                     + String.format("%-10s",x.getVolume())+ "" + String.format("%-10s",x.getRefrigiratedCondition())+ ""
