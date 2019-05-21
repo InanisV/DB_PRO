@@ -26,7 +26,6 @@ public class CashierService extends UserService{
         return 0;
     }
 
-
     public BigDecimal buyOffline(ArrayList<Sales> list){//not completed
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper = sqlSession.getMapper(SalesMapper.class);

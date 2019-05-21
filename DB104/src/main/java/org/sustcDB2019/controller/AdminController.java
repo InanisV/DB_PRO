@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class AdminController {
     public static Scanner in = new Scanner(System.in);
-    public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     public static void CustomerView(int customerid){
         CustomerService customerService = new CustomerService();
@@ -232,7 +232,7 @@ public class AdminController {
                         System.out.println("Please choose the option:\n" +
                                 "1. Check specific order\n" +
                                 "2. Confirm arrival\n" +
-                                "3. Check total spending last month\n" +
+                                "3. Check total spending by month\n" +
                                 "4. Return");
                         int option3 = in.nextInt();
                         switch (option3){
@@ -249,12 +249,43 @@ public class AdminController {
                             case 2:
                                 System.out.print("Please input the order id to confirm arrival: ");
                                 int id = in.nextInt();
-                                // 确认收货
+                                customerService.receiveOrder(id, new Date());
                                 System.out.println("Confirm successfully.");
                                 break;
                             case 3:
-                                // 上个月的消费总额
-                                System.out.println("Your total spending last month is: ");
+                                boolean test = false;
+                                Date sdate = new Date();
+                                Date edate = new Date();
+                                String start = null;
+                                String end = null;
+                                do {
+                                    System.out.print("Please input the start date with format yyyy-MM-dd: ");
+                                    start = in.next();
+                                    try {
+                                        sdate = df.parse(start);
+                                        test = false;
+                                    } catch (Exception e) {
+                                        System.out.println("Wrong input format.");
+                                        test = true;
+                                    }
+                                } while (test);
+                                do {
+                                    System.out.print("Please input the end date with format yyyy-MM-dd: ");
+                                    end = in.next();
+                                    try {
+                                        edate = df.parse(end);
+                                        test = false;
+                                    } catch (Exception e) {
+                                        System.out.println("Wrong input format.");
+                                        test = true;
+                                    }
+                                } while (test);
+                                ArrayList<Integer> spend = customerService.getHistoryStatisticsByMonth(sdate, edate);
+                                System.out.print("Your total spending during these month are: ");
+                                for (Integer x: spend) {
+                                    System.out.print(x + " ");
+                                }
+                                System.out.println();
                                 break;
                             case 4:
                                 flag3 = false;
@@ -307,12 +338,12 @@ public class AdminController {
                                 System.out.print("Please set your username: ");
                                 String name = in.next();
                                 repite = customerService.userNameExist(name);
-                                if (repite==1){
+                                if (repite!=0){
                                     System.out.println("The username repeated, please input again.");
                                 } else {
                                     customerService.customer.setUserName(name);
                                 }
-                            } while (repite==1);
+                            } while (repite!=0);
                             break;
                         case 2:
                             System.out.print("Please input your old password: ");
