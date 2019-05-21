@@ -31,7 +31,7 @@ public class ManagerService extends UserService{
         user.setPassword(String.format("%d",password.hashCode()));
         user.setUserName(userName);
         user.setPhoneNumber(phoneNumber);
-        newManager.setUserId(user.getId()+1);
+        newManager.setUserId(user.getId());
         newManager.setWarehouseWarehouseId(warehouseId);
         userMapper.insertSelective(user);
         sqlSession.commit();
@@ -70,8 +70,9 @@ public class ManagerService extends UserService{
         GoodsMapper goodsMapper=sqlSession.getMapper(GoodsMapper.class);
         goodsMapper.insertSelective(newGoods);
         sqlSession.commit();
+        Goods tmpGoods=goodsMapper.selectConditionally(newGoods).get(0);
         sqlSession.close();
-        return goodsMapper.selectConditionally(newGoods).get(0);
+        return tmpGoods;
     }
 
     public int changeGoodsDiscount(int goodsId, double discount){
