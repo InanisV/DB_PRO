@@ -169,7 +169,7 @@
       <if test="salesId != null">
         #{salesId,jdbcType=INTEGER},
       </if>
-      <if test="warehouseWarehouseId != null">
+      <if test="goodsInWarehouseId != null">
         #{goodsInWarehouseId,jdbcType=INTEGER},
       </if>
       <if test="customerUserId != null">
@@ -195,7 +195,7 @@
   <update id="updateByPrimaryKeySelective" parameterType="org.sustcDB2019.entity.Sales">
     update sales
     <set>
-      <if test="warehouseWarehouseId != null">
+      <if test="goodsInWarehouseId != null">
         goods_in_warehouse_idgoods_in_warehouse = #{goodsInWarehouseId,jdbcType=INTEGER},
       </if>
       <if test="customerUserId != null">
