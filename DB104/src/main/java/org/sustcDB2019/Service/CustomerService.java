@@ -33,7 +33,7 @@ public class CustomerService extends UserService {
         ArrayList<Warehouse> warehouses = WarehouseService.getAllWarehouse();
         double R = 6371.0;
         int minWarehouseId = 0;
-        double minDistance = 0;
+        double minDistance = 9999999;
         for (int i = 0; i < warehouses.size(); i++) {
             double tmpDouble=customer.getCustomerLati().doubleValue();
             double t2= customer.getCustomerLong().doubleValue();
