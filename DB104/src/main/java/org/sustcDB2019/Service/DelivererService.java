@@ -48,7 +48,7 @@ public class DelivererService extends UserService {
         return tmpCustomer;
     }
 
-    public ArrayList<Order> getCurrentOrder(){
+    public ArrayList<Order> getOrder(){
         SqlSession session=DAOService.sqlSessionFactory.openSession();
         OrderMapper mapper=session.getMapper(OrderMapper.class);
 
@@ -58,6 +58,17 @@ public class DelivererService extends UserService {
 
         session.close();
         return list;
+    }
+    public ArrayList<Order> getCurrentOrder(){
+        ArrayList<Order> tmpList=getOrder();
+        ArrayList<Order> tmpList1=new ArrayList<>();
+        for (Order order:tmpList) {
+            if (order.getArrivalTime()==null){
+                tmpList1.add(order);
+            }
+
+        }
+        return tmpList1;
     }
 
     public int updateDeliverer(Deliverer deliverer){
