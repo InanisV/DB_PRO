@@ -11,7 +11,7 @@ public interface WarehouseMapper {
 
     int getNonRefriOccupVolume(Integer warehouseId);
 
-    int getRefriOccupVolume(Integer warehouseId);
+    Warehouse getRefriOccupVolume(Integer warehouseId);
 
     int getNonRefriRestVolume(Integer warehouseId);
 
@@ -26,7 +26,7 @@ public interface WarehouseMapper {
 
     Warehouse selectByPrimaryKey(Integer warehouseId);
 
-    @Select("select * from warehouse")
+    //@Select("select * from warehouse")
     ArrayList<Warehouse> selectAll();
 
     int updateByPrimaryKeySelective(Warehouse record);

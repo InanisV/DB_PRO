@@ -34,6 +34,8 @@ public class ManagerService extends UserService{
         newManager.setUserId(user.getId()+1);
         newManager.setWarehouseWarehouseId(warehouseId);
         userMapper.insertSelective(user);
+        sqlSession.commit();
+
         managerMapper.insertSelective(newManager);
         user = userMapper.selectByName(userName);
         sqlSession.commit();
@@ -68,7 +70,7 @@ public class ManagerService extends UserService{
         GoodsMapper goodsMapper=sqlSession.getMapper(GoodsMapper.class);
         goodsMapper.insertSelective(newGoods);
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return goodsMapper.selectConditionally(newGoods).get(0);
     }
 
@@ -115,7 +117,7 @@ public class ManagerService extends UserService{
         PurchaseMapper mapper1=sqlSession.getMapper(PurchaseMapper.class);
         mapper1.insertSelective(purchase);
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return 0;
     }
 
@@ -124,7 +126,7 @@ public class ManagerService extends UserService{
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
         User user =mapper.selectByName(name);
         sqlSession.commit();
-            sqlSession.close();
+        sqlSession.close();
         return user;
     }
 
@@ -236,36 +238,69 @@ public class ManagerService extends UserService{
     }
 
     public int addNewCashier(String userName,String password,String phoneNumber,int warehouseId){
-        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
-        CashierMapper cashierMapper = sqlSession.getMapper(CashierMapper.class);
-        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
-        Cashier tmpCashier=new Cashier();
-        tmpCashier.setUserName(userName);
-        tmpCashier.setPassword(String.format("%d",password.hashCode()));
-        tmpCashier.setPhoneNumber(phoneNumber);
-        tmpCashier.setWarehouseWarehouseId(warehouseId);
-        cashierMapper.insertSelective(tmpCashier);
-        int maxId=cashierMapper.selectMaxId();
-        sqlSession.commit();
+        Cashier newCashier=new Cashier();
+        SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+
+        User user = userMapper.selectByName(userName);
+        if(user!=null){
+            sqlSession.commit();
             sqlSession.close();
-        return maxId;
+            return -1;
+        }else {
+            user = new User();
+        }
+        CashierMapper cashierMapper = sqlSession.getMapper(CashierMapper.class);
+        user.setId(cashierMapper.selectMaxId()+1);
+        user.setPassword(String.format("%d",password.hashCode()));
+        user.setUserName(userName);
+        user.setPhoneNumber(phoneNumber);
+        newCashier.setUserId(user.getId()+1);
+        newCashier.setWarehouseWarehouseId(warehouseId);
+        userMapper.insertSelective(user);
+        sqlSession.commit();
+
+        cashierMapper.insertSelective(newCashier);
+        user = userMapper.selectByName(userName);
+        sqlSession.commit();
+        sqlSession.close();
+        if(user==null){
+            return -1;
+        }
+        return 0;
     }
 
     public int addNewDeliverer(String userName,String password,String phoneNumber,int warehouseId){
-        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
-        DelivererMapper delivererMapper=sqlSession.getMapper(DelivererMapper.class);
-        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+        Deliverer newDeliverer=new Deliverer();
+        SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 
+        User user = userMapper.selectByName(userName);
+        if(user!=null){
+            sqlSession.commit();
+            sqlSession.close();
+            return -1;
+        }else {
+            user = new User();
+        }
+        DelivererMapper delivererMapper = sqlSession.getMapper(DelivererMapper.class);
+        user.setId(delivererMapper.selectMaxId()+1);
+        user.setPassword(String.format("%d",password.hashCode()));
+        user.setUserName(userName);
+        user.setPhoneNumber(phoneNumber);
+        newDeliverer.setUserId(user.getId()+1);
+        newDeliverer.setWarehouseWarehouseId(warehouseId);
+        newDeliverer.setStatusOn("N");
+        userMapper.insertSelective(user);
+        sqlSession.commit();
 
-        User newUser=new User(userName,password,phoneNumber);
-        newUser.setId(delivererMapper.selectMaxId()+1);
-        Deliverer tmpDeliverer=new Deliverer();
-        tmpDeliverer.setByUser(newUser);
-        userMapper.insertSelective(newUser);
-
-        tmpDeliverer.setStatusOn("N");
-        tmpDeliverer.setWarehouseWarehouseId(warehouseId);
-        delivererMapper.insertSelective(tmpDeliverer);
+        delivererMapper.insertSelective(newDeliverer);
+        user = userMapper.selectByName(userName);
+        sqlSession.commit();
+        sqlSession.close();
+        if(user==null){
+            return -1;
+        }
         return 0;
     }
 }

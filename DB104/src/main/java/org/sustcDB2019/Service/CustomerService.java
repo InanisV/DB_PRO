@@ -179,6 +179,8 @@ public class CustomerService extends UserService {
         int deliverId=DelivererService.getFreeDelivererRandomly(delivererMapper);
         if (deliverId!=0) tmpOrder.setDeliveryUserId(deliverId);
         orderMapper.insertSelective(tmpOrder);
+        sqlSession.commit();
+
         int orderId=orderMapper.selectMaxId();
         for (Sales sales:list) {
             sales.setIsPaid("Y");
@@ -202,6 +204,8 @@ public class CustomerService extends UserService {
 
         if (tmpUser.getPassword()!=null&&tmpUser.getUserName()!=null&&tmpUser.getPhoneNumber()!=null){
             userMapper.updateByPrimaryKeySelective(tmpUser);
+            sqlSession.commit();
+
         }
 
         if (customer.getCustomerLati()!=null&&customer.getAddress()!=null&&customer.getCustomerLati()!=null&&customer.getCustomerLong()!=null){
@@ -270,8 +274,6 @@ public class CustomerService extends UserService {
         Order tmpOrder=orderMapper.selectByPrimaryKey(orderId);
         tmpOrder.setArrivalTime(currentDate);
         orderMapper.updateByPrimaryKeySelective(tmpOrder);
-        sqlSession.commit();
-            sqlSession.close();
         DelivererService.getOrderForDeliverer(tmpOrder.getDeliveryUserId());
 
         sqlSession.commit();
