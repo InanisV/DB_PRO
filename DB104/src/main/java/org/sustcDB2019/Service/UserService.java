@@ -57,7 +57,6 @@ public class UserService {
 
 
 
-
     /*
     return:
     2 manager sign in successfully
@@ -73,7 +72,8 @@ public class UserService {
             session.close();
             return -1;
         }
-        if (String.format("%d",password.hashCode()).equals(user.getPassword())){
+//        if (String.format("%d",password.hashCode()).equals(user.getPassword())){
+        if (password.equals(user.getPassword())){
             flag=true;
         }
         session.close();
