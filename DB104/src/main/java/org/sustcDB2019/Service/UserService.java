@@ -70,7 +70,6 @@ public class UserService {
         if(user==null) {
             session.close();
             return -1;
-
         }
         if (String.format("%d",password.hashCode()).equals(user.getPassword())){
             flag=true;
