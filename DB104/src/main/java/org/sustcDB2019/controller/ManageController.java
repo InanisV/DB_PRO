@@ -140,19 +140,19 @@ public class ManageController {
                         switch (option2){
                             case 1:
                                 page2 += 1;
-                                goods = customerService.goodsArrayListWithFilter(g,managerService.manager.getWarehouseWarehouseId(), lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page2);
+                                goods = managerService.goodsArrayListWithFilter(g,managerService.manager.getWarehouseWarehouseId(), lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page2);
                                 AdminController.showGoods(goods);
                                 break;
                             case 2:
                                 System.out.print("Please input the page number: ");
                                 page2 = in.nextInt();
-                                goods = customerService.goodsArrayListWithFilter(g,managerService.manager.getWarehouseWarehouseId(), lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page2);
+                                goods = managerService.goodsArrayListWithFilter(g,managerService.manager.getWarehouseWarehouseId(), lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page2);
                                 AdminController.showGoods(goods);
                                 break;
                             case 3:
                                 System.out.print("Please input the name of the goods: ");
                                 g.setName("'%" + in.next() + "'%");
-                                goods = customerService.goodsArrayListWithFilter(g,managerService.manager.getWarehouseWarehouseId(), lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page2);
+                                goods = managerService.goodsArrayListWithFilter(g,managerService.manager.getWarehouseWarehouseId(), lowerPrice, upperPrice, discount, orderByPrice, orderByDiscount, page2);
                                 AdminController.showGoods(goods);
                                 break;
                             case 4:

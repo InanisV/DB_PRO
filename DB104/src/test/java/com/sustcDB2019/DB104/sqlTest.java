@@ -69,11 +69,11 @@ public class sqlTest {
         WarehouseMapper mapper = session.getMapper(WarehouseMapper.class);
         Warehouse warehouse = new Warehouse();
         warehouse.setWarehouseId(3);
-        Warehouse i = mapper.getRefriOccupVolume(warehouse);
+        Integer i = mapper.getNonRefriRestVolume(3);
         if(i==null){
             System.out.println("Y");
         }
-        System.out.println(i.getRefrigeratedShelfVolume().toString());
+        System.out.println(i.toString());
     }
 
     public static void test4(){
@@ -111,6 +111,11 @@ public class sqlTest {
         GoodsInWarehouseMapper mapper = session.getMapper(GoodsInWarehouseMapper.class);
         GoodsInWarehouse goodsInWarehouse = new GoodsInWarehouse();
         goodsInWarehouse.setWarehouseWarehouseId(3);
-        mapper.nearlyExpired(goodsInWarehouse);
+        ArrayList<Goods> g = mapper.selectConditionallyWithPages("3",null,null,"'%牛奶%'",null,null,null,
+                null,null,false,null,false,10,1);
+//        mapper.nearlyExpired(goodsInWarehouse);
+        for(Goods x: g){
+            System.out.println(x.getName());
+        }
     }
 }
