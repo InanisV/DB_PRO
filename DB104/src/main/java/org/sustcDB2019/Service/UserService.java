@@ -67,6 +67,11 @@ public class UserService {
         SqlSession session=DAOService.sqlSessionFactory.openSession();
         UserMapper mapper = session.getMapper(UserMapper.class);
         user =mapper.selectByName(userName);
+        if(user==null) {
+            session.close();
+            return -1;
+
+        }
         if (String.format("%d",password.hashCode()).equals(user.getPassword())){
             flag=true;
         }
