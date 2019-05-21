@@ -11,7 +11,7 @@ public interface WarehouseMapper {
 
     int getNonRefriOccupVolume(Integer warehouseId);
 
-    int getRefriOccupVolume(Integer warehouseId);
+    Warehouse getRefriOccupVolume(Integer warehouseId);
 
     int getNonRefriRestVolume(Integer warehouseId);
 

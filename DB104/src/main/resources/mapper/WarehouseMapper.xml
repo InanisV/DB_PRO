@@ -15,26 +15,28 @@
   </sql>
   
 <!-- my sql statement -->
-  <select id="getNonRefriOccupVolume" parameterType="java.lang.Integer" resultType="int">
+  <select id="getNonRefriOccupVolume" parameterType="java.lang.Integer" resultType="java.lang.Integer">
     call get_used_volume(#{warehouseId}, @y, @n);
     select @n;
   </select>
-  <select id="getRefriOccupVolume" parameterType="java.lang.Integer" resultType="int">
-    call get_used_volume(#{warehouseId}, @y, @n);
-    select @y;
+  <select id="getRefriOccupVolume" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+    {call get_used_volume(
+    #{warehouseId, mode=IN, jdbcType=INTEGER},
+    #{refrigeratedShelfVolume, mode=OUT, jdbcType=INTEGER},
+    #{ordinaryShelfVolume,mode=OUT, jdbcType=INTEGER})}
   </select>
 
-  <select id="getNonRefriRestVolume" parameterType="java.lang.Integer" resultType="int">
+  <select id="getNonRefriRestVolume" parameterType="java.lang.Integer" resultType="java.lang.Integer">
     call get_used_volume(#{warehouseId}, @y, @n);
     select ordinary_shelf_volume-@n as ordinary_left_volume
     from warehouse w
     where w.warehouse_id=#{warehouseId};
   </select>
-  <select id="getRefriRestVolume" parameterType="java.lang.Integer" resultType="int">
-    call get_used_volume(#{warehouseId}, @y, @n)
-    select w.refrigerated_shelf_volume-@y as refrigirated_left_volume
+  <select id="getRefriRestVolume" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    call get_used_volume(#{warehouseId}, @y, @n);
+    select w.refrigerated_shelf_volume - @y as refrigerated_left_volume
     from warehouse w
-    where w.warehouse_id=#{warehouseId}
+    where w.warehouse_id=#{warehouseId, jdbcType=INTEGER};
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

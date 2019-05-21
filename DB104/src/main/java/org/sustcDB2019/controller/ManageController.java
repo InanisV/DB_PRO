@@ -341,7 +341,7 @@ public class ManageController {
             }
         } while (flag);
     }
-
+    // 348 null Exception，应该是347行的为空
     public static void modifyAccount(ManagerService managerService){
         System.out.print("Please input the username of the account to modify: ");
         User user = managerService.getUserByName(in.next());

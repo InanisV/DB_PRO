@@ -4,11 +4,11 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.sustcDB2019.dao.DaoManager;
-import org.sustcDB2019.dao.DelivererMapper;
-import org.sustcDB2019.dao.SalesMapper;
+import org.sustcDB2019.dao.*;
 import org.sustcDB2019.entity.Deliverer;
+import org.sustcDB2019.entity.Manager;
 import org.sustcDB2019.entity.Sales;
+import org.sustcDB2019.entity.Warehouse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,8 +30,8 @@ public class sqlTest {
     public static void main(String[] args){
         new sqlTest();
 
-
-        deliverer();
+        test3();
+//        deliverer();
 //        test1();
 //        int i = 30001302;
 //        ArrayList<Sales> s = showCart(i);
@@ -65,6 +65,25 @@ public class sqlTest {
         sale.setIsPaid("N");
         ArrayList<Sales> result = salesMapper.selectByCase(sale);
         return result;
+    }
+
+    public static void test3(){
+        SqlSession session = sqlSessionFactory.openSession();
+        WarehouseMapper mapper = session.getMapper(WarehouseMapper.class);
+        Warehouse warehouse = mapper.getRefriOccupVolume(3);
+        System.out.println();
+    }
+
+    public static void test4(){
+        SqlSession session = sqlSessionFactory.openSession();
+        ManagerMapper managerMapper = session.getMapper(ManagerMapper.class);
+        Manager manager = new Manager();
+        manager.setUserId(2000001);
+        manager.setWarehouseWarehouseId(10);
+
+        int i = managerMapper.updateByPrimaryKey(manager);
+        System.out.println("Yes "+i);
+        session.close();
     }
 
 }
