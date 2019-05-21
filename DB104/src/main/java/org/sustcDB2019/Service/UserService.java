@@ -38,7 +38,8 @@ public class UserService {
         customer.setCustomerLong(new BigDecimal(Math.random()*0.42234+113.849056));
         CustomerMapper customerMapper=sqlSession.getMapper(CustomerMapper.class);
         customerMapper.insertSelective(customer);
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -51,7 +52,8 @@ public class UserService {
         if (tmpUser==null){
             return 0;
         }
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return tmpUser.getId()/1000000;
     }
 

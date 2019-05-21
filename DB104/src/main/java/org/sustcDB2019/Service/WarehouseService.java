@@ -11,6 +11,7 @@ public class WarehouseService {
         SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
         WarehouseMapper mapper = sqlSession.getMapper(WarehouseMapper.class);
         ArrayList<Warehouse> list=mapper.selectAll();
+        sqlSession.commit();
         sqlSession.close();
         return list;
     }

@@ -82,7 +82,8 @@ public class CustomerService extends UserService {
                 filterGoods.getRefrigiratedCondition(),
                 lowerPerice, upperPirce, discount, orderByPriceIncrease, orderByDiscount, 10, index);
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return list;
     }
 
@@ -125,7 +126,8 @@ public class CustomerService extends UserService {
             }
         }
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -149,7 +151,8 @@ public class CustomerService extends UserService {
             salesMapper.deleteByPrimaryKey(sales.getSalesId());
         }
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -181,7 +184,8 @@ public class CustomerService extends UserService {
         goodsInWarehouseMapper.deleteAll();
         //deleteAll to delete all goodsInWarehouse whose amount==0
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return tmpOrder.getOrderId();//return id of order for front to view relevant message
     }
 
@@ -200,7 +204,8 @@ public class CustomerService extends UserService {
             mapper.updateByPrimaryKeySelective(customer);
         }
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -212,7 +217,8 @@ public class CustomerService extends UserService {
         tmpOrder.setCustomerUserId(customer.getId());
         ArrayList<Order> list = mapper.selectByCase(tmpOrder);//[add mapper]
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return list;
     }
 
@@ -222,7 +228,8 @@ public class CustomerService extends UserService {
 
         int historyCost= salesMapper.countPaymentByIdAndDate(customer.getId(),startDate,endDate);
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return historyCost;
     }
 
@@ -247,7 +254,8 @@ public class CustomerService extends UserService {
             tmpCalendar.set(Calendar.MONTH, startCalendar.get(Calendar.MONTH) + 1);
         }
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return list;
     }
 
@@ -258,10 +266,12 @@ public class CustomerService extends UserService {
         Order tmpOrder=orderMapper.selectByPrimaryKey(orderId);
         tmpOrder.setArrivalTime(currentDate);
         orderMapper.updateByPrimaryKeySelective(tmpOrder);
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         DelivererService.getOrderForDeliverer(tmpOrder.getDeliveryUserId());
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 

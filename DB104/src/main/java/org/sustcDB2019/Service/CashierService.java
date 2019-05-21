@@ -24,7 +24,8 @@ public class CashierService extends UserService{
             mapper.updateByPrimaryKeySelective(cashier);
         }
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -41,7 +42,8 @@ public class CashierService extends UserService{
         }
         goodsInWarehouseMapper.deleteAll();
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return totalPayment;
     }
 
@@ -59,6 +61,7 @@ public class CashierService extends UserService{
             rest += goodsInWarehouse.getAmount();
         }
         if (rest < amount) {
+            sqlSession.commit();
             sqlSession.close();
             return 1;// fail to add to cart since amount excceed
         }
@@ -88,7 +91,8 @@ public class CashierService extends UserService{
             }
         }
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -120,7 +124,8 @@ public class CashierService extends UserService{
             salesMapper.deleteByPrimaryKey(sales.getSalesId());
         }
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
