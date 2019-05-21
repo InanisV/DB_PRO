@@ -116,7 +116,7 @@ public class CashierController {
                             cashier.setWarehouseWarehouseId(in.nextInt());
                             break;
                         case 5:
-                            if(cashierService.updateCasher(cashier)==0){
+                            if(cashierService.updateCashier(cashier)==0){
                                 System.out.println("Modify successfully.");
                             } else {
                                 System.out.println("Modification fails.");
