@@ -40,7 +40,7 @@
 
 <!-- my sql statement -->
   <select id="selectByCase" parameterType="org.sustcDB2019.entity.Order" resultMap="historySalesResultMap">
-    select o.*, s.*, g.*
+    select o.order_id, o.arrival_time, o.departure_time, o.delivery_user_id, s.*, giw.*
     from `order` o
       join sales s on o.order_id = s.order_order_id
       join goods_in_warehouse giw on s.goods_in_warehouse_idgoods_in_warehouse = giw.idgoods_in_warehouse
@@ -49,16 +49,16 @@
       and o.order_id = #{orderId,jdbcType=INTEGER}
     </if>
     <if test="arrivalTime != null">
-      arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
+      and arrival_time = #{arrivalTime,jdbcType=TIMESTAMP}
     </if>
     <if test="departureTime != null">
-      departure_time = #{departureTime,jdbcType=TIMESTAMP},
+      and departure_time = #{departureTime,jdbcType=TIMESTAMP}
     </if>
     <if test="deliveryUserId != null">
-      delivery_user_id = #{deliveryUserId,jdbcType=INTEGER},
+      and delivery_user_id = #{deliveryUserId,jdbcType=INTEGER}
     </if>
     <if test="customerUserId != null">
-      customer_user_id = #{customerUserId,jdbcType=INTEGER},
+      and customer_user_id = #{customerUserId,jdbcType=INTEGER}
     </if>
   </select>
 

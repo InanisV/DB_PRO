@@ -68,6 +68,7 @@ public class DelivererService extends UserService {
 
         if (tmpUser.getPassword()!=null&&tmpUser.getUserName()!=null&&tmpUser.getPhoneNumber()!=null){
             userMapper.updateByPrimaryKeySelective(tmpUser);
+            sqlSession.commit();
         }
 
         if (deliverer.getWarehouseWarehouseId()!=null){
