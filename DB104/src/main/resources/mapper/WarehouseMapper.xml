@@ -18,25 +18,25 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select * from warehouse;
   </select>
-  <select id="getNonRefriOccupVolume" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-    call get_used_volume(#{warehouseId}, @y, @n);
+  <select id="getNonRefriOccupVolume" parameterType="java.lang.Integer" statementType="CALLABLE" resultType="java.lang.Integer">
+    {call get_used_volume(#{warehouseId}, @y, @n)}
     select @n;
   </select>
-  <select id="getRefriOccupVolume" parameterType="org.sustcDB2019.entity.Warehouse" statementType="CALLABLE" resultMap="BaseResultMap" >
+  <select id="getRefriOccupVolume" parameterType="java.lang.Integer" statementType="CALLABLE" resultType="org.sustcDB2019.entity.Warehouse" >
     {call get_used_volume(
     #{warehouseId, mode=IN, jdbcType=INTEGER},
     #{refrigeratedShelfVolume, mode=OUT, jdbcType=INTEGER},
     #{ordinaryShelfVolume,mode=OUT, jdbcType=INTEGER})}
   </select>
 
-  <select id="getNonRefriRestVolume" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-    call get_used_volume(#{warehouseId}, @y, @n);
+  <select id="getNonRefriRestVolume" parameterType="java.lang.Integer" statementType="CALLABLE" resultType="java.lang.Integer">
+    {call get_used_non_refri_volume(#{warehouseId}, @n)}
     select ordinary_shelf_volume-@n as ordinary_left_volume
     from warehouse w
     where w.warehouse_id=#{warehouseId};
   </select>
   <select id="getRefriRestVolume" parameterType="java.lang.Integer" statementType="CALLABLE" resultType="java.lang.Integer">
-    {call get_used_volume(#{warehouseId}, @y, @n)}
+    {call get_used_refri_volume(#{warehouseId}, @y)}
     select w.refrigerated_shelf_volume - @y as refrigerated_left_volumes
     from warehouse w
     where w.warehouse_id=#{warehouseId, jdbcType=INTEGER};

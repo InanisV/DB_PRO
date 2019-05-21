@@ -27,7 +27,7 @@ public class sqlTest {
     public static void main(String[] args){
         new sqlTest();
 
-        test5();
+        test7();
 //        deliverer();
 //        test1();
 //        int i = 30001302;
@@ -67,7 +67,7 @@ public class sqlTest {
     public static void test3(){
         SqlSession session = sqlSessionFactory.openSession();
         WarehouseMapper mapper = session.getMapper(WarehouseMapper.class);
-        Integer i = mapper.getRefriRestVolume(3);
+        Integer i = mapper.getNonRefriRestVolume(3);
         System.out.println(i.toString());
     }
 
@@ -99,5 +99,13 @@ public class sqlTest {
             System.out.println("y");
             System.out.println(x.getWarehouseLati().toString());
         }
+    }
+
+    public static void test7(){
+        SqlSession session =sqlSessionFactory.openSession();
+        GoodsInWarehouseMapper mapper = session.getMapper(GoodsInWarehouseMapper.class);
+        GoodsInWarehouse goodsInWarehouse = new GoodsInWarehouse();
+        goodsInWarehouse.setWarehouseWarehouseId(3);
+        mapper.nearlyExpired(goodsInWarehouse);
     }
 }

@@ -29,14 +29,14 @@
   </sql>
 
 <!--  my sql statement  -->
-  <select id="nearlyExpired" resultMap="BaseResultMap">
+  <select id="nearlyExpired" parameterType="org.sustcDB2019.entity.GoodsInWarehouse" resultMap="BaseResultMap">
     select giw.*
     from goods_in_warehouse giw
     join goods g on giw.goods_goods_id = g.goods_id
     where DATEDIFF( giw.expired_day, curdate()) &lt; g.preserve_time*0.1
     and DATEDIFF( giw.expired_day, curdate()) &gt; 0
-    <if test="warehouseId!=null">
-      and warehouse_warehouse_id=#{warehouseId}
+    <if test="warehouseWarehouseId!=null">
+      and warehouse_warehouse_id=#{warehouseWarehouseId}
     </if>
   </select>
   <select id="selectWithPages" resultMap="Goods">

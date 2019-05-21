@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public interface GoodsInWarehouseMapper {
 
-    ArrayList<GoodsInWarehouse> nearlyExpired(Integer warehouseId);
+    ArrayList<GoodsInWarehouse> nearlyExpired(GoodsInWarehouse goodsInWarehouse);
 
     int deleteAll();
 

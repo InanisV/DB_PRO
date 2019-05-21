@@ -195,7 +195,7 @@ public class ManagerService extends UserService{
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         GoodsInWarehouseMapper goodsInWarehouseMapper=sqlSession.getMapper(GoodsInWarehouseMapper.class);
         ArrayList<GoodsInWarehouse> list=null;
-        list=goodsInWarehouseMapper.nearlyExpired(manager.getWarehouseWarehouseId());
+//        list=goodsInWarehouseMapper.nearlyExpired(manager.getWarehouseWarehouseId());
         // select GoodsInWarehouse whose remaining time = 10% * preserveTime
         sqlSession.commit();
             sqlSession.close();
