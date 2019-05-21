@@ -214,10 +214,28 @@ public class ManagerService extends UserService{
         return list;
     }
 
+    public ArrayList<Goods> goodsArrayListWithFilter(Goods filterGoods, int warehouseId, String lowerPerice, String upperPirce, boolean discount, String orderByPriceIncrease, boolean orderByDiscount, int index) {//
+        SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
+        GoodsInWarehouseMapper goodsInWarehouseMapper = sqlSession.getMapper(GoodsInWarehouseMapper.class);
+
+        ArrayList<Goods> list = goodsInWarehouseMapper.selectConditionallyWithPages(
+                warehouseId > 0 ? String.format("%d", warehouseId) : null, filterGoods.getType(),
+                filterGoods.getCatagory(),
+                filterGoods.getName(),
+                filterGoods.getBrand(),
+                filterGoods.getOriginPlace(),
+                filterGoods.getRefrigiratedCondition(),
+                lowerPerice, upperPirce, discount, orderByPriceIncrease, orderByDiscount, 10, index*10);
+
+        sqlSession.commit();
+        sqlSession.close();
+        return list;
+    }
+
     public ArrayList<GoodsWithAmountIncome> getOrderedByIncome(int pageIndex){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
-        ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesIncomeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
+        ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesIncomeRank(manager.getWarehouseWarehouseId(),20,pageIndex*20);
         sqlSession.commit();
             sqlSession.close();
         return list;
