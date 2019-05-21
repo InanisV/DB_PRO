@@ -13,13 +13,6 @@ public class MainController {
     public static Scanner in = new Scanner(System.in);
 
     public static void main(String[] args) {
-//        DAOService s = new DAOService();
-//        Manager manager=new Manager(new User(2000008,"12","asdcd","12312312321"));
-//        ManagerService managerService=new ManagerService();
-//        manager.setWarehouseWarehouseId(11);
-//        managerService.manager=manager;
-//        managerService.updateManager(manager);
-//        System.out.println();
         DAOService s = new DAOService();
         SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
         WarehouseMapper mapper = sqlSession.getMapper(WarehouseMapper.class);
@@ -27,10 +20,6 @@ public class MainController {
         sqlSession.commit();
         sqlSession.close();
 
-
-
-
-//        DAOService s = new DAOService();
         UserService userService = new UserService();
         System.out.println("Welcome to Newly Retailing Chain Store!\nPlease log in or sign up.");
         boolean flag1 = true;

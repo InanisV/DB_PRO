@@ -87,7 +87,7 @@ public class AdminController {
                                 switch (option4){
                                     case 1:
                                         System.out.print("Please input the name: ");
-                                        g.setName(in.next());
+                                        g.setName("'%" + in.next() + "%'");
                                         break;
                                     case 2:
                                         System.out.print("Please input the category: ");
@@ -149,7 +149,7 @@ public class AdminController {
                                         "2. Delete category\n" +
                                         "3. Delete type\n" +
                                         "4. Delete price\n" +
-                                        "5. Delete brand\n " +
+                                        "5. Delete brand\n" +
                                         "6. Delete origin place\n" +
                                         "7. Delete discounted\n" +
                                         "8. Delete refrigeration condition");
@@ -289,7 +289,11 @@ public class AdminController {
                                 ArrayList<Integer> spend = customerService.getHistoryStatisticsByMonth(sdate, edate);
                                 System.out.print("Your total spending during these month are: ");
                                 for (Integer x: spend) {
-                                    System.out.print(x + " ");
+                                    if(x==null){
+                                        System.out.print(0 + " ");
+                                    } else {
+                                        System.out.print(x + " ");
+                                    }
                                 }
                                 System.out.println();
                                 break;

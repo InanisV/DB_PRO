@@ -78,7 +78,7 @@ public class CustomerService extends UserService {
         GoodsInWarehouseMapper goodsInWarehouseMapper = sqlSession.getMapper(GoodsInWarehouseMapper.class);
 
         ArrayList<Goods> list = goodsInWarehouseMapper.selectConditionallyWithPages(
-                customer.getWarehouseId() > 0 ? String.format("%d", customer.getWarehouseId()) : null, filterGoods.getType(),
+                        customer.getWarehouseId() > 0 ? String.format("%d", customer.getWarehouseId()) : null, filterGoods.getType(),
                 filterGoods.getCatagory(),
                 filterGoods.getName(),
                 filterGoods.getBrand(),
@@ -161,7 +161,7 @@ public class CustomerService extends UserService {
     }
 
     // return -1 if sales not belong to this customer
-    public int buy(ArrayList<Sales> list,Date currentDate){
+    public int buy(ArrayList<Sales> list){
         for (Sales sales:list) {
             if (sales.getCustomerUserId()!=customer.getUserId()) return -1;
         }
@@ -185,10 +185,8 @@ public class CustomerService extends UserService {
         for (Sales sales:list) {
             sales.setIsPaid("Y");
             sales.setOrderOrderId(orderId);
-            sales.setSalesTime(currentDate);
             salesMapper.updateByPrimaryKeySelective(sales);
         }
-        sqlSession.commit();
         goodsInWarehouseMapper.deleteAll();
         //deleteAll to delete all goodsInWarehouse whose amount==0
 
