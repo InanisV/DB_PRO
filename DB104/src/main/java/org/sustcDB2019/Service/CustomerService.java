@@ -186,12 +186,19 @@ public class CustomerService extends UserService {
     }
 
 
-    public int updateCustomer(Customer customer) {
-        SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
-        CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
+    public int updateCustomer(Customer customer){
+        SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
+        CustomerMapper mapper=sqlSession.getMapper(CustomerMapper.class);
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+        User tmpUser=new User(customer);
 
-        mapper.updateByPrimaryKeySelective(customer);
-        updateWarehouse();
+        if (tmpUser.getPassword()!=null&&tmpUser.getUserName()!=null&&tmpUser.getPhoneNumber()!=null){
+            userMapper.updateByPrimaryKeySelective(tmpUser);
+        }
+
+        if (customer.getCustomerLati()!=null&&customer.getAddress()!=null&&customer.getCustomerLati()!=null&&customer.getCustomerLong()!=null){
+            mapper.updateByPrimaryKeySelective(customer);
+        }
 
         sqlSession.close();
         return 0;

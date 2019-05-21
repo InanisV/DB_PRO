@@ -46,7 +46,17 @@ public class ManagerService extends UserService{
     public int updateManager(Manager manager){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         ManagerMapper mapper=sqlSession.getMapper(ManagerMapper.class);
-        mapper.updateByPrimaryKeySelective(manager);
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+        User tmpUser=new User(manager);
+
+        if (tmpUser.getPassword()!=null&&tmpUser.getUserName()!=null&&tmpUser.getPhoneNumber()!=null){
+            userMapper.updateByPrimaryKeySelective(tmpUser);
+        }
+
+        if (manager.getWarehouseWarehouseId()!=null){
+            mapper.updateByPrimaryKeySelective(manager);
+        }
+
         sqlSession.close();
         return 0;
     }

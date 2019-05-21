@@ -4,9 +4,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.sustcDB2019.dao.CustomerMapper;
 import org.sustcDB2019.dao.DelivererMapper;
 import org.sustcDB2019.dao.OrderMapper;
+import org.sustcDB2019.dao.UserMapper;
 import org.sustcDB2019.entity.Customer;
 import org.sustcDB2019.entity.Deliverer;
 import org.sustcDB2019.entity.Order;
+import org.sustcDB2019.entity.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,8 +62,16 @@ public class DelivererService extends UserService {
     public int updateDeliverer(Deliverer deliverer){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         DelivererMapper mapper=sqlSession.getMapper(DelivererMapper.class);
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+        User tmpUser=new User(deliverer);
 
-        mapper.updateByPrimaryKeySelective(deliverer);
+        if (tmpUser.getPassword()!=null&&tmpUser.getUserName()!=null&&tmpUser.getPhoneNumber()!=null){
+            userMapper.updateByPrimaryKeySelective(tmpUser);
+        }
+
+        if (deliverer.getWarehouseWarehouseId()!=null){
+            mapper.updateByPrimaryKeySelective(deliverer);
+        }
 
         sqlSession.close();
         return 0;
