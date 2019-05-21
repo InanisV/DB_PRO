@@ -19,9 +19,11 @@ public class ManagerService extends UserService{
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 
         User user = userMapper.selectByName(userName);
-        if(user.getId()!=null){
+        if(user!=null){
             sqlSession.close();
             return -1;
+        }else {
+            user = new User();
         }
         ManagerMapper managerMapper = sqlSession.getMapper(ManagerMapper.class);
         user.setId(managerMapper.selectMaxId()+1);
@@ -35,7 +37,7 @@ public class ManagerService extends UserService{
         sqlSession.close();
         user = userMapper.selectByName(userName);
         sqlSession.close();
-        if(user.getId()==null){
+        if(user==null){
             return -1;
         }
         return 0;
