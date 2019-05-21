@@ -25,7 +25,9 @@ public class UserService {
         Customer customer=new Customer();
         user=(User) customer;
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
-        user.setPassword(String.format("%d",password.hashCode()));
+//        user.setPassword(String.format("%d",password.hashCode()));
+        user.setPassword(password);
+
         user.setUserName(userName);
         user.setPhoneNumber(phoneNumber);
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
@@ -33,12 +35,13 @@ public class UserService {
         user.setId(mapper1.selectMaxId()+1);//[add mapper] select the max id of customers , return integer only
         mapper.insertSelective(user);
         sqlSession.commit();
+
         customer.setAddress(address);
-        customer.setId(mapper1.selectMaxId());
+        customer.setId(user.getId());
+        customer.setUserId(user.getId());
         customer.setCustomerLati(new BigDecimal(Math.random()*0.164798+22.521605));
         customer.setCustomerLong(new BigDecimal(Math.random()*0.42234+113.849056));
-        CustomerMapper customerMapper=sqlSession.getMapper(CustomerMapper.class);
-        customerMapper.insertSelective(customer);
+        mapper1.insertSelective(customer);
         sqlSession.commit();
             sqlSession.close();
         return 0;
