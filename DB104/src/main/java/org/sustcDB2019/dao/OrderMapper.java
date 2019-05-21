@@ -6,6 +6,8 @@ import org.sustcDB2019.entity.Order;
 import java.util.ArrayList;
 
 public interface OrderMapper {
+    ArrayList<Order> selectOrderWithNoDeliverer();
+
     @Select("select max(o.order_id) from `order` o;")
     int selectMaxId();
 

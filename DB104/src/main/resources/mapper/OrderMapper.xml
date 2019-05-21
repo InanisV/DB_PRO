@@ -62,6 +62,12 @@
   </sql>
 
 <!-- my sql statement -->
+  <select id="selectOrderWithNoDeliverer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from `order` o
+    where o.delivery_user_id is null;
+  </select>
   <select id="selectByCase" parameterType="org.sustcDB2019.entity.Order" resultMap="historySalesResultMap">
     select o.order_id, o.arrival_time, o.departure_time, o.delivery_user_id, s.*, g.*, giw.*
     from `order` o
