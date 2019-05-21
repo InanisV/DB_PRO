@@ -396,11 +396,11 @@ public class AdminController {
     }
 
     public static void showOrders(ArrayList<Order> orders){
-        System.out.println(String.format("%-8s%-10s%-27s%-27s%-6s", "Number", "Order id", "Departure time",
+        System.out.println(String.format("%-8s%-12s%-35s%-35s%-6s", "Number", "Order id", "Departure time",
                 "Arrival Time", "Deliverer id"));
         int i = 1;
         for (Order x : orders) {
-            System.out.println(String.format(String.format("%-8s%-10s%-27s%-27s%-6s", i,  x.getOrderId(), x.getDepartureTime(),
+            System.out.println(String.format(String.format("%-8s%-12s%-35s%-35s%-6s", i,  x.getOrderId(), x.getDepartureTime(),
                     x.getArrivalTime(), x.getDeliveryUserId())));
             i++;
         }
@@ -423,6 +423,9 @@ public class AdminController {
                 amount += sales.get(i).get(j).getAmount();
                 payment.add(sales.get(i).get(j).getPayment());
             }
+            System.out.println(sales.get(i).get(0).getGoodsInWarehouse());
+            System.out.println(sales.get(i).get(0).getGoodsInWarehouse().getGoods().getName());
+            System.out.println(sales.get(i).get(0).getGoodsInWarehouse().getGoods().getPrice());
             System.out.println(String.format("%-8s%-45s%-8s%-11s%-12s%-12s%-20s", (i+1), expend(sales.get(i).get(0).getGoodsInWarehouse().getGoods().getName(), 100), sales.get(i).get(0).getGoodsInWarehouse().getGoods().getPrice(),
                     amount, sales.get(i).get(0).getGoodsInWarehouse().getGoods().getDiscount(), payment, sales.get(i).get(0).getIsPaid()));
         }
@@ -440,8 +443,9 @@ public class AdminController {
                 }
             }
             if(!exit){
-                newSales.add(new ArrayList<Sales>());
-                newSales.get(newSales.size()-1).add(sales.get(i));
+                ArrayList<Sales> temp = new ArrayList<Sales>();
+                temp.add(sales.get(i));
+                newSales.add(temp);
             }
         }
         return newSales;
