@@ -36,6 +36,28 @@ public class DelivererController {
                 case 2:
                     ArrayList<Order> order = delivererService.getCurrentOrder();
                     showOrders(order, delivererService);
+                    boolean flag2 = true;
+                    do {
+                        System.out.println("Please choose the option:\n" +
+                                "1. Accept order\n" +
+                                "2. Return");
+                        int option2 = in.nextInt();
+                        switch (option2){
+                            case 1:
+                                if(delivererService.orderDepart(new Date())==1){
+                                    System.out.println("No order accepted.");
+                                } else {
+                                    System.out.println("Accept successfully.");
+                                }
+                                break;
+                            case 2:
+                                flag2 = false;
+                                break;
+                            default:
+                                System.out.println("Wrong input.");
+                                break;
+                        }
+                    } while (flag2);
                     break;
                 case 3:
                     flag = false;
@@ -109,13 +131,14 @@ public class DelivererController {
     }
 
     public static void showOrders(ArrayList<Order> orders, DelivererService delivererService){
-        System.out.println(String.format("%-16s%-17s%-17s%-17s%-20s", "Order id", "Departure time",
+        System.out.println(String.format("%-16s%-28s%-17s%-17s%-20s", "Order id", "Departure time",
                 "Customer name", "Phone number", "Address"));
         for (Order x : orders) {
-            System.out.println(String.format(String.format("%-16s%-17s%-17s%-17s%-20s", x.getOrderId(), x.getDepartureTime(),
-                    delivererService.getCurrentCustomer(x.getCustomerUserId()).getUserName(),
-                    delivererService.getCurrentCustomer(x.getCustomerUserId()).getPhoneNumber(),
-                    delivererService.getCurrentCustomer(x.getCustomerUserId()).getAddress())));
+            ManagerService managerService = new ManagerService();
+            System.out.println(String.format(String.format("%-16s%-28s%-17s%-17s%-20s", x.getOrderId(), x.getDepartureTime(),
+                    managerService.getCustomerById(x.getCustomerUserId()).getUserName(),
+                    managerService.getCustomerById(x.getCustomerUserId()).getPhoneNumber(),
+                    managerService.getCustomerById(x.getCustomerUserId()).getAddress())));
         }
     }
 
