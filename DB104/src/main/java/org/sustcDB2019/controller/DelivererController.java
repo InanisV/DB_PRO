@@ -32,6 +32,7 @@ public class DelivererController {
                     System.out.println("Phone number: " + delivererService.deliverer.getPhoneNumber());
                     System.out.println("Warehouse id: " + delivererService.deliverer.getWarehouseWarehouseId());
                     modify(delivererService.deliverer);
+                    break;
                 case 2:
                     ArrayList<Order> order = delivererService.getCurrentOrder();
                     showOrders(order, delivererService);
