@@ -2,6 +2,8 @@ package org.sustcDB2019.controller;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 import org.apache.ibatis.session.SqlSession;
@@ -13,24 +15,27 @@ public class MainController {
     public static Scanner in = new Scanner(System.in);
 
     public static void main(String[] args) {
-//        DAOService s = new DAOService();
-//        Manager manager=new Manager(new User(2000008,"12","asdcd","12312312321"));
-//        ManagerService managerService=new ManagerService();
-//        manager.setWarehouseWarehouseId(11);
-//        managerService.manager=manager;
-//        managerService.updateManager(manager);
-//        System.out.println();
         DAOService s = new DAOService();
         SqlSession sqlSession = DAOService.sqlSessionFactory.openSession();
         WarehouseMapper mapper = sqlSession.getMapper(WarehouseMapper.class);
+<<<<<<< HEAD
         ArrayList<Warehouse> list=mapper.selectAll();
         sqlSession.commit();
         sqlSession.close();
 
+=======
+        ManagerService managerService=new ManagerService();
+        CustomerService customerService=new CustomerService();
+        customerService.customer=new Customer(managerService.getUserByName("Colemin531"));
+        managerService.manager=new Manager();
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.MONTH,4);
+        ArrayList<Integer> list=customerService.getHistoryStatisticsByMonth(new Date(calendar.getTimeInMillis()),new Date(calendar.getTimeInMillis()));
 
 
 
 //        DAOService s = new DAOService();
+>>>>>>> 010861a0f1e0667447682491535d6aed8cbc3cbb
         UserService userService = new UserService();
         System.out.println("Welcome to Newly Retailing Chain Store!\nPlease log in or sign up.");
         boolean flag1 = true;
