@@ -1,5 +1,5 @@
 package org.sustcDB2019.controller;
-
+import java.io.UnsupportedEncodingException;
 import org.sustcDB2019.entity.*;
 import org.sustcDB2019.service.*;
 
@@ -9,10 +9,13 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ManageController {
     public static Scanner in = new Scanner(System.in);
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final String DOUBLE_CHAR_REG = "[^\\x00-\\xff]";
 
     public static void ManagerView(int managerid){
         ManagerService managerService = new ManagerService();
@@ -303,8 +306,8 @@ public class ManageController {
                             } else {
                                 System.out.println("Modification fails.");
                             }
-                            System.out.println("Modify successfully.");
                             flag3 = false;
+                            break;
                         default:
                             System.out.println("Your input is wrong, please input again.");
                     }
@@ -348,16 +351,35 @@ public class ManageController {
     }
 
     public static void showGoodsWithAmount(ArrayList<GoodsWithAmountIncome> goodsWithAmounts){
-        System.out.println(String.format("%-10s\t%-95s\t%-13s\t%-8s\t%-12s\t%-25s\t%-16s\t%-8s\t%-8s\t%-8s\t%-5s\t", "Good id", "Goods Name", "Sale amount",
+        System.out.println(String.format("%-9s%-101s%-13s%-10s%-12s%-36s%-36s%-16s%-10s%-10s%-16s%-15s", "Good id", "Goods Name", "Sale amount",
                 "Price", "Discount", "Brand", "Origin Place", "Preserve Time", "Volume", "Frozen", "Category", "Type"));
-        for (GoodsWithAmountIncome x : goodsWithAmounts) {
-            System.out.println(String.format("%-10s\t%-95s\t%-13s\t%-8s\t%-12s\t%-25s\t%-16s\t%-8s\t%-8s\t%-8s\t%-5s\t", x.getGoodsId(), x.getName(), x.getAmount(), x.getPrice(), x.getDiscount(),
-                    x.getBrand(), x.getOriginPlace(), x.getPreserveTime(), x.getVolume(), x.getRefrigiratedCondition(), x.getCatagory(), x.getType()));
-        }
 //        for (GoodsWithAmountIncome x : goodsWithAmounts) {
-//            System.out.println(x.getGoodsId() + "\t" + x.getName()+ "\t" + x.getAmount()+ "\t" + x.getPrice()+ "\t" + x.getDiscount()+ "\t" +
-//                    x.getBrand()+ "\t" + x.getOriginPlace()+ "\t" + x.getPreserveTime()+ "\t" + x.getVolume()+ "\t" + x.getRefrigiratedCondition()+ "\t" + x.getCatagory()+ "\t" + x.getType());
+//            System.out.println(String.format("%-10s\t%-130s%-13s\t%-10s\t%-12s\t%-35s\t%-36s\t%-10s\t%-10s\t%-10s\t%-5s\t", x.getGoodsId(), expend(x.getName(),130), x.getAmount(), x.getPrice(), x.getDiscount(),
+//                    x.getBrand(), x.getOriginPlace(), x.getPreserveTime(), x.getVolume(), x.getRefrigiratedCondition(), x.getCatagory(), x.getType()));
 //        }
+        for (GoodsWithAmountIncome x : goodsWithAmounts) {
+            System.out.println(String.format("%-9s",x.getGoodsId()) + "" + expend(x.getName(),100)+ "" + String.format("%-13s",x.getAmount())+ ""
+                    + String.format("%-10s",x.getPrice())+ "" + String.format("%-12s",x.getDiscount())+ "" +
+                    expend(x.getBrand(),35)+ "" + expend(x.getOriginPlace(),35)+ "" + String.format("%-16s",x.getPreserveTime())+ ""
+                    + String.format("%-10s",x.getVolume())+ "" + String.format("%-10s",x.getRefrigiratedCondition())+ ""
+                    + expend(x.getCatagory(),16)+ "" + expend(x.getType(),15));
+        }
     }
 
+    public static String expend(String str, int num){
+        int le = count(str);
+        for (int i = le; i <= num; i++) {
+            str += " ";
+        }
+        return str;
+    }
+
+    public static int count(String str){
+        int len = str.length();
+        Matcher matcher = Pattern.compile(DOUBLE_CHAR_REG).matcher(str);
+        while (matcher.find()) {
+            len++;//双字节长度+1
+        }
+        return len;
+    }
 }
