@@ -14,17 +14,33 @@ import java.util.Date;
 public class DelivererService extends UserService {
     public Deliverer deliverer= (Deliverer) super.user;
 
+    /*
+    ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    ↓↓↓↓↓↓if this method is never used, delete it.↓↓↓↓↓
+    ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+     */
     public int setStatus(String status) {// dont need to change the DB?
         deliverer.setStatusOn(status);
         return 0;
     }
+    /*
+    ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+    ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+    ↑↑↑↑↑↑if this method is never used, delete it.↑↑↑↑↑
+    ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+    ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+     */
 
     public Customer getCurrentCustomer(int orderId){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         CustomerMapper customerMapper=sqlSession.getMapper(CustomerMapper.class);
         OrderMapper orderMapper=sqlSession.getMapper(OrderMapper.class);
+
         Order tmpOrder=orderMapper.selectByPrimaryKey(orderId);
         Customer tmpCustomer= customerMapper.selectByPrimaryKey(tmpOrder.getCustomerUserId());
+
         sqlSession.close();
         return tmpCustomer;
     }
@@ -32,9 +48,11 @@ public class DelivererService extends UserService {
     public ArrayList<Order> getCurrentOrder(){
         SqlSession session=DAOService.sqlSessionFactory.openSession();
         OrderMapper mapper=session.getMapper(OrderMapper.class);
+
         Order tmpOrder=new Order();
         tmpOrder.setDeliveryUserId(deliverer.getUserId());
         ArrayList<Order> list=mapper.selectByCase(tmpOrder);//[add mapper]
+
         session.close();
         return list;
     }
@@ -42,7 +60,9 @@ public class DelivererService extends UserService {
     public int updateDeliverer(Deliverer deliverer){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         DelivererMapper mapper=sqlSession.getMapper(DelivererMapper.class);
+
         mapper.updateByPrimaryKeySelective(deliverer);
+
         sqlSession.close();
         return 0;
     }
@@ -50,6 +70,7 @@ public class DelivererService extends UserService {
     public int orderDepart(Date currentDate){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+
         Order filterOrder=new Order();
         filterOrder.setDeliveryUserId(deliverer.getUserId());
         ArrayList<Order> list=orderMapper.selectByCase(filterOrder);
@@ -57,6 +78,7 @@ public class DelivererService extends UserService {
             order.setDepartureTime(currentDate);
             orderMapper.updateByPrimaryKeySelective(order);
         }
+
         sqlSession.close();
         return 0;
     }
@@ -79,10 +101,9 @@ public class DelivererService extends UserService {
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         OrderMapper orderMapper= sqlSession.getMapper(OrderMapper.class);
         DelivererMapper delivererMapper= sqlSession.getMapper(DelivererMapper.class);
+
         Order filterOrder=new Order();
         ArrayList<Order> orderArrayList=null;
-//        orderArrayList=orderMapper.selectFreeOrder();
-        //[add mapper] select order whose departureTime==null
         if (orderArrayList.size()==0){
             Deliverer tmpDeliverer=delivererMapper.selectByPrimaryKey(delivererId);
             tmpDeliverer.setStatusOn("N");
