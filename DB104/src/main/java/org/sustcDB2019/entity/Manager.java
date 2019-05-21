@@ -35,5 +35,7 @@ public class Manager extends User {
         this.setPassword(user1.getPassword());
     }
 
-    public Manager(){}
+    public Manager(){
+
+    }
 }

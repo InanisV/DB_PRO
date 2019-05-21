@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class ManagerService extends UserService{
-    public Manager manager=new Manager(super.user);
+    public Manager manager=new Manager();
 
 
     public int addNewManager(String userName,String password,String phoneNumber,int warehouseId){
@@ -113,7 +113,9 @@ public class ManagerService extends UserService{
     public Manager getManagerById(int id){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         ManagerMapper mapper=sqlSession.getMapper(ManagerMapper.class);
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
         Manager tmpManager =mapper.selectByPrimaryKey(id);
+        tmpManager.setByUser(userMapper.selectByPrimaryKey(id));
         sqlSession.close();
         return tmpManager;
     }
@@ -121,7 +123,9 @@ public class ManagerService extends UserService{
     public Customer getCustomerById(int id){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         CustomerMapper mapper=sqlSession.getMapper(CustomerMapper.class);
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
         Customer tmpCustomer =mapper.selectByPrimaryKey(id);
+        tmpCustomer.setByUser(userMapper.selectByPrimaryKey(id));
         sqlSession.close();
         return tmpCustomer;
     }
@@ -129,7 +133,10 @@ public class ManagerService extends UserService{
     public Deliverer getDelivererById(int id){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         DelivererMapper mapper=sqlSession.getMapper(DelivererMapper.class);
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+
         Deliverer tmpDeliverer =mapper.selectByPrimaryKey(id);
+        tmpDeliverer.setByUser(userMapper.selectByPrimaryKey(id));
         sqlSession.close();
         return tmpDeliverer;
     }
@@ -137,7 +144,10 @@ public class ManagerService extends UserService{
     public Cashier getCashierById(int id){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         CashierMapper mapper=sqlSession.getMapper(CashierMapper.class);
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+
         Cashier tmpCashier =mapper.selectByPrimaryKey(id);
+        tmpCashier.setByUser(userMapper.selectByPrimaryKey(id));
         sqlSession.close();
         return tmpCashier;
     }
