@@ -176,6 +176,7 @@ public class CustomerService extends UserService {
         Order tmpOrder=new Order();
         tmpOrder.setSaleses(list);// maybe saleses is not needed
         tmpOrder.setCustomerUserId(customer.getUserId());
+        tmpOrder.setOrderId(orderMapper.selectMaxId()+1);
 
         int deliverId=DelivererService.getFreeDelivererRandomly(delivererMapper);
         if (deliverId!=0) tmpOrder.setDeliveryUserId(deliverId);
