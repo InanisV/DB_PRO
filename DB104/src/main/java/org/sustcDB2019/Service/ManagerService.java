@@ -20,6 +20,7 @@ public class ManagerService extends UserService{
 
         User user = userMapper.selectByName(userName);
         if(user!=null){
+            sqlSession.commit();
             sqlSession.close();
             return -1;
         }else {
@@ -34,9 +35,9 @@ public class ManagerService extends UserService{
         newManager.setWarehouseWarehouseId(warehouseId);
         userMapper.insertSelective(user);
         managerMapper.insertSelective(newManager);
-        sqlSession.close();
         user = userMapper.selectByName(userName);
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         if(user==null){
             return -1;
         }
@@ -46,8 +47,19 @@ public class ManagerService extends UserService{
     public int updateManager(Manager manager){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         ManagerMapper mapper=sqlSession.getMapper(ManagerMapper.class);
-        mapper.updateByPrimaryKeySelective(manager);
-        sqlSession.close();
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+        User tmpUser=new User(manager);
+
+        if (tmpUser.getPassword()!=null&&tmpUser.getUserName()!=null&&tmpUser.getPhoneNumber()!=null){
+            userMapper.updateByPrimaryKeySelective(tmpUser);
+        }
+
+        if (manager.getWarehouseWarehouseId()!=null){
+            mapper.updateByPrimaryKeySelective(manager);
+        }
+
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -55,7 +67,8 @@ public class ManagerService extends UserService{
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         GoodsMapper goodsMapper=sqlSession.getMapper(GoodsMapper.class);
         goodsMapper.insertSelective(newGoods);
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return goodsMapper.selectConditionally(newGoods).get(0);
     }
 
@@ -67,7 +80,8 @@ public class ManagerService extends UserService{
         tmpGoods.setGoodsId(goodsId);
         tmpGoods.setDiscount(discountBD);
         goodsMapper.updateByPrimaryKeySelective(tmpGoods);
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -78,12 +92,14 @@ public class ManagerService extends UserService{
         WarehouseMapper warehouseMapper=sqlSession.getMapper(WarehouseMapper.class);
         if (goodsMapper.selectByPrimaryKey(goodsId).getRefrigiratedCondition().equals("Y")){
             if (amount>warehouseMapper.getRefriRestVolume(manager.getWarehouseWarehouseId())) {
-                sqlSession.close();
+                sqlSession.commit();
+            sqlSession.close();
                 return 1;
             }
         }else {
             if (amount>warehouseMapper.getNonRefriRestVolume(manager.getWarehouseWarehouseId())) {
-                sqlSession.close();
+                sqlSession.commit();
+            sqlSession.close();
                 return 1;
             }
         }
@@ -98,7 +114,8 @@ public class ManagerService extends UserService{
         purchase.setCost(goods.getPrice().multiply(new BigDecimal(amount)));
         PurchaseMapper mapper1=sqlSession.getMapper(PurchaseMapper.class);
         mapper1.insertSelective(purchase);
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -106,7 +123,8 @@ public class ManagerService extends UserService{
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         UserMapper mapper=sqlSession.getMapper(UserMapper.class);
         User user =mapper.selectByName(name);
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return user;
     }
 
@@ -116,7 +134,8 @@ public class ManagerService extends UserService{
         UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
         Manager tmpManager =mapper.selectByPrimaryKey(id);
         tmpManager.setByUser(userMapper.selectByPrimaryKey(id));
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return tmpManager;
     }
 
@@ -126,7 +145,8 @@ public class ManagerService extends UserService{
         UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
         Customer tmpCustomer =mapper.selectByPrimaryKey(id);
         tmpCustomer.setByUser(userMapper.selectByPrimaryKey(id));
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return tmpCustomer;
     }
 
@@ -137,7 +157,8 @@ public class ManagerService extends UserService{
 
         Deliverer tmpDeliverer =mapper.selectByPrimaryKey(id);
         tmpDeliverer.setByUser(userMapper.selectByPrimaryKey(id));
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return tmpDeliverer;
     }
 
@@ -148,7 +169,8 @@ public class ManagerService extends UserService{
 
         Cashier tmpCashier =mapper.selectByPrimaryKey(id);
         tmpCashier.setByUser(userMapper.selectByPrimaryKey(id));
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return tmpCashier;
     }
 
@@ -162,7 +184,8 @@ public class ManagerService extends UserService{
         volumes[0]=mapper.getNonRefriRestVolume(manager.getWarehouseWarehouseId());
         //[add mapper]
         //搞定了  、、@fixed: the four new methods was added
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return volumes;
     }
     public ArrayList<GoodsInWarehouse> getNearOverdue(){//filter type? category? RefrigiratedCondition? or goods obj?
@@ -171,7 +194,8 @@ public class ManagerService extends UserService{
         ArrayList<GoodsInWarehouse> list=null;
         list=goodsInWarehouseMapper.nearlyExpired(manager.getWarehouseWarehouseId());
         // select GoodsInWarehouse whose remaining time = 10% * preserveTime
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return list;
     }
 
@@ -179,8 +203,9 @@ public class ManagerService extends UserService{
     public ArrayList<GoodsWithAmountIncome> getOrderedBySalesVolume(int pageIndex){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
-        ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesVolumeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
-        sqlSession.close();
+        ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesVolumeRank(manager.getWarehouseWarehouseId(),20,pageIndex*20);
+        sqlSession.commit();
+            sqlSession.close();
         return list;
     }
 
@@ -188,7 +213,8 @@ public class ManagerService extends UserService{
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         SalesMapper salesMapper=sqlSession.getMapper(SalesMapper.class);
         ArrayList<GoodsWithAmountIncome> list=salesMapper.getSalesIncomeRank(manager.getWarehouseWarehouseId(),20,pageIndex);
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return list;
     }
 
@@ -204,7 +230,8 @@ public class ManagerService extends UserService{
         tmpWarehouse.setWarehouseLong(warehouseLong);
         warehouseMapper.insertSelective(tmpWarehouse);
         int maxId= warehouseMapper.selectMaxId();
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return maxId;
     }
 
@@ -219,7 +246,8 @@ public class ManagerService extends UserService{
         tmpCashier.setWarehouseWarehouseId(warehouseId);
         cashierMapper.insertSelective(tmpCashier);
         int maxId=cashierMapper.selectMaxId();
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return maxId;
     }
 

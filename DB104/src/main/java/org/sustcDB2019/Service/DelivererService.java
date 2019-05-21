@@ -4,9 +4,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.sustcDB2019.dao.CustomerMapper;
 import org.sustcDB2019.dao.DelivererMapper;
 import org.sustcDB2019.dao.OrderMapper;
+import org.sustcDB2019.dao.UserMapper;
 import org.sustcDB2019.entity.Customer;
 import org.sustcDB2019.entity.Deliverer;
 import org.sustcDB2019.entity.Order;
+import org.sustcDB2019.entity.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +43,8 @@ public class DelivererService extends UserService {
         Order tmpOrder=orderMapper.selectByPrimaryKey(orderId);
         Customer tmpCustomer= customerMapper.selectByPrimaryKey(tmpOrder.getCustomerUserId());
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return tmpCustomer;
     }
 
@@ -60,10 +63,19 @@ public class DelivererService extends UserService {
     public int updateDeliverer(Deliverer deliverer){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         DelivererMapper mapper=sqlSession.getMapper(DelivererMapper.class);
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+        User tmpUser=new User(deliverer);
 
-        mapper.updateByPrimaryKeySelective(deliverer);
+        if (tmpUser.getPassword()!=null&&tmpUser.getUserName()!=null&&tmpUser.getPhoneNumber()!=null){
+            userMapper.updateByPrimaryKeySelective(tmpUser);
+        }
 
-        sqlSession.close();
+        if (deliverer.getWarehouseWarehouseId()!=null){
+            mapper.updateByPrimaryKeySelective(deliverer);
+        }
+
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -79,7 +91,8 @@ public class DelivererService extends UserService {
             orderMapper.updateByPrimaryKeySelective(order);
         }
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -108,12 +121,14 @@ public class DelivererService extends UserService {
             Deliverer tmpDeliverer=delivererMapper.selectByPrimaryKey(delivererId);
             tmpDeliverer.setStatusOn("N");
             delivererMapper.updateByPrimaryKeySelective(tmpDeliverer);
+            sqlSession.commit();
             sqlSession.close();
             return 1;
         }else {
             Order tmpOrder=orderArrayList.get(0);
             tmpOrder.setDeliveryUserId(delivererId);
             orderMapper.updateByPrimaryKeySelective(tmpOrder);
+            sqlSession.commit();
             sqlSession.close();
             return 0;
         }

@@ -1,14 +1,8 @@
 package org.sustcDB2019.service;
 
 import org.apache.ibatis.session.SqlSession;
-import org.sustcDB2019.dao.CashierMapper;
-import org.sustcDB2019.dao.GoodsInWarehouseMapper;
-import org.sustcDB2019.dao.GoodsMapper;
-import org.sustcDB2019.dao.SalesMapper;
-import org.sustcDB2019.entity.Cashier;
-import org.sustcDB2019.entity.Goods;
-import org.sustcDB2019.entity.GoodsInWarehouse;
-import org.sustcDB2019.entity.Sales;
+import org.sustcDB2019.dao.*;
+import org.sustcDB2019.entity.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,13 +10,22 @@ import java.util.ArrayList;
 public class CashierService extends UserService{
     public Cashier cashier=new Cashier(super.user);
 
-    public int updateCasher(Cashier cashier){
+    public int updateCashier(Cashier cashier){
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         CashierMapper mapper=sqlSession.getMapper(CashierMapper.class);
+        UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+        User tmpUser=new User(cashier);
 
-        mapper.updateByPrimaryKeySelective(cashier);
+        if (tmpUser.getPassword()!=null&&tmpUser.getUserName()!=null&&tmpUser.getPhoneNumber()!=null){
+            userMapper.updateByPrimaryKeySelective(tmpUser);
+        }
 
-        sqlSession.close();
+        if (cashier.getWarehouseWarehouseId()!=null){
+            mapper.updateByPrimaryKeySelective(cashier);
+        }
+
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -39,7 +42,8 @@ public class CashierService extends UserService{
         }
         goodsInWarehouseMapper.deleteAll();
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return totalPayment;
     }
 
@@ -57,6 +61,7 @@ public class CashierService extends UserService{
             rest += goodsInWarehouse.getAmount();
         }
         if (rest < amount) {
+            sqlSession.commit();
             sqlSession.close();
             return 1;// fail to add to cart since amount excceed
         }
@@ -86,7 +91,8 @@ public class CashierService extends UserService{
             }
         }
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
@@ -118,7 +124,8 @@ public class CashierService extends UserService{
             salesMapper.deleteByPrimaryKey(sales.getSalesId());
         }
 
-        sqlSession.close();
+        sqlSession.commit();
+            sqlSession.close();
         return 0;
     }
 
