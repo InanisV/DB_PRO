@@ -29,10 +29,33 @@
     <result column="order_order_id" jdbcType="INTEGER" property="orderOrderId" />
     <result column="sales_time" jdbcType="DATE" property="salesTime"/>
 
-    <association property="goodsInWarehouse" column="goods_in_warehouse_idgoods_in_warehouse" javaType="org.sustcDB2019.entity.GoodsInWarehouse"/>
+    <association property="goodsInWarehouse" column="goods_in_warehouse_idgoods_in_warehouse" resultMap="GoodsInWarehouse" javaType="org.sustcDB2019.entity.GoodsInWarehouse"/>
 
   </resultMap>
 
+  <resultMap id="GoodsInWarehouse" type="org.sustcDB2019.entity.GoodsInWarehouse">
+    <id column="idgoods_in_warehouse" jdbcType="INTEGER" property="idgoodsInWarehouse" />
+    <result column="warehouse_warehouse_id" jdbcType="INTEGER" property="warehouseWarehouseId" />
+    <result column="goods_goods_id" jdbcType="INTEGER" property="goodsGoodsId" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="expired_day" jdbcType="DATE" property="expiredDay" />
+
+    <association property="goods" javaType="org.sustcDB2019.entity.Goods" column="goods_goods_id" resultMap="Goods"/>
+  </resultMap>
+
+  <resultMap id="Goods" type="org.sustcDB2019.entity.Goods">
+    <id column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="origin_place" jdbcType="VARCHAR" property="originPlace" />
+    <result column="preserve_time" jdbcType="INTEGER" property="preserveTime" />
+    <result column="volume" jdbcType="INTEGER" property="volume" />
+    <result column="refrigirated_condition" jdbcType="CHAR" property="refrigiratedCondition" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="catagory" jdbcType="VARCHAR" property="catagory" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
 
   <sql id="Base_Column_List">
     order_id, arrival_time, departure_time, delivery_user_id, customer_user_id
@@ -40,10 +63,11 @@
 
 <!-- my sql statement -->
   <select id="selectByCase" parameterType="org.sustcDB2019.entity.Order" resultMap="historySalesResultMap">
-    select o.order_id, o.arrival_time, o.departure_time, o.delivery_user_id, s.*, giw.*
+    select o.order_id, o.arrival_time, o.departure_time, o.delivery_user_id, s.*, g.*
     from `order` o
       join sales s on o.order_id = s.order_order_id
       join goods_in_warehouse giw on s.goods_in_warehouse_idgoods_in_warehouse = giw.idgoods_in_warehouse
+      join goods g on giw.goods_goods_id = g.goods_id
     where o.order_id is not null
     <if test="orderId != null">
       and o.order_id = #{orderId,jdbcType=INTEGER}
@@ -65,21 +89,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from order
+    from `order`
     where order_id = #{orderId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from order
+    delete from `order`
     where order_id = #{orderId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.sustcDB2019.entity.Order">
-    insert into order (order_id, arrival_time, departure_time, 
+    insert into `order` (order_id, arrival_time, departure_time,
       delivery_user_id, customer_user_id)
     values (#{orderId,jdbcType=INTEGER}, #{arrivalTime,jdbcType=TIMESTAMP}, #{departureTime,jdbcType=TIMESTAMP}, 
       #{deliveryUserId,jdbcType=INTEGER}, #{customerUserId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.sustcDB2019.entity.Order">
-    insert into order
+    insert into `order`
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="orderId != null">
         order_id,
@@ -116,7 +140,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="org.sustcDB2019.entity.Order">
-    update order
+    update `order`
     <set>
       <if test="arrivalTime != null">
         arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
@@ -134,7 +158,7 @@
     where order_id = #{orderId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.sustcDB2019.entity.Order">
-    update order
+    update `order`
     set arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
       departure_time = #{departureTime,jdbcType=TIMESTAMP},
       delivery_user_id = #{deliveryUserId,jdbcType=INTEGER},
