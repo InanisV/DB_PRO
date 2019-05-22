@@ -131,11 +131,11 @@ public class DelivererController {
     }
 
     public static void showOrders(ArrayList<Order> orders, DelivererService delivererService){
-        System.out.println(String.format("%-16s%-28s%-17s%-17s%-20s", "Order id", "Departure time",
+        System.out.println(String.format("%-16s%-35s%-17s%-17s%-20s", "Order id", "Departure time",
                 "Customer name", "Phone number", "Address"));
         for (Order x : orders) {
             ManagerService managerService = new ManagerService();
-            System.out.println(String.format(String.format("%-16s%-28s%-17s%-17s%-20s", x.getOrderId(), x.getDepartureTime(),
+            System.out.println(String.format(String.format("%-16s%-35s%-17s%-17s%-20s", x.getOrderId(), x.getDepartureTime(),
                     managerService.getCustomerById(x.getCustomerUserId()).getUserName(),
                     managerService.getCustomerById(x.getCustomerUserId()).getPhoneNumber(),
                     managerService.getCustomerById(x.getCustomerUserId()).getAddress())));
