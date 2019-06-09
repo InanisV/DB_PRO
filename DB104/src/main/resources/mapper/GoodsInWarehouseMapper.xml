@@ -48,6 +48,7 @@
     from touchable
     limit #{itemsPerPage} offset #{pageIndex}
   </select>
+
   <select id="selectConditionallyWithPages" resultMap="Goods">
     with touchable as ( select g2.*
     from goods_in_warehouse giw join goods g2 on giw.goods_goods_id = g2.goods_id

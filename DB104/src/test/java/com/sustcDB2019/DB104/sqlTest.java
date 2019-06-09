@@ -69,7 +69,7 @@ public class sqlTest {
         WarehouseMapper mapper = session.getMapper(WarehouseMapper.class);
         Warehouse warehouse = new Warehouse();
         warehouse.setWarehouseId(3);
-        Integer i = mapper.getNonRefriRestVolume(3);
+        Integer i = mapper.getRefriOccupVolume(3);
         if(i==null){
             System.out.println("Y");
         }
@@ -111,7 +111,7 @@ public class sqlTest {
         GoodsInWarehouseMapper mapper = session.getMapper(GoodsInWarehouseMapper.class);
         GoodsInWarehouse goodsInWarehouse = new GoodsInWarehouse();
         goodsInWarehouse.setWarehouseWarehouseId(3);
-        ArrayList<Goods> g = mapper.selectConditionallyWithPages("3",null,null,"'%牛奶%'",null,null,null,
+        ArrayList<Goods> g = mapper.selectConditionallyWithPages("3",null,null,"%牛奶%",null,null,null,
                 null,null,false,null,false,10,1);
 //        mapper.nearlyExpired(goodsInWarehouse);
         for(Goods x: g){

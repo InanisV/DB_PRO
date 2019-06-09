@@ -184,8 +184,11 @@ public class ManagerService extends UserService{
         WarehouseMapper mapper=sqlSession.getMapper(WarehouseMapper.class);
 
         int [] volumes=null;
-        volumes[1]=mapper.getRefriRestVolume(manager.getWarehouseWarehouseId());
-        volumes[0]=mapper.getNonRefriRestVolume(manager.getWarehouseWarehouseId());
+        volumes[1]=mapper.getRefriOccupVolume(manager.getWarehouseWarehouseId());
+        Warehouse w = mapper.selectByPrimaryKey(manager.getWarehouseWarehouseId());
+        volumes[1] = w.getRefrigeratedShelfVolume()-volumes[1];
+        volumes[0]=mapper.getNonRefriOccupVolume(manager.getWarehouseWarehouseId());
+        volumes[0] = w.getOrdinaryShelfVolume()-volumes[0];
         //[add mapper]
         //搞定了  、、@fixed: the four new methods was added
         sqlSession.commit();

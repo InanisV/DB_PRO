@@ -35,7 +35,7 @@
   </select>
 
   <select id="getNonRefriRestVolume" parameterType="int" resultType="int">
-    select ordinary_shelf_volume-a.summ
+    select ordinary_shelf_volume-a.sum
     from warehouse w
     where w.warehouse_id=#{warehouseId};
   </select>
