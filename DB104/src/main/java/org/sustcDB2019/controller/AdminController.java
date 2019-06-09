@@ -72,6 +72,7 @@ public class AdminController {
                                 showGoods(goods);
                                 break;
                             case 3:
+                                //[important improvement] set page = 0 initially and when condition is added or deleted
                                 System.out.println("Please choose the option:\n" +
                                         "1. By name\n" +
                                         "2. By category\n" +
@@ -262,8 +263,12 @@ public class AdminController {
                             case 2:
                                 System.out.print("Please input the order id to confirm arrival: ");
                                 int id = in.nextInt();
-                                customerService.receiveOrder(id, new Date());
-                                System.out.println("Confirm successfully.");
+                                int flag41=customerService.receiveOrder(id, new Date());
+                                if (flag41==0){
+                                    System.out.println("Confirm successfully.");
+                                }else {
+                                    System.out.println("Order not found.");
+                                }
                                 break;
                             case 3:
                                 boolean test = false;
@@ -293,6 +298,9 @@ public class AdminController {
                                         test = true;
                                     }
                                 } while (test);
+                                //[exception handling] return "interval too long" when the interval > 20years (it spends about 5s when interval=20years)
+                                //[exception handling] return warning when start > edate
+                                //[optional improvement] output the months and years togeter with the spending in a proper format
                                 ArrayList<Integer> spend = customerService.getHistoryStatisticsByMonth(sdate, edate);
                                 System.out.print("Your total spending during these month are: ");
                                 for (Integer x: spend) {
