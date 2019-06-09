@@ -28,7 +28,8 @@ public class ManagerService extends UserService{
         }
         ManagerMapper managerMapper = sqlSession.getMapper(ManagerMapper.class);
         user.setId(managerMapper.selectMaxId()+1);
-        user.setPassword(String.format("%d",password.hashCode()));
+//        user.setPassword(String.format("%d",password.hashCode()));
+        user.setPassword(password);
         user.setUserName(userName);
         user.setPhoneNumber(phoneNumber);
         newManager.setUserId(user.getId());
@@ -93,19 +94,19 @@ public class ManagerService extends UserService{
         SqlSession sqlSession=DAOService.sqlSessionFactory.openSession();
         GoodsMapper goodsMapper=sqlSession.getMapper(GoodsMapper.class);
         WarehouseMapper warehouseMapper=sqlSession.getMapper(WarehouseMapper.class);
-        if (goodsMapper.selectByPrimaryKey(goodsId).getRefrigiratedCondition().equals("Y")){
-            if (amount>warehouseMapper.getRefriRestVolume(manager.getWarehouseWarehouseId())) {
-                sqlSession.commit();
-            sqlSession.close();
-                return 1;
-            }
-        }else {
-            if (amount>warehouseMapper.getNonRefriRestVolume(manager.getWarehouseWarehouseId())) {
-                sqlSession.commit();
-            sqlSession.close();
-                return 1;
-            }
-        }
+//        if (goodsMapper.selectByPrimaryKey(goodsId).getRefrigiratedCondition().equals("Y")){
+//            if (amount>warehouseMapper.getRefriRestVolume(manager.getWarehouseWarehouseId())) {
+//                sqlSession.commit();
+//            sqlSession.close();
+//                return 1;
+//            }
+//        }else {
+//            if (amount>warehouseMapper.getNonRefriRestVolume(manager.getWarehouseWarehouseId())) {
+//                sqlSession.commit();
+//            sqlSession.close();
+//                return 1;
+//            }
+//        }
         Purchase purchase=new Purchase();
         purchase.setGoodsGoodsId(goodsId);
         purchase.setAmount(amount);

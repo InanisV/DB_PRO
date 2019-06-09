@@ -16,8 +16,12 @@ public class MainController {
 
     public static void main(String[] args) {
 //        DAOService s = new DAOService();
-//        Manager manager=new Manager(new User(2000008,"12","asdcd","12312312321"));
+////        Manager manager=new Manager(new User(2000008,"12","asdcd","12312312321"));
 //        ManagerService managerService=new ManagerService();
+//        Manager manager=managerService.getManagerById(2000085);
+//        Calendar calendar=Calendar.getInstance();
+//        Date dateee=new Date(calendar.getTimeInMillis());
+//        managerService.purchaseToWarehouse(1002,11,dateee);
 //        manager.setWarehouseWarehouseId(11);
 //        managerService.manager=manager;
 //        managerService.updateManager(manager);

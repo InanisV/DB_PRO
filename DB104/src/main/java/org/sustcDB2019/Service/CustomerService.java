@@ -276,6 +276,8 @@ public class CustomerService extends UserService {
         OrderMapper orderMapper=sqlSession.getMapper(OrderMapper.class);
 
         Order tmpOrder=orderMapper.selectByPrimaryKey(orderId);
+        if(tmpOrder==null) return 1;
+        if (tmpOrder.getCustomerUserId()!=customer.getId()) return 2;
         tmpOrder.setArrivalTime(currentDate);
         orderMapper.updateByPrimaryKeySelective(tmpOrder);
         DelivererService.getOrderForDeliverer(tmpOrder.getDeliveryUserId());
